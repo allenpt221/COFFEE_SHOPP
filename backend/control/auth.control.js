@@ -1,7 +1,8 @@
 import Auth from "../model/auth.model.js";
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Redis from "ioredis";
+
+import { redis } from '../lib/redis.js';
+
 
 const generateTokens = (userId) => {
     const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, {
@@ -35,28 +36,15 @@ const setCookies = (res, accessToken, refreshToken) => {
 };
 
 export const signUp = async (req, res) => {
-  const { email, firstname, lastname, password } = req.body;
+  const { email, username, password } = req.body;
 
   try {
-    // Validate input
-    if (!email || !firstname || !lastname || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
-
+    
     // Check if user exists
     const existingUser = await Auth.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists",
-      });
+      return res.status(400).json({message: "User already exists"});
     }
-
-   
-
     // Create and save the user
     const newUser = await Auth.create({
       email,
