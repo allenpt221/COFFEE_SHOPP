@@ -36,9 +36,8 @@ const setCookies = (res, accessToken, refreshToken) => {
 };
 
 export const signUp = async (req, res) => {
-  const { email, username, password } = req.body;
-
   try {
+    const { email, name, password } = req.body;
     
     // Check if user exists
     const existingUser = await Auth.findOne({ email });
@@ -48,8 +47,7 @@ export const signUp = async (req, res) => {
     // Create and save the user
     const newUser = await Auth.create({
       email,
-      firstname,
-      lastname,
+      name,
       password
     });
 
@@ -62,8 +60,7 @@ export const signUp = async (req, res) => {
     return res.status(201).json({ success: true, 
       _id: newUser._id, 
       email: newUser.email, 
-      firstname: newUser.firstname,
-      lastname: newUser.lastname,
+      username: newUser.name,
       role: newUser.role
     });
 
@@ -71,4 +68,47 @@ export const signUp = async (req, res) => {
     // Handle unexpected errors
     return res.status(500).json({success: false, message: "Internal Server Error", error: error.message });
   }
+};
+
+export const logIn = async (req, res) => {
+  try {
+    const { email , password} = req.body;
+
+    const user = await Auth.findOne({ email});
+
+    if(user && (await user.comparePassword(password))) {
+      const { accessToken, refreshToken } = generateTokens(user._id);
+			await storeRefreshToken(user._id, refreshToken);
+			setCookies(res, accessToken, refreshToken);
+
+			res.json({
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				role: user.role,
+			});
+		} else {
+			res.status(400).json({ message: "Invalid email or password" });
+		}  
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+		res.status(500).json({ message: error.message });
+  }
+};
+
+export const logout = async (req, res) => {
+	try {
+		const refreshToken = req.cookies.refreshToken;
+		if (refreshToken) {
+			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+			await redis.del(`refresh_token:${decoded.userId}`);
+		}
+
+		res.clearCookie("accessToken");
+		res.clearCookie("refreshToken");
+		res.json({ message: "Logged out successfully" });
+	} catch (error) {
+		console.log("Error in logout controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
 };

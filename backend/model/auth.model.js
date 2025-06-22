@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 
+import bcrypt from 'bcrypt';
+
 // Main Auth Schema
 const AuthSchema = new mongoose.Schema({
-  firstname: {
+  name: {
     type: String,
-    required: true,
-  },
-  lastname: {
-    type: String,
-    required: true,
+    required: [true, "Name is required"],
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password is required"],
   },
   email: {
     type: String,
@@ -20,6 +18,18 @@ const AuthSchema = new mongoose.Schema({
     unique: true,
     match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
   },
+  cartItems: [
+			{
+				quantity: {
+					type: Number,
+					default: 1,
+				},
+				product: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Product",
+				},
+			},
+		],
   role: {
     type: String,
     enum: ["user", "admin"],
@@ -29,10 +39,27 @@ const AuthSchema = new mongoose.Schema({
   timestamps: true,
 });
 
+
+AuthSchema.pre('save', async function(next) {
+  if(!this.isModified("password")) return next();
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+AuthSchema.methods.comparePassword = async function (password) {
+	return bcrypt.compare(password, this.password);
+};
+
+
 // Backup Schema for auditing or rollback purposes
 const AuthSchemaBackupData = new mongoose.Schema({
-  firstname: String,
-  lastname: String,
+  name: String,
   email: String,
   password: String,
   originalId: {
