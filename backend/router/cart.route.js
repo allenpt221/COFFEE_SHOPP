@@ -1,9 +1,13 @@
 import express from 'express';
 import { protectRoute } from '../middleware/auth.middleware.js';
-import { getcartProducts } from '../control/cart.control.js';
+import { addToCart, getcartProducts, removeAllFromCart, updateQuantity } from '../control/cart.control.js';
 
-const route = express.Router();
+const router = express.Router();
 
-route.get('/', protectRoute, getcartProducts);
+router.get("/", protectRoute, getcartProducts);
+router.post("/", protectRoute, addToCart);
+router.delete("/", protectRoute, removeAllFromCart);
+router.put("/:id", protectRoute, updateQuantity);
 
-export default route;
+
+export default router;
