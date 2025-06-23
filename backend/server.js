@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 
 import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
+import cartRoutes  from './router/cart.route.js';
+
 
 
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter );
 app.use('/api/product', productRoutes);
+app.use('/api/cart-product', cartRoutes);
+
 
 
 
