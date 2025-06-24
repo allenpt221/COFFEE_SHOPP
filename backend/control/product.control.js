@@ -6,7 +6,7 @@ export const getAllProduct = async (req, res) => {
     try {
         const product = await Product.find({});
 
-        res.status(200).json({product});
+        res.status(200).json(product);
     } catch (error) {
         console.log("Error in getAllProduct controller", error.message);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -38,7 +38,7 @@ export const createProduct = async (req, res) => {
 			name,
 			description,
 			price,
-			image: cloudinaryResponse ? cloudinaryResponse.secure_url : "",
+			image: cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : "",
 			category,
 		});
 
