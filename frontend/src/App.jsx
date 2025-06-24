@@ -10,10 +10,17 @@ import Navbar from "./components/Navbar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserStore } from "./stores/userStore";
 import { useEffect } from "react";
+import { useProductStore } from "./stores/useProductStore";
 
 function App() {
 
   const { user, checkAuth } = UserStore();
+
+  const { fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   useEffect(() => {
     checkAuth();
