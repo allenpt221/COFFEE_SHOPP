@@ -39,11 +39,7 @@ const Navbar = () => {
                     {user ? (
                         <>
                             <Link to={"/cart"} className=" relative hover:text-[#27fc4a] flex items-center gap-2 ">
-                                <ShoppingCart size={25}/>
-                                <span className="hidden sm:inline">Cart</span>
-                                <span className="absolute -top-3 -left-2 bg-[#0dcc2d] text-black text-xs font-semibold rounded-full p-1 px-2">
-                                    3
-                                </span>
+                                <span className="text-lg">Order Now</span>
                             </Link>
                             <button 
                             onClick={logout}
