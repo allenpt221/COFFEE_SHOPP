@@ -1,32 +1,45 @@
 import { useState } from "react";
 
+import { UserStore } from "../stores/userStore";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const loading = false;
+    const { login, loading } = UserStore();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(email, password);
+        login(email, password);
+      }
 
   return (
-    <div className="max-w-[1120px] m-auto">
-        <div className='flex justify-center items-center p-4'>
-          <div className="flex gap-5">
-          <form className="space-y-1">
-            <h1 className="text-center mt-2">Log in</h1>
+    <div className="max-w-[1120px] m-auto ">
+        <div className='flex flex-col lg:flex-row justify-center items-center p-4 lg:gap-0 gap-5'>
+          <div className="flex gap-5 justify-center items-center">
+          <form onSubmit={handleSubmit} className="space-y-1 md:w-[40rem] sm:w-[20rem] w-[15rem] lg:w-[25rem]">
+            <h1 className="text-2xl font-medium text-center">Log in</h1>
+            <span>
+              <p className="text-sm text-center text-[#00000098]">Welcome back! Please enter your details.Welcome back! Please enter your details.</p>
+            </span>
               <label className="block text-md font-medium">Email:</label>
               <input type="text"  
               placeholder="example@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1"/>
+              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
              
              <label className="block text-md font-medium ">Password:</label>
               <input type="password"  
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1"/>
+              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
             <button
 							type='submit'
 							className='w-full flex justify-center py-2 px-4 border border-transparent 
@@ -35,7 +48,7 @@ const Login = () => {
 							  focus:bg-[#00000088] transition duration-150 ease-in-out disabled:opacity-50 mt-5'
 							disabled={loading}
 						>
-							{!loading ? (
+							{loading ? (
 								<>
 									Loading...
 								</>
@@ -45,11 +58,17 @@ const Login = () => {
 								</>
 							)}
 						</button>
+            <p className='mt-8 text-center text-sm text-gray-400'>
+						Not a member?{" "}
+						<Link to='/signup' className='font-medium text-green-500 hover:text-emerald-300'>
+							Sign up now <ArrowRight className='inline h-4 w-4' />
+						</Link>
+					  </p>
           </form>
-          <div className="border h-[20rem] border-[#46464628] " />
+          <div className="lg:block hidden border h-[20rem] border-[#46464628]  mx-5" />
           </div>
-          <div class="w-px h-full bg-gray-300 mx-4"></div>
-          <img src="https://media.istockphoto.com/id/2043823329/photo/internet-network-cybersecurity-concept-data-privacy-protection-from-malicious-attacks-digital.jpg?s=612x612&w=0&k=20&c=EdSpTwVaTVMvZUUHk4d13L1VJsb2PxnPxRPrlmtIxOw=" alt="Error fetch image" className="object-cover w-[40rem] h-[20rem]" />
+          <img src="https://images.unsplash.com/photo-1651223776659-b314dd0ac0a0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNvZmZlZXNob3AlMjBiYW5uZXJ8ZW58MHx8MHx8fDA%3D"
+           alt="Error fetch image" className="object-cover w-[40rem] h-[20rem]" />
         </div>
     
     </div>
