@@ -12,7 +12,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout();
-        navigate("/");
+        navigate("/login");
     }
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-xs">
@@ -47,7 +47,7 @@ const Navbar = () => {
                     {user ? (
                         <>
                             <Link to={"/cart"} className=" relative hover:text-[#27fc4a] flex items-center gap-2 ">
-                                <span className="text-lg">Order Now</span>
+                                <span className="text-lg">Cart</span>
                             </Link>
                             <button 
                             onClick={handleLogout}

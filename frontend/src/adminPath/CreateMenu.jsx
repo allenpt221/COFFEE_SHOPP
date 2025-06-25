@@ -1,6 +1,7 @@
 import { PlusCircle, Upload } from "lucide-react";
 import { useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
+import toast from "react-hot-toast";
 
 
 const CreateMenu = () => {
@@ -20,9 +21,18 @@ const CreateMenu = () => {
   
   const handleSubmit = async (e) => {
 		e.preventDefault();
+
+
 		try {
-			await createProduct(newProduct);
-      
+      await createProduct(newProduct);
+
+      setNewProduct({
+        name: "",
+        description: "",
+        price: "",
+        image: "",
+        category: ""   
+      }) 
 		} catch {
 			console.log("error creating a product");
 		}
@@ -65,9 +75,10 @@ const CreateMenu = () => {
         <textarea 
         type="text" 
         rows="3"
+        maxlength={200}
         value={newProduct.description}
         onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-        placeholder='Enter product description'
+        placeholder='Enter product description (Max 250 characters...)'
         className='border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full'/>
         <label>Category</label>
         <select 
@@ -91,6 +102,7 @@ const CreateMenu = () => {
           id='image' 
           className='sr-only' 
           accept='image/*' 
+          required
           onChange={handleImageChange} />
 					<label
 						htmlFor='image'

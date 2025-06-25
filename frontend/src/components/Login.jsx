@@ -4,6 +4,8 @@ import { UserStore } from "../stores/userStore";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { motion } from 'framer-motion'
+
 const Login = () => {
 
     const [email, setEmail] = useState("");
@@ -19,7 +21,11 @@ const Login = () => {
       }
 
   return (
-    <div className="max-w-[1120px] m-auto ">
+    <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8 }}
+          className="max-w-[1120px] m-auto ">
         <div className='flex flex-col lg:flex-row justify-center items-center p-4 lg:gap-0 gap-5'>
           <div className="flex gap-5 justify-center items-center">
           <form onSubmit={handleSubmit} className="space-y-1 md:w-[40rem] sm:w-[20rem] w-[15rem] lg:w-[25rem]">
@@ -73,7 +79,7 @@ const Login = () => {
            alt="Error fetch image" className="object-cover w-[40rem] h-[20rem]" />
         </div>
     
-    </div>
+    </motion.div>
   )
 }
 
