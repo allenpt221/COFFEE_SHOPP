@@ -32,14 +32,16 @@ const Login = () => {
               placeholder="example@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"
+              autoComplete="off"/>
              
              <label className="block text-md font-medium ">Password:</label>
               <input type="password"  
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"
+              autoComplete="off"/>
             <button
 							type='submit'
 							className='w-full flex justify-center py-2 px-4 border border-transparent 
