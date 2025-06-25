@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, User, Menu } from "lucide-react";
 import { UserStore } from "../stores/userStore";
 
@@ -6,6 +6,14 @@ import { UserStore } from "../stores/userStore";
 const Navbar = () => {
 
     const { user, logout } = UserStore();
+
+    const navigate = useNavigate();
+
+
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    }
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-xs">
         <div className="container mx-auto sm:py-3 py-4 px-2">
@@ -42,7 +50,7 @@ const Navbar = () => {
                                 <span className="text-lg">Order Now</span>
                             </Link>
                             <button 
-                            onClick={logout}
+                            onClick={handleLogout}
                             className="flex gap-2 items-center font-medium hover:text-white transition-all ease-in duration-100 bg-[#ff0000b9] py-1 px-3 rounded-lg cursor-pointer">
                                 <LogOut size={18}/>
                                 <span>Log Out</span>
