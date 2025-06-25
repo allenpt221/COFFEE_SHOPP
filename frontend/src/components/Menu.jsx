@@ -50,7 +50,7 @@ const Menu = () => {
             <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2}} className='grid xl:grid-cols-3 gap-2 place-items-center'>
+            transition={{ duration: 0.9, delay: 0.2}} className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-2 place-items-center'>
                 {Coffee.map((item => (
                 <div className='relative w-full bg-[#fffefeb2] shadow-lg p-2 rounded-md cursor-pointer' key={item.image}>
                 <Link to={`/drink${item.href}`}>

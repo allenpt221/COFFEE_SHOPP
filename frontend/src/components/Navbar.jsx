@@ -10,10 +10,11 @@ const Navbar = () => {
     const navigate = useNavigate();
 
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+       await logout();
         navigate("/login");
     }
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-xs">
         <div className="container mx-auto sm:py-3 py-4 px-2">
