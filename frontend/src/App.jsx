@@ -16,11 +16,6 @@ function App() {
 
   const { user, checkAuth } = UserStore();
 
-  const { fetchProducts } = useProductStore();
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
 
   useEffect(() => {
     checkAuth();

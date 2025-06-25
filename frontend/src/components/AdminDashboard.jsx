@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CreateMenu from '../adminPath/CreateMenu'
 import ProductAll from '../adminPath/ProductAll'
 import Analysis from '../adminPath/Analysis'
+import { useProductStore } from '../stores/useProductStore'
 
 
 const AdminDashboard = () => {
@@ -19,9 +20,17 @@ const AdminDashboard = () => {
 
   const [path, setPath] = useState('createMenu');
 
+
+  const { fetchProducts } = useProductStore();
+  
+    useEffect(() => {
+      fetchProducts();
+    }, [fetchProducts]);
+
+
   return (
-    <div className="max-w-[1120px] m-auto p-4">
-      <div className='flex flex-col justify-center items-center gap-2'>
+    <div className="max-w-[1120px] m-auto p-4 ">
+      <div className='flex flex-col justify-center items-center gap-2 '>
         <h1 className='text-2xl font-medium'>Admin Dashboard</h1>
 
         <div className='space-x-5'> 
@@ -35,13 +44,11 @@ const AdminDashboard = () => {
             </button>
           ))}
         </div>
-
-        <div className='max-w-[1200px]'>
+ 
+      </div>
           {path === 'createMenu' && <CreateMenu />}
           {path === 'productall' && <ProductAll />}
           {path === 'analysis' && <Analysis />}
-        </div>
-      </div>
     </div>
   )
 }
