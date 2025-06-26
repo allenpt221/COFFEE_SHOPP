@@ -11,18 +11,26 @@ import Navbar from "./components/Navbar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserStore } from "./stores/userStore";
 import { useEffect } from "react";
-import { useProductStore } from "./stores/useProductStore";
 import CategoryPage from "./components/CartegoryPage";
 import Cart from "./components/Cart";
+import { useCartStore } from "./stores/useCartStore";
 
 function App() {
 
   const { user, checkAuth } = UserStore();
+  const { getCartItems } = useCartStore();
 
+  useEffect(() => {
+		if (!user) return;
+
+		getCartItems();
+	}, [getCartItems, user]);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -34,7 +42,7 @@ function App() {
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to='/' />} />
           <Route path="/Menu" element={<Menu />} />
-          <Route path="/Cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart /> } />
 
           <Route path='/drink/:category' element={<CategoryPage />} />
           <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to='/login'/>} />
