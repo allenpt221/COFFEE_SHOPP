@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter );
 app.use('/api/product', productRoutes);
-app.use('/api/cart-product', cartRoutes);
+app.use('/api/cartproduct', cartRoutes);
 
 
 
