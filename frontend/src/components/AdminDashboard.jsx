@@ -38,7 +38,7 @@ const AdminDashboard = () => {
             <button
               key={index}
               onClick={() => setPath(item.path)}
-              className='bg-green-500 font-medium text-sm sm:text-md text-white sm:px-4 py-1 px-1 rounded hover:bg-green-300 cursor-pointer'
+              className='bg-[#000] font-medium text-sm sm:text-md text-white sm:px-4 py-1 px-1 rounded hover:bg-[#0000008e] cursor-pointer'
             >
               {item.name}
             </button>

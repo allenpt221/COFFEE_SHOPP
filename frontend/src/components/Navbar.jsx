@@ -27,11 +27,11 @@ const Navbar = () => {
                 
                 <nav className="sm:hidden flex gap-2">
                      {user && (
-                        <Link to={"/cart"} className=" relative hover:text-[#27fc4a] flex items-center gap-2 ">
+                        <Link to={"/cart"} className="relative hover:text-[#00000088] flex items-center gap-2  ">
                                 <ShoppingCart size={20}/>
-                                <span className="hidden sm:inline">Cart</span>
-                                <span className="absolute -top-3 -left-2 bg-[#01a31cad] text-black text-xs font-semibold rounded-full py-[1px] px-[5px]">
-                                    3
+                                <span className="hidden sm:inline">{cart.length}</span>
+                                <span className="absolute -top-2 -left-2 bg-[#000000]  text-white text-[9px] font-semibold rounded-full py-[1px] px-[5px]">
+                                    {cart.length}
                                 </span>
                             </Link>
                     )} 
@@ -49,7 +49,7 @@ const Navbar = () => {
                     )}
                     {user ? (
                         <>
-                            <Link to={"/cart"} className=" relative hover:text-[#00000088] flex items-center gap-2 ">
+                            <Link to={"/cart"} className="hover:text-[#00000088] flex items-center gap-2">
                             <div className="relative">
                                 <span className="absolute -top-3 -left-2 bg-[#000000] px-2 py-1 rounded-full text-white text-[9px]">
                                     <span>
