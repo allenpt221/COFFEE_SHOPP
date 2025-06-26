@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, User, Menu } from "lucide-react";
 import { UserStore } from "../stores/userStore";
+import { useCartStore } from "@/stores/useCartStore";
 
 
 const Navbar = () => {
 
     const { user, logout } = UserStore();
+    const { cart } = useCartStore();
 
     const navigate = useNavigate();
 
@@ -37,22 +39,30 @@ const Navbar = () => {
                 </nav>
 
                 <nav className="items-center space-x-5 font-medium sm:flex hidden">
-                    <Link to={"/Menu"} className=" hover:text-[#27fc4a] text-lg">
+                    <Link to={"/Menu"} className=" hover:text-[#0000008e] text-lg">
                         Menu
                     </Link>
                     {user && user.role === "admin" && (
-                        <Link to={"/admin"} className=" hover:text-[#27fc4a] text-lg">
+                        <Link to={"/admin"} className=" hover:text-[#0000008e] text-lg">
                             Dashboard
                         </Link>
                     )}
                     {user ? (
                         <>
-                            <Link to={"/cart"} className=" relative hover:text-[#27fc4a] flex items-center gap-2 ">
+                            <Link to={"/cart"} className=" relative hover:text-[#00000088] flex items-center gap-2 ">
+                            <div className="relative">
+                                <span className="absolute -top-3 -left-2 bg-[#000000] px-2 py-1 rounded-full text-white text-[9px]">
+                                    <span>
+                                    {cart.length}
+                                    </span> 
+                                    </span>
+                                <ShoppingCart size={20}/>
+                            </div>
                                 <span className="text-lg">Cart</span>
                             </Link>
                             <button 
                             onClick={handleLogout}
-                            className="flex gap-2 items-center font-medium hover:text-white transition-all ease-in duration-100 bg-[#ff0000b9] py-1 px-3 rounded-lg cursor-pointer">
+                            className="flex gap-2 items-center font-medium hover:text-[#0000008f] transition-all ease-in duration-100  py-1 px-3 rounded-lg cursor-pointer">
                                 <LogOut size={18}/>
                                 <span>Log Out</span>
                             </button>

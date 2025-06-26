@@ -16,7 +16,7 @@ const CategoryPage = () => {
 		fetchbyDrink(category);
 	}, [fetchbyDrink, category]);
 
-	console.log(products)
+
 
 	const categoryTitles = {
 		iceddrinks: "Chilled Brews",
@@ -37,7 +37,7 @@ const CategoryPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8 }}
 				>
-					<h1>{displayTitle}</h1>
+					{displayTitle}
 				</motion.h1>
 				<motion.div
 					className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center'
