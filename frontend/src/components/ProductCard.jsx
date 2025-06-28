@@ -37,8 +37,8 @@ const ProductCard = ({ product }) => {
 			<div className='relative mx-3 mt-3 flex   overflow-hidden rounded-xl'>
 				<img className='object-cover w-full' src={product.image} alt='product image' />
 			</div>
-			<div className='px-4 '>
-				<div className='mt-2 flex items-center justify-between'>
+			<div className='px-4'>
+				<div className='flex items-center justify-between'>
 				<h1 className='text-lg font-semibold tracking-tight'>{product.name}</h1>
 					<p>
 						<span className='text-md font-medium '>₱{product.price}</span>

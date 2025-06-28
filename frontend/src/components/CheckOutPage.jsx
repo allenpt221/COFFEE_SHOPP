@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { UserStore } from '@/stores/userStore';
 import { useNavigate } from 'react-router-dom';
+import { useCartStore } from '@/stores/useCartStore';
+import axios from '@/lib/axios';
 
 const CheckOutPage = () => {
   const { user } = UserStore();
   const navigate = useNavigate();
+
+  const { cart, subtotal, tax, total, shipping, checkoutSuccess } = useCartStore();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -22,7 +26,6 @@ const CheckOutPage = () => {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear specific field error on change
     if (errors[name] && value.trim() !== "") {
       setErrors((prev) => {
         const updated = { ...prev };
@@ -53,6 +56,7 @@ const CheckOutPage = () => {
     setIsSubmitted(true);
   };
 
+
   useEffect(() => {
   if (Object.keys(errors).length > 0) {
     const timer = setTimeout(() => {
@@ -78,10 +82,48 @@ const CheckOutPage = () => {
     ]
   ];
 
+  function formatPeso(val) {
+    return new Intl.NumberFormat("en-PH", {
+      style: "currency",
+      currency: "PHP",
+    }).format(val);
+  }
+  
+
+const handlePlaceOrder = async () => {
+  try {
+    // Build the product list
+    const products = cart.map(item => ({
+      id: item._id, 
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
+    // Calculate total
+    const totalAmount = products.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0
+    );
+
+    await axios.post('/orders', {
+      products,
+      totalAmount
+    });
+    checkoutSuccess(); 
+    navigate('/successcheckout')
+  } catch (error) {
+    console.error("Order placement failed:", error);
+  }
+};
+ 
+
+
+
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="grid grid-cols-2 gap-2">
-        <div className="border p-5 rounded-md shadow-sm w-full">
+      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-2 mx-2">
+        <div className="border p-5 rounded-md shadow-sm w-full h-[26rem]">
           <h1 className="text-lg font-semibold mb-4">Shipping Information</h1>
           <form onSubmit={handleSubmit} className="space-y-3 font-sans text-[#000000b6]">
             {inputGroups.map((group, index) => (
@@ -159,12 +201,73 @@ const CheckOutPage = () => {
           </form>
         </div>
 
-        <div className="border p-5 rounded-md shadow-sm w-full">
-          <h1 className="text-lg font-semibold mb-4">Order Summary</h1>
-          {/* Add your order summary component here */}
-        </div>
+  <div className="border p-5 rounded-md shadow-sm w-full flex flex-col min-h-[300px]">
+  <h1 className="text-lg font-semibold mb-4">Order Summary</h1>
+
+  {/* Cart Items Section */}
+    <div className="flex-grow">
+      {cart.length > 0 ? (
+        cart.map((cartItem, index) => (
+          <div
+            key={index}
+            className="flex justify-between items-center py-3 border-b"
+          >
+            <div className="flex gap-2">
+              <img
+                src={cartItem?.image}
+                alt=""
+                className="w-24 h-16 object-cover rounded"
+              />
+              <div>
+                <p className="font-semibold text-base">{cartItem?.name}</p>
+                <p className="text-sm text-gray-600">
+                  ₱{cartItem?.price} x {cartItem?.quantity}
+                </p>
+              </div>
+            </div>
+            <span>{formatPeso(cartItem?.price * cartItem?.quantity)}</span>
+          </div>
+        ))
+      ) : (
+        <p className="text-center text-gray-500 italic py-8">Your cart is empty.</p>
+      )}
+    </div>
+
+    {/* 📦 Totals Section — always pinned at bottom */}
+    <div className="mt-4 space-y-2 border-t pt-4">
+      <div className="flex justify-between">
+        <p>Sub Total</p>
+        <p>{formatPeso(subtotal)}</p>
+      </div>
+      <div className="flex justify-between">
+        <p>Estimated Tax</p>
+        <p>{formatPeso(tax)}</p>
+      </div>
+      <div className="flex justify-between">
+        <p>Shipping Fee</p>
+        <p>{formatPeso(shipping)}</p>
+      </div>
+      <div className="flex justify-between font-semibold">
+        <p>Total Amount (PHP)</p>
+        <p>{formatPeso(total)}</p>
+      </div>
+
+      <button
+        onClick={handlePlaceOrder}
+        className="text-center w-full bg-black rounded-md text-white py-2 mt-3 hover:bg-black/80 cursor-pointer"
+      >
+        Place Order
+      </button>
       </div>
     </div>
+    <div className="">
+      <div className="">
+        dasda
+      </div>
+    </div>
+
+    </div>
+  </div>
   );
 };
 
