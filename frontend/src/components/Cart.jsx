@@ -5,15 +5,16 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 
 import { motion } from 'framer-motion'
+import OrderSummary from './OrderSummary';
 
 const Cart = () => {
-  const { cart, total } = useCartStore();
+  const { cart, total, subtotal, tax, shipping } = useCartStore();
 
   
   return (
     <div className='py-8 md:py-16'>
-      <div className='mx-auto max-w-screen-xl px-4 2xl:px-0'>
-        <div className='mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8'>
+      <div className='mx-auto max-w-screen-2xl px-4 2xl:px-0 '>
+        <div className='mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8 gap-10'>
           <div className='mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl space-y-2'>
             {cart.length === 0 ? (
 							<EmptyCartUI />
@@ -22,6 +23,7 @@ const Cart = () => {
               initial={{opacity: 0, y: -10}}
               animate={{opacity: 1, y: 0}}
               transition={{duration: 0.5, delay: 0.1}}
+              className='space-y-3'
               >
               {cart.map((item) => (
                 <CartItem cart={item} key={item._id}/>
@@ -33,9 +35,9 @@ const Cart = () => {
               initial={{opacity: 0, y: -10}}
               animate={{opacity: 1, y: 0}}
               transition={{duration: 0.5, delay: 0.2}}
-               className='flex flex-col'>
-                order summary
-                <span className='font-bold'>total: {total}</span>
+               className='w-full lg:mt-0 mt-5'>
+                <OrderSummary total={total} tax={tax} subtotal={subtotal} shippingFee={shipping}/>
+                
               </motion.div>
         </div>
       </div>
