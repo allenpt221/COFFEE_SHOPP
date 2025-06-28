@@ -14,6 +14,10 @@ const orderSchema = new mongoose.Schema(
 					ref: "Product",
 					required: true,
 				},
+				name: {
+					type: String,
+					required: true,
+				},
 				quantity: {
 					type: Number,
 					required: true,
@@ -30,11 +34,7 @@ const orderSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 			min: 0,
-		},
-		stripeSessionId: {
-			type: String,
-			unique: true,
-		},
+		}
 	},
 	{ timestamps: true }
 );
