@@ -15,6 +15,7 @@ import CategoryPage from "./components/CartegoryPage";
 import Cart from "./components/Cart";
 import { useCartStore } from "./stores/useCartStore";
 import CheckOutPage from "./components/CheckOutPage";
+import SuccessCheckOut from "./components/SuccessCheckOut";
 
 function App() {
 
@@ -47,13 +48,17 @@ function App() {
 
           <Route path='/drink/:category' element={<CategoryPage />} />
           <Route path='/cart/checkout' element={user ? <CheckOutPage />: <Navigate to='/' /> } />
+          <Route path='/successcheckout' element={user ? <SuccessCheckOut />: <Navigate to='/' /> } />
+
 
           <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to='/login'/>} />
 
         </Routes>
       </div>
 
-      <Toaster />
+      <Toaster 
+      position="bottom-right"
+      reverseOrder={false}/>
     </div>
   )
 }
