@@ -31,6 +31,7 @@ const Cart = () => {
               </motion.div>
             )}
           </div>
+          {cart.length > 0 && (
               <motion.div
               initial={{opacity: 0, y: -10}}
               animate={{opacity: 1, y: 0}}
@@ -39,6 +40,7 @@ const Cart = () => {
                 <OrderSummary total={total} tax={tax} subtotal={subtotal} shippingFee={shipping}/>
                 
               </motion.div>
+          )}
         </div>
       </div>
 

@@ -1,10 +1,8 @@
-import { useCartStore } from '@/stores/useCartStore';
 import React from 'react'
 import { Link } from 'react-router-dom';
 
 const OrderSummary = ({ total, subtotal, tax, shippingFee }) => {
 
-    const { cart } = useCartStore();
 
   function formatPeso(val) {
     return new Intl.NumberFormat("en-PH", {
@@ -12,7 +10,6 @@ const OrderSummary = ({ total, subtotal, tax, shippingFee }) => {
       currency: "PHP",
     }).format(val);
   }
-
   return (
     <div className='flex flex-col border w-full p-4 rounded-md shadow-sm'>
       <h1 className='text-center text-xl font-bold mb-2'>Order Summary</h1>

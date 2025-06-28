@@ -25,6 +25,13 @@ const ProductAll = () => {
     setOpenAction((prev) => (prev === productId ? null : productId));
   };
 
+const sortProductsByCategory = (products) => {
+  return [...products].sort((a, b) =>
+    b.category.localeCompare(a.category)
+  );
+};
+
+
   return (
     <div className="shadow-lg rounded-lg overflow-x-auto max-w-4xl mx-auto relative">
       <table className="min-w-full font-sans divide-y overflow-x-scroll divide-gray-200 rounded-md table-auto ">
@@ -38,7 +45,7 @@ const ProductAll = () => {
           </tr>
         </thead>
         <tbody>
-          {products?.map((product) => (
+          {sortProductsByCategory(products)?.map((product) => (
             <tr key={product._id} className="border-b border-[#3332323b] ">
               <td className="px-2 py-2">
                 <img
