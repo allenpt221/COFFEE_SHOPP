@@ -8,7 +8,6 @@ export const useCartStore = create((set, get) => ({
     total: 0,
     subtotal: 0,
 
-
     getCartItems: async () => {
 		try {
 			const res = await axios.get("/cartproduct");
@@ -23,9 +22,17 @@ export const useCartStore = create((set, get) => ({
     calculateTotals: () => {
 	const { cart } = get();
 	const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-	const total = subtotal;
 
-	set({ subtotal, total });
+    const shipping = cart.length === 0 ? 0 : 25.57;
+    
+    const taxRate = 0.012;
+    
+    const tax = subtotal * taxRate;
+	const total = subtotal + tax + shipping;
+    
+    
+
+	set({ subtotal, total, tax, shipping });
     },
 
     orderto: async (product) => {
@@ -46,6 +53,10 @@ export const useCartStore = create((set, get) => ({
             console.error("Add to cart failed:", error);
             toast.error(error.response?.data?.message || "An error occurred");
         }
+    },
+
+    checkoutSuccess: async() => {
+        
     },
 
     addToCart: async (product) => {
