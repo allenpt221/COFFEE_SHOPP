@@ -15,12 +15,12 @@ const OrderSummary = ({ total, subtotal, tax, shippingFee }) => {
       <h1 className='text-center text-xl font-bold mb-2'>Order Summary</h1>
       
       <div className='flex justify-between'>
-        <h1>Sub Total:</h1>
+        <h1 className='font-medium'>Sub Total:</h1>
         <p>{formatPeso(subtotal)}</p>
       </div>
       
       <div className='flex justify-between'>
-        <h1>Taxes:</h1>
+        <h1 className='font-medium'>Estimated Tax:</h1>
         <p>{formatPeso(tax)}</p>
       </div>
         <div className='flex justify-between '>

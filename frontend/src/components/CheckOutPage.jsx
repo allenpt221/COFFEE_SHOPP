@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '@/stores/useCartStore';
 import axios from '@/lib/axios';
 
+import { AnimatePresence, motion } from 'framer-motion';
+
 const CheckOutPage = () => {
   const { user } = UserStore();
   const navigate = useNavigate();
@@ -20,6 +22,8 @@ const CheckOutPage = () => {
     city: "",
     barangay: "",
   });
+
+  const [paymentMethod, setIsPaymentMethod] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -121,9 +125,11 @@ const handlePlaceOrder = async () => {
 
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-2 mx-2">
-        <div className="border p-5 rounded-md shadow-sm w-full h-[26rem]">
+    <div className="max-w-5xl mx-auto mb-50">
+      {/* leftSide Flex */}
+      <div className="flex lg:flex-row sm:flex-row flex-col gap-3 mx-2">
+        <div className='flex flex-col gap-3'>
+        <div className="border p-5 rounded-md shadow-sm w-full ">
           <h1 className="text-lg font-semibold mb-4">Shipping Information</h1>
           <form onSubmit={handleSubmit} className="space-y-3 font-sans text-[#000000b6]">
             {inputGroups.map((group, index) => (
@@ -200,11 +206,62 @@ const handlePlaceOrder = async () => {
             )}
           </form>
         </div>
+        { /* Payment Information Section*/}
+      <AnimatePresence>
+      {paymentMethod === "Card" && (
+        <motion.div 
+        initial={{opacity: 0, y: 0}}
+        animate={{opacity: 1, y: 0}}
+        exit={{ opacity: 0, y: -10 , transition: { duration: 0.2 } }}
+        transition={{duration: 0.9}}
+        className="border p-5 rounded-md shadow-sm w-full ">
+        <h1 className='font-medium'>Card Payment Information</h1>
+          <div className="mt-5">
+            <form className='space-y-2'>
+              <label className='font-medium text-sm'>Cardholder Name</label>
+              <input type="text" 
+              placeholder='Enter Card Name'
+              className='rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8] border mt-1' />
+              
+              <label className='font-medium text-sm'>Card Number</label>
+              <input type="text" 
+              placeholder='Enter Phone Number'
+              className='rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8] border mt-1' />
 
+              <div className='flex gap-2'>
+              <div>
+              <label className='font-medium text-sm'>Expiring {'(MM/YY)'}</label>
+              <input type="text" 
+              placeholder='example: (12/2025)'
+              className='rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8] border mt-1' />
+              </div>
+              <div>
+              <label className='font-medium text-sm'>Expiring {'(MM/YY)'}</label>
+              <input type="text" 
+              placeholder='Card Verification Value'
+              className='rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8] border mt-1' />
+              </div>
+              </div>
+
+              <p className='font-medium text-sm mt-5'> We Accept the following cards</p>
+              <div className='flex gap-2 items-center'>
+                <img src="/public/BDO.jpg" alt="" className='w-7 h-5 rounded-xs' title='BDO '/>
+                <img src="/public/pnb.png" alt="" className='w-7 h-5 rounded-xs' title='Philippine National Bank'/>
+                <img src="/public/union.png" alt="" className='w-7 h-5 rounded-xs' title='UnionBank'/>
+                <img src="/public/metrobank.webp" alt="" className='w-7 h-5 rounded-xs' title='Metrobank'/>
+              </div>
+            </form>
+          </div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+    </div>
+  {/* rightSide Flex */}
+  <div className='flex flex-col gap-3'>
+  {/* Order Summary Section */}
   <div className="border p-5 rounded-md shadow-sm w-full flex flex-col min-h-[300px]">
-  <h1 className="text-lg font-semibold mb-4">Order Summary</h1>
-
-  {/* Cart Items Section */}
+    <h1 className="text-lg font-semibold mb-4">Order Summary</h1>
+    {/* Cart Items Section */}
     <div className="flex-grow">
       {cart.length > 0 ? (
         cart.map((cartItem, index) => (
@@ -260,9 +317,41 @@ const handlePlaceOrder = async () => {
       </button>
       </div>
     </div>
-    <div className="">
-      <div className="">
-        dasda
+    
+    {/* payment Method */}
+      <div className='border p-5 rounded-md shadow-sm w-full space-y-4'>
+        <div>
+          <h1 className='text-base font-medium'>Payment Method</h1>
+          <p className='mt-1 text-sm text-black/80'>Choose Payment</p>
+        </div>
+
+        <div className='space-y-4'>
+          <button
+           onClick={() => setIsPaymentMethod('COD')}
+           className={`border w-full text-left p-2 rounded-md cursor-pointer shadow-inner ${paymentMethod === 'COD' ? 'shadow-blue-700' : ""}`}>
+
+            <span className='flex justify-between items-center'>
+              <p>Cash On Delivery {'(COD)'} </p>
+              <img src="/public/COD.png" alt="" className='w-15 h-8   object-cover' />
+            </span>
+          </button>
+          <button
+           onClick={() => setIsPaymentMethod('Gcash')}
+           className={`border w-full text-left p-2 rounded-md cursor-pointer shadow-inner ${paymentMethod === 'Gcash' ? 'shadow-blue-700' : ""}`}>
+              <span className='flex justify-between items-center'>
+                <p>Gcash </p>
+                <img src="/public/gcash.jpg" alt="" className='w-15 h-8 rounded-md' />
+              </span>          
+            </button>
+            <button
+              onClick={() => setIsPaymentMethod('Card')}
+              className={`border w-full text-left p-2 rounded-md cursor-pointer shadow-inner ${paymentMethod === 'Card' ? 'shadow-blue-700' : ""}`}>
+                <span className='flex justify-between items-center'>
+                  <p>Card </p>
+                  <img src="/public/Card.png" alt="" className='w-12 h-10 rounded-md' />
+                </span>          
+            </button>
+        </div>
       </div>
     </div>
 
