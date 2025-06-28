@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
 	}
 
 	return (
-		<div className='flex w-full flex-col h-[23.5rem] gap-2  overflow-hidden rounded-sm border border-[#52515148] shadow-lg '>
+		<div className='flex w-full flex-col gap-10 h-[23.5rem]  overflow-hidden rounded-sm border border-[#52515148] shadow-lg'>
 			<div className='relative mx-3 mt-3 flex   overflow-hidden rounded-xl'>
 				<img className='object-cover w-full' src={product.image} alt='product image' />
 			</div>

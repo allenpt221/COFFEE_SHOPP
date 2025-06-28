@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const CreateMenu = () => {
 
-  const categories = ["hotdrinks", "iceddrinks", "shoes", "Blended", "noncoffee", "desserts"];
+  const categories = ["hotdrinks", "iceddrinks", "Blended", "noncoffee", "desserts"];
 
   
   const [newProduct, setNewProduct] = useState({
