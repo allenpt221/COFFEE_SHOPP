@@ -20,20 +20,17 @@ export const useCartStore = create((set, get) => ({
 	},
 
     calculateTotals: () => {
-	const { cart } = get();
-	const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const { cart } = get();
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const shipping = cart.length === 0 ? 0 : 25.57;
-    
     const taxRate = 0.012;
-    
     const tax = subtotal * taxRate;
-	const total = subtotal + tax + shipping;
-    
-    
+    const total = subtotal + tax + shipping;
 
-	set({ subtotal, total, tax, shipping });
-    },
+    set({ subtotal, total, tax, shipping });
+},
+
 
     orderto: async (product) => {
         try {
@@ -56,7 +53,7 @@ export const useCartStore = create((set, get) => ({
     },
 
     checkoutSuccess: async() => {
-        
+        set({ cart: [], total: 0, subtotal: 0, tax: 0, shipping: 0 });
     },
 
     addToCart: async (product) => {
