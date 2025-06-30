@@ -75,10 +75,10 @@ const CreateMenu = () => {
         <textarea 
         type="text" 
         rows="3"
-        maxlength={200}
+        maxLength={200}
         value={newProduct.description}
         onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-        placeholder='Enter product description (Max 250 characters...)'
+        placeholder='Enter product description (Max 200 characters...)'
         className='border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full'/>
         <label>Category</label>
         <select 
