@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const orderSchema = new mongoose.Schema(
 	{
@@ -34,6 +34,29 @@ const orderSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 			min: 0,
+		},
+		paymentMethod: {
+			type: String,
+			required: true,
+			enum: ["COD", "Gcash", "Card"]
+		},
+		cardInfo: {
+			cardholder: {
+				type: String,
+				required: false
+			}, 
+			cardnumber: {
+				type: String,
+				required: false
+			},
+			expiring: {
+				type: String,
+				required: false
+			},
+			cvv: {
+				type: String,
+				required: false
+			}
 		}
 	},
 	{ timestamps: true }
