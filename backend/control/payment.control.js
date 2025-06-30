@@ -1,5 +1,6 @@
 import Order from "../model/order.model.js";
 import User from "../model/auth.model.js";
+import Location from "../model/location.model.js";
 
 export const successCheckOut = async (req, res) => {
   try {
@@ -60,6 +61,52 @@ export const successCheckOut = async (req, res) => {
     });
   }
 };
+
+export const costumerLocation = async (req, res) => {
+  try {
+    const { firstname, lastname, phoneNumber, houseNumber, town, barangay } = req.body;
+    const userId = req.user._id;
+    const userEmail = req.user.email;
+
+    const costumerLoc = await Location.create({
+      user: userId,
+      emailAddress: userEmail,
+      firstname,
+      lastname,
+      phoneNumber,
+      houseNumber,
+      town,
+      barangay
+    })
+
+    res.status(201).json({
+      success: true,
+      message: "Order successfully created.",
+      costumerLoc,
+    })
+    
+  } catch (error) {
+    console.error("Error in costumerLocation:", error);
+    res.status(500).json({
+      message: "Error in costumerLocation",
+      error: error.message,
+    });
+  }
+};
+
+export const getCostumerLocation = async (req, res) => {
+  try {
+    const getLocation = await Location.find({});
+
+    return res.status(200).json(getLocation);
+  } catch (error) {
+    console.error("Error fetching location of costumer:", error);
+    res.status(500).json({
+      message: "Error fetching location of costumer",
+      error: error.message,
+    });
+  }
+}
 
 
 

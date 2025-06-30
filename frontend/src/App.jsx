@@ -48,7 +48,7 @@ function App() {
 
           <Route path='/drink/:category' element={<CategoryPage />} />
           <Route path='/cart/checkout' element={user ? <CheckOutPage />: <Navigate to='/' /> } />
-          <Route path='/successcheckout' element={user ? <SuccessCheckOut />: <Navigate to='/' /> } />
+          <Route path='/success-checkout' element={user ? <SuccessCheckOut /> : <Navigate to='/' /> } />
 
 
           <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to='/login'/>} />
