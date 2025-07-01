@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="container mx-auto sm:py-3 py-4 px-2">
             <div className="flex items-center justify-between">
                 <Link to={"/"} className="text-xl font-medium ">
-                    Coffee Shop
+                    Kapetolyo
                 </Link>
                 
                 <nav className="sm:hidden flex gap-2">

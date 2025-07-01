@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import valid from 'card-validator';
 
 import { UserStore } from '@/stores/userStore';
 import { useCartStore } from '@/stores/useCartStore';
@@ -30,7 +31,7 @@ const paymentImages = {
 const CheckOutPage = () => {
   const { user } = UserStore();
   const navigate = useNavigate();
-  const { cart, subtotal, tax, total, shipping, checkoutSuccess } = useCartStore();
+  const { cart, subtotal, tax, total, shipping, checkoutSuccess, submitOrder } = useCartStore();
   const { createLocation } = useCostumerStore();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -53,6 +54,8 @@ const CheckOutPage = () => {
   });
 
   const [paymentMethod, setIsPaymentMethod] = useState('');
+  const [cardType, setCardType] = useState('');
+
 
   useEffect(() => {
     if (user?.email) {
@@ -81,22 +84,33 @@ const CheckOutPage = () => {
   const handleCardChange = (e) => {
     const { name, value } = e.target;
     const numericFields = ['cardnumber', 'cvv'];
+
     let sanitizedValue = numericFields.includes(name)
       ? value.replace(/\D/g, '')
       : value;
 
     if (name === 'cardnumber') {
-      if (sanitizedValue.length > 16) {
-        sanitizedValue = sanitizedValue.slice(0, 16);
-      }
-      if (sanitizedValue.length < 16) {
-        setErrors((prev) => ({ ...prev, [name]: 'Card number should be 16 digits' }));
+      const cardValidation = valid.number(sanitizedValue);
+
+      if (!cardValidation.isPotentiallyValid) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: 'Card number is not valid',
+        }));
+        setCardType('');
+      } else if (!cardValidation.isValid) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: 'Card number is incomplete or invalid',
+        }));
+        setCardType(cardValidation.card?.type || '');
       } else {
         setErrors((prev) => {
           const updated = { ...prev };
           delete updated[name];
           return updated;
         });
+        setCardType(cardValidation.card?.type || '');
       }
     }
 
@@ -170,24 +184,9 @@ const CheckOutPage = () => {
         return;
       }
 
-      const products = cart.map(item => ({
-        id: item._id,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-      }));
 
-      const totalAmount = products.reduce(
-        (sum, item) => sum + item.quantity * item.price, 0
-      );
-
-      await axios.post('/orders', {
-        products,
-        totalAmount,
-        paymentMethod,
-        cardInfo: formCard
-      });
-
+      
+      submitOrder(paymentMethod , formCard)
       createLocation(formData);
       checkoutSuccess();
       navigate('/success-checkout', { state: { paymentSuccess: true } });
@@ -224,6 +223,7 @@ const CheckOutPage = () => {
       return () => clearTimeout(timer);
     }
   }, [errors]);
+
 
   return (
     <div className="max-w-5xl mx-auto mb-50">
@@ -310,7 +310,7 @@ const CheckOutPage = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: 0 }}
                 className="border p-5 rounded-md shadow-sm w-full"
               >
                 <h1 className='font-medium'>Card Payment Information</h1>
@@ -328,6 +328,7 @@ const CheckOutPage = () => {
                   <input type="text" 
                   placeholder='Enter Card Number'
                   name="cardnumber" 
+                  maxLength={19}
                   value={formCard.cardnumber} 
                   onChange={handleCardChange} className='border px-2 py-1 w-full rounded-sm' />
                   {errors.cardnumber && <p className="text-red-500 text-sm">{errors.cardnumber}</p>}
@@ -355,6 +356,15 @@ const CheckOutPage = () => {
                       {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
                     </div>
                   </div>
+                  {cardType && (
+                    <p className="my-2 text-md">
+                      Card Type:
+                      <span className='ml-1 text-blue-500/70 font-medium'>
+                        {cardType.toUpperCase()}
+                        </span> 
+                    </p>
+                  )}
+
                 </form>
                 <div className="flex gap-2">
                 {cardImage.map((image, index) => (
@@ -373,7 +383,7 @@ const CheckOutPage = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: 0 }}
                 className="border p-5 rounded-md shadow-sm w-full"
               >
                 <div className="flex gap-2">
