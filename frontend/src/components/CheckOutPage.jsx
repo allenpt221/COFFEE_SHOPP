@@ -68,7 +68,8 @@ const CheckOutPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const sanitizedValue = name === 'phone' ? value.replace(/\D/g, '') : value;
+    const sanitizedValue = name === 'phoneNumber' ? value.replace(/\D/g, '') : value;
+
 
     setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
 
@@ -236,7 +237,9 @@ const CheckOutPage = () => {
             <form onSubmit={handleSubmit} className="space-y-3 font-sans text-[#000000b6]">
               {inputGroups.map((group, index) => (
                 <div key={index} className="flex gap-2">
-                  {group.map((field) => (
+                  {group.map((field) => {
+                    const isPhone = field.name === 'phoneNumber';
+                    return(
                     <div key={field.name} className="flex-col w-full">
                       <label className='line-clamp-1 xl:line-clamp-none'>{field.label}</label>
                       <input
@@ -246,12 +249,14 @@ const CheckOutPage = () => {
                         onChange={handleChange}
                         readOnly={isSubmitted}
                         placeholder={field.placeholder}
+                        maxLength={isPhone ? 16 : undefined}
                         className={`border ${errors[field.name] ? "border-red-500" : "border-[#3131314d]"} 
                         rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8]`}
                       />
                       {errors[field.name] && <div className="text-red-500 text-sm mt-1">{errors[field.name]}</div>}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ))}
 

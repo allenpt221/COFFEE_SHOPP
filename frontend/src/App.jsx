@@ -57,7 +57,6 @@ function App() {
       </div>
 
       <Toaster 
-      position="bottom-right"
       reverseOrder={false}/>
     </div>
   )
