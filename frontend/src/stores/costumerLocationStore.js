@@ -20,7 +20,7 @@ export const useCostumerStore = create((set) => ({
 
       const res = await axios.post('/orders/locations', fullData);
       set({
-        location: res.data,
+        location: res.data.location,
         loading: false, // Stop loading on success
       });
     } catch (error) {
@@ -28,4 +28,5 @@ export const useCostumerStore = create((set) => ({
       set({ loading: false }); // Stop loading on error
     }
   },
+
 }));
