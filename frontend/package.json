@@ -13,6 +13,7 @@
     "@radix-ui/react-popover": "^1.1.14",
     "@tailwindcss/vite": "^4.1.10",
     "axios": "^1.10.0",
+    "card-validator": "^10.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",

@@ -1,6 +1,7 @@
 import Order from "../model/order.model.js";
 import User from "../model/auth.model.js";
 import Location from "../model/location.model.js";
+import mongoose, { isValidObjectId } from "mongoose";
 
 export const successCheckOut = async (req, res) => {
   try {
@@ -14,6 +15,7 @@ export const successCheckOut = async (req, res) => {
         name: product.name,
         quantity: product.quantity,
         price: product.price,
+        category: product.category
       })),
       totalAmount,
       paymentMethod,
@@ -51,6 +53,7 @@ export const successCheckOut = async (req, res) => {
       success: true,
       message: "Order successfully created.",
       orderId: newOrder._id,
+      order: newOrder,
     });
 
   } catch (error) {
@@ -82,7 +85,7 @@ export const costumerLocation = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Order successfully created.",
-      costumerLoc,
+      location: costumerLoc,
     })
     
   } catch (error) {
@@ -120,3 +123,4 @@ export const getSuccessCheckOut = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+

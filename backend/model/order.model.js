@@ -28,6 +28,10 @@ const orderSchema = new mongoose.Schema(
 					required: true,
 					min: 0,
 				},
+				category: {
+					type: String,
+					required: true
+				}
 			},
 		],
 		totalAmount: {
