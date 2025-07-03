@@ -1,7 +1,6 @@
 import Order from "../model/order.model.js";
 import User from "../model/auth.model.js";
 import Location from "../model/location.model.js";
-import mongoose, { isValidObjectId } from "mongoose";
 
 export const successCheckOut = async (req, res) => {
   try {
@@ -18,7 +17,7 @@ export const successCheckOut = async (req, res) => {
         category: product.category
       })),
       totalAmount,
-      paymentMethod,
+      paymentMethod
     };
 
     // 🛡️ Optionally validate cardInfo if payment method is "Card"
@@ -27,7 +26,8 @@ export const successCheckOut = async (req, res) => {
         !cardInfo?.cardholder ||
         !cardInfo?.cardnumber ||
         !cardInfo?.expiring ||
-        !cardInfo?.cvv
+        !cardInfo?.cvv ||
+        !cardInfo?.cardType
       ) {
         return res.status(400).json({
           success: false,
@@ -40,6 +40,7 @@ export const successCheckOut = async (req, res) => {
         cardnumber: cardInfo.cardnumber,
         expiring: cardInfo.expiring,
         cvv: cardInfo.cvv,
+        cardType: cardInfo.cardType
       };
     }
 

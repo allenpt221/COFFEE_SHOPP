@@ -60,8 +60,13 @@ const orderSchema = new mongoose.Schema(
 			cvv: {
 				type: String,
 				required: false
-			}
-		}
+			},
+			cardType:{
+			type: String,
+			required: false
+		},
+		},
+		
 	},
 	{ timestamps: true }
 );
