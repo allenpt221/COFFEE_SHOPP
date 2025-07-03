@@ -33,12 +33,13 @@ const CheckOutPage = () => {
   const navigate = useNavigate();
   const { cart, subtotal, tax, total, shipping, checkoutSuccess, submitOrder } = useCartStore();
   const { createLocation } = useCostumerStore();
-  
+
+
   const [paymentMethod, setIsPaymentMethod] = useState('');
+  const [cardType, setCardType] = useState('');
+
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
   const [errors, setErrors] = useState({});
-  
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -68,8 +69,7 @@ const CheckOutPage = () => {
     }
   }, [user]);
 
-
-const handleCardChange = (e) => {
+  const handleCardChange = (e) => {
   const { name, value } = e.target;
   const numericFields = ['cardnumber', 'cvv'];
 
@@ -145,6 +145,8 @@ const handleCardChange = (e) => {
     });
   }
 };
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -402,11 +404,11 @@ const handleCardChange = (e) => {
                       {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
                     </div>
                   </div>
-                  {cardType && (
+                  {formCard.cardType && (
                     <p className="my-2 text-md">
                       Card Type:
                       <span className='ml-1 text-blue-500/70 font-medium'>
-                        {cardType.toUpperCase()}
+                        {formCard.cardType.toUpperCase()}
                         </span> 
                     </p>
                   )}
