@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       
-      <div className="relative z-50 pt-20">
+      <div className="relative z-50 pt-14 print:pt-0">
       <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
