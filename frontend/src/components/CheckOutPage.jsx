@@ -33,9 +33,12 @@ const CheckOutPage = () => {
   const navigate = useNavigate();
   const { cart, subtotal, tax, total, shipping, checkoutSuccess, submitOrder } = useCartStore();
   const { createLocation } = useCostumerStore();
-
+  
+  const [paymentMethod, setIsPaymentMethod] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const [errors, setErrors] = useState({});
+  
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -50,11 +53,10 @@ const CheckOutPage = () => {
     cardholder: '',
     cardnumber: '',
     expiring: '',
-    cvv: ''
+    cvv: '',
+    cardType: ''
   });
 
-  const [paymentMethod, setIsPaymentMethod] = useState('');
-  const [cardType, setCardType] = useState('');
 
 
   useEffect(() => {
@@ -65,6 +67,84 @@ const CheckOutPage = () => {
       }));
     }
   }, [user]);
+
+
+const handleCardChange = (e) => {
+  const { name, value } = e.target;
+  const numericFields = ['cardnumber', 'cvv'];
+
+  // Strip all non-digits if numeric field
+  const rawValue = numericFields.includes(name)
+    ? value.replace(/\D/g, '')
+    : value;
+
+  let formattedValue = rawValue;
+
+  // Format card number as XXXX XXXX XXXX XXXX
+  if (name === 'cardnumber') {
+    formattedValue = rawValue.replace(/(.{4})/g, '$1 ').trim();
+
+    // Validate card number
+    const cardValidation = valid.number(rawValue);
+    const cardBrand = cardValidation.card?.type || '';
+
+    if (!cardValidation.isPotentiallyValid) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: 'Card number is not valid',
+      }));
+    } else if (!cardValidation.isValid) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: 'Card number is incomplete or invalid',
+      }));
+    } else {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
+
+    // Update both cardType state and formCard.cardType
+    setFormCard((prev) => ({
+      ...prev,
+      [name]: formattedValue,
+      cardType: cardBrand
+    }));
+    return;
+  }
+
+  // For other fields (like cvv)
+  if (name === 'cvv') {
+    if (rawValue.length < 6) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: 'Card Verification Value should be at least 6 digits',
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
+  }
+
+  // Update formCard normally
+  setFormCard((prev) => ({
+    ...prev,
+    [name]: formattedValue
+  }));
+
+  // Clear field-specific error if input is now valid
+  if (errors[name] && rawValue.trim()) {
+    setErrors((prev) => {
+      const updated = { ...prev };
+      delete updated[name];
+      return updated;
+    });
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,51 +162,6 @@ const CheckOutPage = () => {
     }
   };
 
-  const handleCardChange = (e) => {
-    const { name, value } = e.target;
-    const numericFields = ['cardnumber', 'cvv'];
-
-    let sanitizedValue = numericFields.includes(name)
-      ? value.replace(/\D/g, '')
-      : value;
-
-    if (name === 'cardnumber') {
-      const cardValidation = valid.number(sanitizedValue);
-
-      if (!cardValidation.isPotentiallyValid) {
-        setErrors((prev) => ({
-          ...prev,
-          [name]: 'Card number is not valid',
-        }));
-        setCardType('');
-      } else if (!cardValidation.isValid) {
-        setErrors((prev) => ({
-          ...prev,
-          [name]: 'Card number is incomplete or invalid',
-        }));
-        setCardType(cardValidation.card?.type || '');
-      } else {
-        setErrors((prev) => {
-          const updated = { ...prev };
-          delete updated[name];
-          return updated;
-        });
-        setCardType(cardValidation.card?.type || '');
-      }
-    }
-
-    setFormCard((prev) => ({ ...prev, [name]: sanitizedValue }));
-
-    if (errors[name] && sanitizedValue.trim()) {
-      if (name !== 'cardnumber' || sanitizedValue.length === 16) {
-        setErrors((prev) => {
-          const updated = { ...prev };
-          delete updated[name];
-          return updated;
-        });
-      }
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -177,7 +212,11 @@ const CheckOutPage = () => {
         } else if (!isExpiryValid(formCard.expiring)) {
           newErrors.expiring = "Card expiry is in the past";
         }
-        if (!formCard.cvv.trim()) newErrors.cvv = "CVV is required";
+        if (!formCard.cvv.trim()) {
+          newErrors.cvv = "CVV is required";
+        } else if (!/^\d{6,}$/.test(formCard.cvv)) {
+          newErrors.cvv = "CVV must be at least 6 digits";
+        }
       }
 
       if (Object.keys(newErrors).length > 0) {
@@ -187,7 +226,7 @@ const CheckOutPage = () => {
 
 
       
-      submitOrder(paymentMethod , formCard)
+      submitOrder(paymentMethod, formCard)
       createLocation(formData);
       checkoutSuccess();
       navigate('/success-checkout', { state: { paymentSuccess: true } });
@@ -224,6 +263,8 @@ const CheckOutPage = () => {
       return () => clearTimeout(timer);
     }
   }, [errors]);
+
+  console.log(cardType)
 
 
   return (
