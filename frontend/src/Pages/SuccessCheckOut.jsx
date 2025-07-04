@@ -68,7 +68,7 @@ const categoryTitles = {
   
 
   return (
-    <div className='max-w-5xl mx-auto space-y-10'>
+    <div className='max-w-5xl mx-auto space-y-10 mt-4'>
       <div className='space-y-2 mx-2'>
       <div className='flex justify-between'>
       <img src="https://plus.unsplash.com/premium_photo-1671379528106-fd5bd9e1087d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="can't read the image" className='w-20 h-20 rounded-full object-cover print:hidden' />
@@ -78,7 +78,7 @@ const categoryTitles = {
 
         <div>
         <p className='text-xs'>Unit 202, Nepo Mall Annex Building</p>
-        <p className='text-xs'>Teresa Avenue, Barangay Sto. Rosario Angeles City, Pampanga 2009 Philippines <span className='text-black/50 text-xs'>{'(Dummy)'}</span></p>
+        <p className='text-xs'>Teresa Avenue, Barangay Sto. Rosario Angeles City, Pampanga 2009 Philippines</p>
         </div>
       </div>
       <div className='flex justify-between sm:flex-row flex-col mx-2 sm:gap-0 gap-4'>
@@ -171,7 +171,7 @@ const categoryTitles = {
           </span>
         </div>
       </div>
-      <Link to='/' className='float-right bg-black px-2 py-1 rounded-sm text-white mb-5 print:hidden'>Back to Home</Link>
+      <Link to='/' className='float-right bg-black px-2 py-1 rounded-sm text-white mb-5 print:hidden mx-5'>Back to Home</Link>
     </div>
   )
 }
