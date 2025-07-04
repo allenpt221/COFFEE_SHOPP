@@ -4,7 +4,6 @@ import axios from '@/lib/axios';
 
 const Slider = () => {
 
-    const ITEMS_PER_PAGE = 3;
     const ITEM_WIDTH = 300;
     const GAP = 16;
 
@@ -137,8 +136,8 @@ useEffect(() => {
                 >
                 <img src={item.image} alt="" className="w-full h-auto max-h-40 object-cover rounded pointer-events-none" />
                   <p className='text-center mb-2'>{CapitalFirstLetter(item.name)}</p>
-                  <p className='text-xs'>{item.description}</p>
-                  <p className='mt-auto text-right font-medium text-lg'>₱{(item.price).toFixed(2)}</p>
+                  <p className='text-xs line-clamp-3'>{item.description}</p>
+                  <p className='mt-5 text-right font-medium text-sm text-black/60'>₱{(item.price).toFixed(2)}</p>
                 </div>
               ))}
             </motion.div>

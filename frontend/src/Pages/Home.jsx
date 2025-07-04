@@ -45,7 +45,7 @@ const Home = () => {
               <p className='text-sm'>Check out our special menu and enjoy up to 25% off selected items!</p>
               <Link 
               to='/menu' 
-              className='px-5 py-2 mt-3 rounded-full bg-black font-medium text-white inline-block'
+              className='px-5 py-2 mt-3 rounded-full bg-black hover:bg-black/70 font-medium text-white inline-block'
             >
               Browse Our Menu
             </Link>
@@ -61,7 +61,16 @@ const Home = () => {
         <div>
           <BestSelling />
         </div>
+        {/* Delivery service section*/}
+        <div className='max-w-4xl mx-auto mb-50'>
+          <h1 className='text-center text-5xl font-bold'>How to Order with Delivery</h1>
 
+          <div className='flex justify-between items-center h-[20rem]'>
+            <div>to be continue</div>
+            <div>to be continue</div>
+            <div>to be continue</div>
+          </div>
+        </div>
       </section>
     </div>
   );
