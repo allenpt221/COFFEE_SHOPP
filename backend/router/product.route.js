@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', protectRoute, adminRoute , createProduct);
 router.get("/drink/:category", getProductsByCategory);
-router.get('/', protectRoute, adminRoute, getAllProduct);
+router.get('/', getAllProduct);
 router.delete('/:id', protectRoute, adminRoute, deleteProduct);
 router.get('/random', getRandomProduct);
 
