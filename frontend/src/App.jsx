@@ -1,21 +1,21 @@
 
 import { Toaster } from "react-hot-toast";
 import Home from "./components/Home";
-import Login from "./components/Login";
-import AdminDashboard from "./components/AdminDashboard";
+import Login from "./Pages/Login";
+import AdminDashboard from "./Pages/AdminDashboard";
 import Menu from "./components/Menu";
-import Signup from "./components/Signup";
+import Signup from "./Pages/Signup";
 import Navbar from "./components/Navbar";
 
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserStore } from "./stores/userStore";
 import { useEffect } from "react";
-import CategoryPage from "./components/CartegoryPage";
+import CategoryPage from "./Pages/CartegoryPage";
 import Cart from "./components/Cart";
 import { useCartStore } from "./stores/useCartStore";
-import CheckOutPage from "./components/CheckOutPage";
-import SuccessCheckOut from "./components/SuccessCheckOut";
+import CheckOutPage from "./Pages/CheckOutPage";
+import SuccessCheckOut from "./Pages/SuccessCheckOut";
 
 function App() {
 
