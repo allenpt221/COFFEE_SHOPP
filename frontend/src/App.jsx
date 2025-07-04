@@ -1,6 +1,6 @@
 
 import { Toaster } from "react-hot-toast";
-import Home from "./components/Home";
+import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Menu from "./components/Menu";

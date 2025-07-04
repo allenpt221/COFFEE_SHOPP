@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { useProductStore } from "../stores/useProductStore";
+import { useProductStore } from "@/stores/useProductStore";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
@@ -8,14 +8,13 @@ import ProductCard from "./ProductCard";
 
 
 const CategoryPage = () => {
-	const { fetchbyDrink, products } = useProductStore();
+	const { fetchbyDrink, products, loading } = useProductStore();
 
 	const { category  } = useParams();
 
 	useEffect(() => {
 		fetchbyDrink(category);
 	}, [fetchbyDrink, category]);
-
 
 
 	const categoryTitles = {
@@ -45,15 +44,26 @@ const CategoryPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, delay: 0.2 }}
 				>
-					{products?.length === 0 && (
+					{ !loading &&products?.length === 0 && (
 						<h2 className='text-3xl font-semibold text-gray-300 text-center col-span-full'>
 							Menu coming soon
 						</h2>
 					)}
-
-					{products?.map((product) => (
-						<ProductCard key={product._id} product={product} />
-					))}
+					{loading ? 
+						Array.from({ length: 10 }).map((_, index) => (
+						<div
+							key={index}
+							className="w-[300px] shrink-0 shadow-lg border p-4 rounded animate-pulse"
+						>
+							<div className="w-full h-40 bg-gray-200 rounded mb-4" />
+							<div className="h-4 bg-gray-200 rounded mb-2 w-2/3" />
+							<div className="h-3 bg-gray-200 rounded w-full" />
+						</div>
+						))
+					 : 
+						products?.map((product) => (	
+							<ProductCard key={product._id} product={product} />
+						))}
 				</motion.div>
 			</div>
 		</div>

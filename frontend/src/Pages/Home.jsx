@@ -2,10 +2,8 @@ import { MoveRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 
-import Slider from './Slider';
-
-
-
+import Slider from '../components/Slider';
+import BestSelling from '@/components/BestSelling';
 
 
 const Home = () => {
@@ -36,30 +34,35 @@ const Home = () => {
       </div>
 
       {/* Title */}
-      <div className='space-y-8'>
+      <section className='space-y-8'>
         <p className=' sm:mx-30 mx-0 lg:text-start text-center font-bold md:text-4xl text-2xl'>Our Best Offers for You</p>
-      
         {/* Draggable Offer Slider */}
         <div className='max-w-7xl mx-auto'>
-        <div className='flex justify-between flex-col-reverse xl:flex-row gap-5 mx-2'>
-          <div className='w-[15rem] xl:mx-0 sm:mx-20 mx-2'>
-            <h1 className='font-medium text-lg'>Your Exclusive Menu</h1>
-            <p className='text-sm'>Check out our special menu and enjoy up to 25% off selected items!</p>
-            <Link 
-            to='/menu' 
-            className='px-5 py-2 mt-3 rounded-full bg-black font-medium text-white inline-block'
-          >
-            Browse Our Menu
-          </Link>
-
-          </div>
-
-          <div>
-            <Slider />
+          <div className='flex justify-between flex-col-reverse xl:flex-row gap-5 mx-2'>
+            {/* left middle section */}
+            <div className='w-[15rem] xl:mx-0 sm:mx-20 mx-2 mt-5'>
+              <h1 className='font-medium text-lg'>Your Exclusive Menu</h1>
+              <p className='text-sm'>Check out our special menu and enjoy up to 25% off selected items!</p>
+              <Link 
+              to='/menu' 
+              className='px-5 py-2 mt-3 rounded-full bg-black font-medium text-white inline-block'
+            >
+              Browse Our Menu
+            </Link>
+            </div>
+            {/* right middle section - slider section*/}
+            <div>
+              <Slider />
+            </div>
           </div>
         </div>
+
+        {/* Best Seller section */}
+        <div>
+          <BestSelling />
         </div>
-      </div>
+
+      </section>
     </div>
   );
 };
