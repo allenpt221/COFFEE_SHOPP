@@ -22,7 +22,14 @@ export const useCartStore = create((set, get) => ({
 
     calculateTotals: () => {
     const { cart } = get();
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cart.reduce((sum, item) => {
+        const hasDiscount = item.discounted === 'Discounted';
+        const discountedPrice = hasDiscount
+            ? item.price * 0.75  // Apply 25% off
+            : item.price;
+        return sum + discountedPrice * item.quantity;
+        }, 0);
+
 
     const shipping = cart.length === 0 ? 0 : 25.57;
     const taxRate = 0.012;
