@@ -8,9 +8,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+import UpdateItemModal from "../Modal/UpdateItemModal";
+
 const ProductAll = () => {
   const { products, deleteProduct } = useProductStore();
   const [openAction, setOpenAction] = useState(null);
+  const [openModal, setIsOpenModal] = useState(false);
 
   
   function capitalizeWords(str) {
@@ -82,7 +85,10 @@ const sortProductsByCategory = (products) => {
                         >
                         Delete
                       </button>
-                      <button className=" text-left ">
+                      <button className=" text-left cursor-pointer"
+                      onClick={() => 
+                      {setIsOpenModal(true)
+                      setOpenAction(null)}}>
                         Update
                       </button>
                     </div>
@@ -93,6 +99,11 @@ const sortProductsByCategory = (products) => {
           ))}
         </tbody>
       </table>
+
+      <UpdateItemModal 
+      isOpen={openModal} 
+      isClose={() => setIsOpenModal(!openModal)}
+      />
     </div>
   );
 };
