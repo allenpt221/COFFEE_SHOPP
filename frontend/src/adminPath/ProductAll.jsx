@@ -11,9 +11,10 @@ import {
 import UpdateItemModal from "../Modal/UpdateItemModal";
 
 const ProductAll = () => {
-  const { products, deleteProduct } = useProductStore();
+  const { products, deleteProduct, updateProduct } = useProductStore();
   const [openAction, setOpenAction] = useState(null);
   const [openModal, setIsOpenModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   
   function capitalizeWords(str) {
@@ -44,6 +45,7 @@ const sortProductsByCategory = (products) => {
             <th className="text-left p-4">Product</th>
             <th className="text-left p-4">Price</th>
             <th className="text-left p-4">Category</th>
+            <th className="text-left p-4">Discounted/Not Discounted</th>
             <th className="text-left p-4">Action</th>
           </tr>
         </thead>
@@ -65,6 +67,9 @@ const sortProductsByCategory = (products) => {
               </td>
               <td className="px-2 py-2 font-medium sm:text-[17px] text-xs">
                 {product.category}
+              </td>
+              <td className="px-2 py-2 font-medium sm:text-[17px] text-xs text-center">
+                {product.discounted}
               </td>
               <td className="px-5 py-2 font-medium sm:text-[17px] text-xs">
                 <Popover open={openAction === product._id} onOpenChange={(open) => {
@@ -88,7 +93,9 @@ const sortProductsByCategory = (products) => {
                       <button className=" text-left cursor-pointer"
                       onClick={() => 
                       {setIsOpenModal(true)
-                      setOpenAction(null)}}>
+                      setOpenAction(null)
+                      setSelectedProduct(product)
+                      }}>
                         Update
                       </button>
                     </div>
@@ -102,7 +109,9 @@ const sortProductsByCategory = (products) => {
 
       <UpdateItemModal 
       isOpen={openModal} 
-      isClose={() => setIsOpenModal(!openModal)}
+      isClose={() => setIsOpenModal(false)}
+      onUpdateProduct={updateProduct}
+      updatedProjectData={selectedProduct}
       />
     </div>
   );
