@@ -1,12 +1,14 @@
 import { PlusCircle, Upload } from "lucide-react";
 import { useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
-import toast from "react-hot-toast";
 
 
 const CreateMenu = () => {
 
-  const categories = ["hotdrinks", "iceddrinks", "Blended", "noncoffee", "desserts"];
+  const categories = ["hotdrinks", "iceddrinks", "blended", "noncoffee", "desserts"];
+  
+  const discountedvalue = ["Not Discounted","Discounted"];
+
 
   
   const [newProduct, setNewProduct] = useState({
@@ -15,6 +17,7 @@ const CreateMenu = () => {
 		price: "",
 		image: "",
 		category: "",
+    discounted: "Not Discounted"
 	});
   
   const { createProduct, loading } = useProductStore();
@@ -31,7 +34,8 @@ const CreateMenu = () => {
         description: "",
         price: "",
         image: "",
-        category: ""   
+        category: "",
+        discounted: "Not Discounted"  
       }) 
 		} catch {
 			console.log("error creating a product");
@@ -96,6 +100,26 @@ const CreateMenu = () => {
 							</option>
 						))}
         </select>
+        <div className="flex flex-col gap-1">
+        <label>Select Discount Status</label>
+        <select 
+          name="discounted" 
+          id="discounted"
+          required
+          value={newProduct.discounted}
+          onChange={(e) =>
+            setNewProduct({ ...newProduct, discounted: e.target.value})
+          }
+          className='border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-[10rem]'
+        >
+          {discountedvalue.map((disc) => (
+            <option key={disc} value={disc}>
+              {disc}
+            </option>
+          ))}
+        </select>
+        </div>
+
         <div className='mt-1 flex items-center'>
 					<input 
           type='file' 

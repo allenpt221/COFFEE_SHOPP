@@ -2,7 +2,7 @@ import { Upload, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-const categories = ["hotdrinks", "iceddrinks", "Blended", "noncoffee", "desserts"];
+const categories = ["hotdrinks", "iceddrinks", "blended", "noncoffee", "desserts"];
 const discountedvalue = ["Not Discounted", "Discounted"];
 
 const UpdateItemModal = ({ isOpen, isClose, onUpdateProduct, updatedProjectData }) => {

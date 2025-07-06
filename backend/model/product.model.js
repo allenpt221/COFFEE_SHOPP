@@ -25,8 +25,11 @@ const productSchema = new mongoose.Schema(
 		},
 		discounted: {
 			type: String,
+			enum: ['Discounted', 'Not Discounted'],
+			default: "Not Discounted",
 			required: true
 		}
+
 
 	},
 	{ timestamps: true }
