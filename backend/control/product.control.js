@@ -41,7 +41,7 @@ export const getProductsByCategory = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, description, price, image, category } = req.body;
+        const { name, description, price, image, category, discounted } = req.body;
 
         let cloudinaryResponse = null;
 
@@ -55,13 +55,43 @@ export const createProduct = async (req, res) => {
 			price,
 			image: cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : "",
 			category,
+      discounted
 		});
 
-        res.status(201).json(product);
+    res.status(201).json(product);
     } catch (error) {
         console.log("Error in createProduct controller", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
+		    res.status(500).json({ message: "Server error", error: error.message });
     }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const { name, description, price, image, category, discounted } = req.body;
+    const { id } = req.params;
+
+    let updatedFields = { name, description, price, category, discounted };
+
+    if (image) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(image, {
+        folder: "products",
+      });
+      updatedFields.image = cloudinaryResponse.secure_url;
+    }
+
+    const updateData = await Product.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
+
+    if (!updateData) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    res.status(200).json({ success: true, update: updateData });
+  } catch (error) {
+    console.error("Error in updateProduct controller:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 export const deleteProduct = async (req, res) => {
