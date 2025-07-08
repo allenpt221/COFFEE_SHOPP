@@ -16,7 +16,7 @@ export const successCheckOut = async (req, res) => {
         price: product.price,
         category: product.category
       })),
-      totalAmount,
+      totalAmount: parseFloat(totalAmount.toFixed(2)),
       paymentMethod
     };
 
