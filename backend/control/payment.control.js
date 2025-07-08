@@ -101,8 +101,13 @@ export const costumerLocation = async (req, res) => {
 export const getCostumerLocation = async (req, res) => {
   try {
     const getLocation = await Location.find({});
+    const getOrder = await Order.find({});
 
-    return res.status(200).json(getLocation);
+    return res.status(200).json({
+      location: getLocation,
+      order: getOrder
+    });
+
   } catch (error) {
     console.error("Error fetching location of costumer:", error);
     res.status(500).json({
