@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
 
 	const OrderNow = () => {
 		if(!user) {
-			toast.error("Please login to add products to cart", { id: "login" });
+			toast.error("Please login to order products ", { id: "login" });
 			return;
 		} else {
 			orderto(product);
@@ -32,6 +32,8 @@ const ProductCard = ({ product }) => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
+
+
 	return (
 		<div className='flex w-full flex-col gap-10 h-[23.5rem]  overflow-hidden rounded-sm border border-[#52515148] shadow-lg'>
 			<div className='relative mx-3 mt-3 flex   overflow-hidden rounded-xl'>
@@ -40,9 +42,18 @@ const ProductCard = ({ product }) => {
 			<div className='px-4'>
 				<div className='flex items-center justify-between'>
 				<h1 className='text-lg font-semibold tracking-tight'>{product.name}</h1>
-					<p>
-						<span className='text-md font-medium '>₱{product.price}</span>
-					</p>
+					<div className="flex flex-col">
+					{product.discounted === "Discounted" ? (
+						<>
+						<span className="text-xs line-through text-gray-500">{`(₱${product.price})`}</span>
+						<span className='text-sm font-medium'>₱{(product.price * 0.75).toFixed(2)}</span>
+						</>
+					) : (
+						<span className='text-sm text-black/80 font-medium'>₱{product.price.toFixed(2)}</span>
+					)}
+					
+						
+					</div>
 				</div>
 				<p className="text-xs mt-2">{UppercaseFirstLetter(product.description)}</p>
 			</div>
