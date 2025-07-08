@@ -14,7 +14,7 @@ const BestSelling = () => {
     fetchProducts();
   }, []);
 
-  const featuredNames = ['Caramel Matchiato', 'Croissant', 'Americano', 'Matcha Latte'];
+  const featuredNames = ['Caramel Matchiato', 'Croissant', 'Java Chips', 'Matcha Latte'];
 
   const bestsellerMatch = products.filter((item) =>
     featuredNames.includes(item.name)
@@ -30,21 +30,21 @@ const BestSelling = () => {
 
   return (
     <div className='max-w-7xl mx-auto mb-20'>
-      <div className='mx-2 flex justify-between items-center'>
+      <div className='mx-2 flex justify-between items-center sm:flex-row flex-col gap-4'>
         <div>
-        <h1 className='md:text-2xl text-3xl mb-2 xl:text-start text-center font-semibold mx-5'>
+        <h1 className='md:text-2xl text-3xl mb-1 xl:text-start text-center font-semibold mx-5'>
           Customer Favorite
         </h1>
         <div className='w-[20rem]'>
-          <p className='mx-5 text-base'>
+          <p className='mx-5 text-base text-black/60'>
             Enjoy more than {products.length} delicious picks from our coffee menu.
           </p>
         </div>
         </div>
-        <Link className='bg-black px-4 py-2 text-white rounded-full hover:bg-black/70 font-medium'>Discover More</Link>
+        <Link to={'/menu'} className='bg-black px-4 py-2 text-white rounded-full hover:bg-black/70 font-medium'>Discover More</Link>
       </div>
 
-      <div className='grid lg:grid-cols-4 md:grid-cols-2 gap-4 mx-5 mt-5'>
+      <div className='grid lg:grid-cols-4 md:grid-cols-2 gap-4 mx-5 mt-5 place-items-center '>
         {loading
           ? Array.from({ length: 4 }).map((_, idx) => (
               <div
@@ -60,7 +60,7 @@ const BestSelling = () => {
           : bestsellerMatch.map((item) => (
               <div
                 key={item._id}
-                className='flex border flex-col justify-between px-5 py-3 rounded shadow-sm hover:shadow-md transition'
+                className='flex border flex-col lg:w-full xl:w-[19rem] sm:w-[23rem] w-[18rem] justify-between px-5 py-3 rounded shadow-sm hover:shadow-md transition'
               >
                 <img
                   src={item.image}

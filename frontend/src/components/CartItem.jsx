@@ -32,8 +32,18 @@ const CartItem = ({ cart }) => {
 					</div>
 
 					<div className='text-end md:order-4 md:w-32'>
-						<p className='text-base'>₱{cart.price}</p>
-					</div>
+					{cart.discounted === 'Discounted' ? (
+						<>
+						<p className='text-sm line-through text-gray-400'>₱{cart.price.toFixed(2)}</p>
+						<p className='text-base font-semibold'>
+							₱{(cart.price * 0.75).toFixed(2)}
+						</p>
+						</>
+					) : (
+						<p className='text-base'>₱{cart.price.toFixed(2)}</p>
+					)}
+</div>
+
 				</div>
 
 				<div className='w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md'>

@@ -5,12 +5,37 @@ import { Link } from 'react-router-dom';
 import Slider from '../components/Slider';
 import BestSelling from '@/components/BestSelling';
 
+import cafeChoose from '/Image/chooseCafe.png'
+import cafeOrder from '/Image/orderCafe.png'
+import cafeDelivery from '/Image/deliveryCafe.png'
+
+
+
+const orderDelivery = [
+  {
+    title: 'Pick Your Cafe',
+    image: cafeChoose,
+    subtitle: 'Explore local spots and choose your favorite vibe.'
+  },
+  {
+    title: 'Place Your Order',
+    image: cafeOrder, // you can swap this out if you have a different image
+    subtitle: 'Customize your drink and confirm in just a few taps.'
+  },
+  {
+    title: 'Enjoy Fast Delivery',
+    image: cafeDelivery,
+    subtitle: 'Sit back and relax your coffee is on its way!'
+  }
+];
+
+
 
 const Home = () => {
  
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 min-h-screen">
       {/* Top Hero Section */}
       <div className='relative overflow-hidden'>
         <div className='bg-[#66510b1e] md:h-[7rem] h-[5rem]'>
@@ -47,7 +72,7 @@ const Home = () => {
               to='/menu' 
               className='px-5 py-2 mt-3 rounded-full bg-black hover:bg-black/70 font-medium text-white inline-block'
             >
-              Browse Our Menu
+              Browse Our 25% off
             </Link>
             </div>
             {/* right middle section - slider section*/}
@@ -62,13 +87,21 @@ const Home = () => {
           <BestSelling />
         </div>
         {/* Delivery service section*/}
-        <div className='max-w-4xl mx-auto mb-50'>
-          <h1 className='text-center text-5xl font-bold'>How to Order with Delivery</h1>
+        <div className='max-w-4xl mx-auto space-y-5 mb-50'>
 
-          <div className='flex justify-between items-center h-[20rem]'>
-            <div>to be continue</div>
-            <div>to be continue</div>
-            <div>to be continue</div>
+          <h1 className='text-center md:text-5xl sm:text-3xl text-xl font-bold'>How to Order with Delivery</h1>
+          
+          <div className='flex md:flex-row flex-col justify-between items-center mx-2'>
+            {orderDelivery.map((item => (
+              <div className='flex flex-col items-center'>
+                <img src={item.image} alt="" className='w-auto h-35 object-cover' />
+                <div className='mt-auto text-center'>
+                <h1 className='text-xl font-medium'>{item.title}</h1>
+                <p className='w-[15rem] text-center text-xs'>{item.subtitle}</p>
+                </div>
+              </div>
+
+            )))}
           </div>
         </div>
       </section>
