@@ -13,8 +13,9 @@ const SuccessCheckOut = () => {
   }
 
   const { location } = useCostumerStore();
-  const { order, subtotal, tax, shipping, total } = useCartStore();
+  const { order, subtotal, tax, shipping } = useCartStore();
 
+  const customer = location[location.length - 1];
 
   const randomNumber = Math.floor(Math.random() * 5000);
   const fourDigit = String(randomNumber).padStart(4, '0');
@@ -85,14 +86,14 @@ const categoryTitles = {
           <div>
             <h1 className='text-lg font-bold font-anton mt-10 mb-0'>{'Recipient :'.toUpperCase()}</h1>
             <span className='font-bold text-xl sm:ml-2 ml-0'>
-              {location?.lastname + ', ' + location?.firstname}
+              {customer?.lastname + ', ' + customer?.firstname}
             </span>
             {/* Additional Info */}
               <p className='text-sm sm:ml-2 ml-0 text-gray-700'>
-                Phone: {location?.phoneNumber}
+                Phone: {customer?.phoneNumber}
               </p>
               <p className='text-sm sm:ml-2 ml-0 text-gray-700'>
-                Address: {location?.houseNumber}, {location?.town}
+                Address: {customer?.houseNumber}, {customer?.town}
               </p>
             </div>
 
