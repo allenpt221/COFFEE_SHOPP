@@ -36,7 +36,7 @@ const TotalSales = ({ setPath }) => {
       </span>
 
       <button 
-      onClick={() => setPath('customerorder')} className='mt-auto text-left text-xs font-medium text-green-600 hover:underline cursor-pointer flex items-center gap-1'>
+      onClick={() => setPath('costomerorder')} className='mt-auto text-left text-xs font-medium text-green-600 hover:underline cursor-pointer flex items-center gap-1'>
         Recent sales activity <MoveRight size={13} />
       </button>
     </div>

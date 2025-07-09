@@ -37,7 +37,7 @@ const formatTime = (dateString) => {
 
   return (
     <div className='mt-5 space-y-5'>
-      <div className='grid grid-cols-4 gap-2'>
+      <div className='grid lg:grid-cols-4 sm:grid-cols-2 gap-2'>
         {/* total revenue of the app*/}
         <div>
           <Revenue />
