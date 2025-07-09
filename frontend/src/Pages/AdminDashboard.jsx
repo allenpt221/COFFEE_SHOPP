@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import CreateMenu from '../adminPath/CreateMenu'
 import ProductAll from '../adminPath/ProductAll'
-import Analysis from '../adminPath/Analysis'
+import DashBoard from '../adminPath/DashBoard'
 import { useProductStore } from '../stores/useProductStore'
+import OrderCustomer from '@/adminPath/OrderCustomer'
+import { useCostumerStore } from '@/stores/costumerLocationStore'
+import { UserStore } from '@/stores/userStore'
 
 
 const AdminDashboard = () => {
@@ -14,18 +17,29 @@ const AdminDashboard = () => {
     name: 'Product All',
     path: 'productall',
   }, {
-    name: 'Analysis',
-    path: 'analysis',
+    name: 'Dashboard',
+    path: 'dashboard',
+  }, , {
+    name: 'Costumer Order',
+    path: 'costomerorder',
   }];
 
   const [path, setPath] = useState('createMenu');
 
 
   const { fetchProducts } = useProductStore();
+
+  const { getLocation } = useCostumerStore();
+
+  const { getActiveUsers, getNewUsers } = UserStore();
+
   
     useEffect(() => {
       fetchProducts();
-    }, [fetchProducts]);
+      getLocation();
+      getActiveUsers();
+      getNewUsers();
+    }, []);
 
 
   return (
@@ -33,7 +47,7 @@ const AdminDashboard = () => {
       <div className='flex flex-col justify-center items-center gap-2 '>
         <h1 className='text-2xl font-medium'>Admin Dashboard</h1>
 
-        <div className='space-x-5'> 
+        <div className='grid sm:grid-cols-4 gap-2 grid-cols-2'> 
           {mapAdmin.map((item, index) => (
             <button
               key={index}
@@ -48,7 +62,8 @@ const AdminDashboard = () => {
       </div>
           {path === 'createMenu' && <CreateMenu />}
           {path === 'productall' && <ProductAll />}
-          {path === 'analysis' && <Analysis />}
+          {path === 'dashboard' && <DashBoard />}
+          {path === 'costomerorder' && <OrderCustomer />}
     </div>
   )
 }
