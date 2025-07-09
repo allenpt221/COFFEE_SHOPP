@@ -7,17 +7,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
 import { useCostumerStore } from "@/stores/costumerLocationStore"
-import { useEffect } from "react";
+import { useProductStore } from "@/stores/useProductStore";
 
 const OrderCustomer = () => {
-    const { location, order, getLocation, statuses, setStatus } = useCostumerStore();
 
-    useEffect(() => {
-        getLocation();
-    }, [getLocation])
+    const { location, order, updateStatus } = useCostumerStore();
 
-    console.log("location:", location, 'order:', order)
+    const categoryTitles = {
+		iceddrinks: "Ice cafe",
+		hotdrinks: "Hot cafe",
+		blended: "Blended ",
+		noncoffee: "Caffeine-Free",
+		desserts: "Dessert"
+	};
+
 
     return (
         <div className="mt-6 p-4">
@@ -28,7 +33,8 @@ const OrderCustomer = () => {
                         <TableHead className="w-[120px] font-medium text-gray-600">Name</TableHead>
                         <TableHead className="w-[150px] font-medium text-gray-600">Product</TableHead>
                         <TableHead className="w-[80px] font-medium text-gray-600 text-center">Quantity</TableHead>
-                        <TableHead className="w-[200px] font-medium text-gray-600">Address</TableHead>
+                        <TableHead className="w-[200px] font-medium text-gray-600 text-center">Serving</TableHead>
+                        <TableHead className="w-[200px] font-medium text-gray-600">Address</TableHead>  
                         <TableHead className="w-[120px] font-medium text-gray-600 text-center">Method</TableHead>
                         <TableHead className="w-[150px] font-medium text-gray-600 text-center">Status</TableHead>
                         <TableHead className="w-[100px] font-medium text-gray-600 text-right">Amount</TableHead>
@@ -39,8 +45,6 @@ const OrderCustomer = () => {
                         location.map((place, index) => {
                             const currentOrder = order[index];
                             const product = currentOrder?.products?.[0];
-                            const status = statuses?.[index] || "Processing";
-
                             return (
                                 <TableRow key={index} className="border-b hover:bg-gray-50/50">
                                     <TableCell className="font-medium py-4">
@@ -52,28 +56,30 @@ const OrderCustomer = () => {
                                     <TableCell className="text-center text-gray-700">
                                         {product?.quantity || "N/A"}
                                     </TableCell>
+                                    <TableCell className="text-center text-gray-700">
+                                        {categoryTitles[product?.category] || "N/A"}
+                                    </TableCell>
                                     <TableCell className="text-gray-700">
-                                        {place.houseNumber}, {place.street}, {place.city}
+                                        {place.houseNumber}
                                     </TableCell>
                                     <TableCell className="text-center text-gray-700">
                                         {currentOrder?.paymentMethod || "N/A"}
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        {status !== "Complete" ? (
-                                            <button
-                                                onClick={() => setStatus(index, "Complete")}
-                                                className="cursor-pointer bg-[#ff0000] hover:bg-red-400 text-black px-3 py-1 rounded-md text-sm font-medium transition-colors"
-                                            >
-                                                Processing
-                                            </button>
+                                        <button onClick={() => updateStatus({id: currentOrder._id, status: "complete" })}>
+                                        {currentOrder.status === "processing" ? (
+                                            <span className="cursor-pointer border border-red-500 bg-red-500/10 text-red-500 px-3 rounded-md text-sm font-medium transition-colors">
+                                                {currentOrder.status.charAt(0).toUpperCase() + currentOrder.status.slice(1)}
+                                            </span>
                                         ) : (
-                                            <span className="bg-[#00ff2a]  px-3 py-1 rounded-md text-sm font-medium inline-block">
-                                                Complete
-                                            </span> 
+                                            <span className="cursor-pointer border border-green-500 bg-green-500/10 text-green-500 px-3 rounded-md text-sm font-medium transition-colors">
+                                                {currentOrder.status.charAt(0).toUpperCase() + currentOrder.status.slice(1)}
+                                            </span>
                                         )}
+                                        </button>
                                     </TableCell>
                                     <TableCell className="text-right font-medium text-gray-900">
-                                        ${currentOrder?.totalAmount?.toFixed(2) || "N/A"}
+                                        ₱   {currentOrder?.totalAmount?.toFixed(2) || "N/A"}
                                     </TableCell>
                                 </TableRow>
                             );

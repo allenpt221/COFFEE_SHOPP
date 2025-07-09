@@ -20,8 +20,8 @@ const AdminDashboard = () => {
     name: 'Dashboard',
     path: 'dashboard',
   }, , {
-    name: 'Costumer Order',
-    path: 'costomerorder',
+    name: 'Custumer Order',
+    path: 'customerorder',
   }];
 
   const [path, setPath] = useState('createMenu');
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
       <div className='flex flex-col justify-center items-center gap-2 '>
         <h1 className='text-2xl font-medium'>Admin Dashboard</h1>
 
-        <div className='grid sm:grid-cols-4 gap-2 grid-cols-2'> 
+        <div className='grid sm:grid-cols-4 gap-2 grid-cols-2 '> 
           {mapAdmin.map((item, index) => (
             <button
               key={index}
@@ -62,8 +62,8 @@ const AdminDashboard = () => {
       </div>
           {path === 'createMenu' && <CreateMenu />}
           {path === 'productall' && <ProductAll />}
-          {path === 'dashboard' && <DashBoard />}
-          {path === 'costomerorder' && <OrderCustomer />}
+          {path === 'dashboard' && <DashBoard  setPath={setPath}/>}
+          {path === 'customerorder' && <OrderCustomer />}
     </div>
   )
 }
