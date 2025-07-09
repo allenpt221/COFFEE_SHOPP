@@ -35,6 +35,11 @@ const AuthSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  status: {
+    type: String,
+    enum: ['online', 'offline'],
+    default: 'offline',
+  },
   lastLogin: {
     type: Date,
     default: null,

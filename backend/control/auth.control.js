@@ -79,7 +79,12 @@ export const logIn = async (req, res) => {
     if(user && (await user.comparePassword(password))) {
 
 		user.lastLogin = new Date();
-  		await user.save();
+    await user.save();
+
+      await Auth.findByIdAndUpdate(user._id, {
+        status: 'online',
+        lastLogin: new Date(),
+      });
 
       const { accessToken, refreshToken } = generateTokens(user._id);
 			await storeRefreshToken(user._id, refreshToken);
@@ -107,7 +112,7 @@ export const logout = async (req, res) => {
 			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 			await redis.del(`refresh_token:${decoded.userId}`);
 		
-			await Auth.findByIdAndUpdate(decoded.userId, { lastLogin: null });
+			await Auth.findByIdAndUpdate(decoded.userId, { status: 'offline'});
 		}
 		res.clearCookie("accessToken");
 		res.clearCookie("refreshToken");
@@ -165,7 +170,7 @@ export const getActiveUsersAndAllUsers = async (req, res) => {
     const daysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     const [activeUsers, allUsers] = await Promise.all([
-      Auth.find({ lastLogin: { $gte: daysAgo } }),
+      Auth.find({ status: "online" }),
       Auth.find({})
     ]);
 

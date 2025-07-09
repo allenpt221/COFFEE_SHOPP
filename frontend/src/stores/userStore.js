@@ -16,6 +16,8 @@ export const UserStore = create((set, get) => ({
     newUserCount: 0,
     totalCostumer: null,
 
+    dataUser: null,
+
     signup: async ({name, email, password, confirmPassword}) => {
         set({ loading: true});
 
@@ -45,14 +47,50 @@ export const UserStore = create((set, get) => ({
         }
     },
 
-    logout: async () => {
+    updateUserStatus: (userId, newStatus) => {
+        const { dataUser, activeUser, activeUserCount } = get();
+
+        // Update dataUser and activeUser arrays
+        const updatedDataUser = dataUser?.map(u =>
+            u._id === userId ? { ...u, status: newStatus } : u
+        );
+
+        const updatedActiveUser = activeUser?.map(u =>
+            u._id === userId ? { ...u, status: newStatus } : u
+        );
+
+        // Adjust active user count
+        let newActiveUserCount = activeUserCount;
+
+        if (newStatus === "offline") {
+            newActiveUserCount = Math.max(0, activeUserCount - 1);
+        } else if (newStatus === "online") {
+            newActiveUserCount = activeUserCount + 1;
+        }
+
+        set({
+            dataUser: updatedDataUser,
+            activeUser: updatedActiveUser,
+            activeUserCount: newActiveUserCount,
+        });
+    },
+
+
+        logout: async () => {
         try {
+            const { user, updateUserStatus } = get(); 
             await axios.post("/auth/logout");
-            set({ user: null,})
+
+            set({ user: null });
+
+            if (user?._id) {
+            updateUserStatus(user._id, "offline"); 
+            }
         } catch (error) {
             toast.error(error.response?.data?.message || "An error occurred during logout");
         }
-    },
+        },
+
 
     checkAuth: async () => {
         set({ checkingAuth: true });
@@ -86,7 +124,8 @@ export const UserStore = create((set, get) => ({
 
             set({activeUser: res.data.activeUsers, 
                 activeUserCount: res.data.activeUserCount, 
-                totalCostumer: res.data.totalUsers});
+                totalCostumer: res.data.totalUsers,
+                dataUser: res.data.allUsers});
         } catch (error) {
             console.log(error.response?.data.message || "error fetching the active user")
         }
