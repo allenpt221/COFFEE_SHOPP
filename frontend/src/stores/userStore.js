@@ -8,6 +8,13 @@ export const UserStore = create((set, get) => ({
     user: null,
     loading: false,
     checkingAuth: true,
+    
+    activeUser: null,
+    activeUserCount: 0,
+
+    newUser: null,
+    newUserCount: 0,
+    totalCostumer: null,
 
     signup: async ({name, email, password, confirmPassword}) => {
         set({ loading: true});
@@ -23,18 +30,16 @@ export const UserStore = create((set, get) => ({
             toast.success("Signup successful!");
         } catch (error) {
             toast.error(error.response?.data?.message || "An error occurred during signup");
-            
         }
     },
 
     login: async (email, password) => {
         set({ loading: true });
         try {
-            
+            toast.dismiss();
             const res = await axios.post("/auth/login", { email, password });
             set({ user: res.data, loading: false });
         } catch (error) {
-            console.error("Login failed:", error);
             set({ loading: false });
             toast.error("Invalid credentials. Please try again.");
         }
@@ -74,4 +79,28 @@ export const UserStore = create((set, get) => ({
 			throw error;
 		}
 	},
+
+    getActiveUsers: async() => {
+        try {
+            const res = await axios.get('/auth/active-users');
+
+            set({activeUser: res.data.activeUsers, 
+                activeUserCount: res.data.activeUserCount, 
+                totalCostumer: res.data.totalUsers});
+        } catch (error) {
+            console.log(error.response?.data.message || "error fetching the active user")
+        }
+    },
+    getNewUsers: async() => {
+        try {
+            const res = await axios.get('/auth/new-users');
+
+            set({newUserCount: res.data.newUserCount, newUser: res.data.users })
+            
+
+        } catch (error) {
+            console.log(error.response?.data.message || "error fetching the new user")
+            
+        }
+    }
 }));

@@ -77,6 +77,10 @@ export const logIn = async (req, res) => {
     const user = await Auth.findOne({ email});
 
     if(user && (await user.comparePassword(password))) {
+
+		user.lastLogin = new Date();
+  		await user.save();
+
       const { accessToken, refreshToken } = generateTokens(user._id);
 			await storeRefreshToken(user._id, refreshToken);
 			setCookies(res, accessToken, refreshToken);
@@ -102,8 +106,9 @@ export const logout = async (req, res) => {
 		if (refreshToken) {
 			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 			await redis.del(`refresh_token:${decoded.userId}`);
+		
+			await Auth.findByIdAndUpdate(decoded.userId, { lastLogin: null });
 		}
-
 		res.clearCookie("accessToken");
 		res.clearCookie("refreshToken");
 		res.json({ message: "Logged out successfully" });
@@ -130,6 +135,8 @@ export const refreshToken = async (req, res) => {
 
 		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 
+		await Auth.findByIdAndUpdate(decoded.userId, { lastLogin: new Date() });
+
 		res.cookie("accessToken", accessToken, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
@@ -151,3 +158,46 @@ export const getProfile = async (req, res) => {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 };
+
+
+export const getActiveUsersAndAllUsers = async (req, res) => {
+  try {
+    const daysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+
+    const [activeUsers, allUsers] = await Promise.all([
+      Auth.find({ lastLogin: { $gte: daysAgo } }),
+      Auth.find({})
+    ]);
+
+    res.status(200).json({
+      success: true,
+      totalUsers: allUsers.length,
+      activeUserCount: activeUsers.length,
+      activeUsers,
+      allUsers,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+export const getNewUsers = async (req, res) => {
+  try {
+    const now = new Date();
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const newUsers = await Auth.find({
+      createdAt: { $gte: startOfThisMonth }
+    });
+
+    res.status(200).json({
+      success: true,
+      newUserCount: newUsers.length,
+      users: newUsers
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+

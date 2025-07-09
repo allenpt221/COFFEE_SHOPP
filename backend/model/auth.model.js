@@ -19,25 +19,30 @@ const AuthSchema = new mongoose.Schema({
     match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
   },
   cartItems: [
-			{
-				quantity: {
-					type: Number,
-					default: 1,
-				},
-				product: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: "Product",
-				},
-			},
-		],
+    {
+      quantity: {
+        type: Number,
+        default: 1,
+      },
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    },
+  ],
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
   },
+  lastLogin: {
+    type: Date,
+    default: null,
+  },
 }, {
   timestamps: true,
 });
+
 
 
 AuthSchema.pre('save', async function(next) {
