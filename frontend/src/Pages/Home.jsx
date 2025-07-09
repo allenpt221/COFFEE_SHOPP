@@ -92,8 +92,8 @@ const Home = () => {
           <h1 className='text-center md:text-5xl sm:text-3xl text-xl font-bold'>How to Order with Delivery</h1>
           
           <div className='flex md:flex-row flex-col justify-between items-center mx-2'>
-            {orderDelivery.map((item => (
-              <div className='flex flex-col items-center'>
+            {orderDelivery.map((item, index) => (
+              <div className='flex flex-col items-center' key={index}>
                 <img src={item.image} alt="" className='w-auto h-35 object-cover' />
                 <div className='mt-auto text-center'>
                 <h1 className='text-xl font-medium'>{item.title}</h1>
@@ -101,7 +101,7 @@ const Home = () => {
                 </div>
               </div>
 
-            )))}
+            ))}
           </div>
         </div>
       </section>

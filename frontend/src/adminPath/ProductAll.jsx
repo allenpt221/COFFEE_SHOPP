@@ -82,7 +82,7 @@ const sortProductsByCategory = (products) => {
                   </PopoverTrigger>
                   <PopoverContent className="w-48">
                     <div className="flex flex-col gap-2">
-                      <button className="text-red-500  text-left cursor-pointer" 
+                      <button className="text-red-500  text-left cursor-pointer hover:text-red-500/50" 
                         onClick={() => {
                           deleteProduct(product._id);
                           setOpenAction(null)
@@ -90,7 +90,7 @@ const sortProductsByCategory = (products) => {
                         >
                         Delete
                       </button>
-                      <button className=" text-left cursor-pointer"
+                      <button className=" text-left cursor-pointer hover:text-black/50"
                       onClick={() => 
                       {setIsOpenModal(true)
                       setOpenAction(null)
