@@ -4,7 +4,7 @@ import Location from "../model/location.model.js";
 
 export const successCheckOut = async (req, res) => {
   try {
-    const { products, totalAmount, paymentMethod, cardInfo } = req.body;
+    const { products, totalAmount, paymentMethod, cardInfo, status } = req.body;
     const userId = req.user._id;
 
     const orderData = {
@@ -17,7 +17,8 @@ export const successCheckOut = async (req, res) => {
         category: product.category
       })),
       totalAmount: parseFloat(totalAmount.toFixed(2)),
-      paymentMethod
+      paymentMethod,
+      status
     };
 
     // 🛡️ Optionally validate cardInfo if payment method is "Card"
@@ -129,4 +130,31 @@ export const getSuccessCheckOut = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ success: true, data: updatedOrder });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 
