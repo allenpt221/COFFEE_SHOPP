@@ -12,9 +12,60 @@ const Login = () => {
     const [password, setPassword] = useState("");
 
     const { login, loading } = UserStore();
+    const [errors, setErrors] = useState({});
+
+
+  const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/i.test(email.trim());
+
+    
+
+    const handleChange = (e) => {
+      const { name , value } = e.target
+      
+        if (name === "email") {
+          setEmail(value);
+        }
+
+        if (name === "password") {
+          setPassword(value);
+        }
+
+        setErrors((prev) => {
+          const updatedErrors = { ...prev };
+
+          if(name === "email" && value.trim() !== "") {
+            delete updatedErrors.email
+          }
+
+          if(name === "password" && value.trim() !== "") {
+            delete updatedErrors.password
+          }
+
+          return updatedErrors;
+        });
+
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+
+        const newErrors = {};
+        if(!email){
+          newErrors.email = "Please enter your email address" 
+        } else if(!validateEmail(email)) {
+           newErrors.email = "Please enter a valid @gmail.com email address" 
+        }
+
+        if(!password){
+           newErrors.password = "Please enter your password" 
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
+          return;
+        }
+
         login(email, password);
       }
 
@@ -34,18 +85,22 @@ const Login = () => {
               <label className="block text-md font-medium">Email:</label>
               <input type="text"  
               placeholder="example@gmail.com"
+              name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
               className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"
               autoComplete="off"/>
-             
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}             
              <label className="block text-md font-medium ">Password:</label>
               <input type="password"  
+              name="password"
               placeholder="********"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
               className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"
               autoComplete="off"/>
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}             
+
             <button
 							type='submit'
 							className='w-full flex justify-center py-2 px-4 border border-transparent 

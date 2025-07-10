@@ -16,10 +16,82 @@ const Signup = () => {
 
   const { signup, loading } = UserStore();
 
+  const [errors, setErrors] = useState({});
+
+  const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/i.test(email.trim());
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    // Update form data
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Real-time error clearing
+    setErrors((prev) => {
+      const updatedErrors = { ...prev };
+
+      if (name === "name" && value.trim() !== "") {
+        delete updatedErrors.name;
+      }
+
+      if (name === "email" && validateEmail(value)) {
+        delete updatedErrors.email;
+      }
+
+      if (name === "password" && value.length >= 6) {
+        delete updatedErrors.password;
+        // also re-check confirmPassword match
+        if (formData.confirmPassword === value) {
+          delete updatedErrors.confirmPassword;
+        }
+      }
+
+      if (name === "confirmPassword") {
+        delete updatedErrors.confirmPassword;
+      }
+
+      return updatedErrors;
+    });
+  };
+
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const newErrors = {};
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid @gmail.com email address";
+    }
+
+
+    if(!formData.name) newErrors.name = "username is required";
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!formData.confirmPassword) {
+    newErrors.confirmPassword = "Confirm Password is required";
+  } else if (formData.confirmPassword !== formData.password) {
+    newErrors.confirmPassword = "Passwords do not match";
+  }
+
+
+
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+      }
+    
     signup(formData);
 
   } 
@@ -40,28 +112,45 @@ const Signup = () => {
               <label className="block text-md font-medium">Name:</label>
               <input type="text"  
               placeholder="John Doe"
+              name='name'
               value={formData.name}
-              onChange={(e) => setFormData({...formData , name: e.target.value})}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              onChange={handleChange}
+              className={`border rounded-sm px-2 py-1 w-full focus:outline-none ${
+                errors.name ? 'border-red-500' : 'border-[#3131314d] focus:border-[#00000052]'
+              }`} />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
              <label className="block text-md font-medium ">Email:</label>
               <input type="text"  
               placeholder="example@gmail.com"
+              name='email'
               value={formData.email}
-              onChange={(e) => setFormData({...formData , email: e.target.value})}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              onChange={handleChange}
+              className={`border rounded-sm px-2 py-1 w-full focus:outline-none ${
+                errors.email ? 'border-red-500' : 'border-[#3131314d] focus:border-[#00000052]'
+              }`}/>
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
               <label className="block text-md font-medium ">Password:</label>
-              <input type="password"  
+              <input type="password" 
+              name='password'
               placeholder="Password"
               value={formData.password}
-              onChange={(e) => setFormData({...formData , password: e.target.value})}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              onChange={handleChange}
+              className={`border rounded-sm px-2 py-1 w-full focus:outline-none ${
+                errors.password ? 'border-red-500' : 'border-[#3131314d] focus:border-[#00000052]'
+              }`}/>
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+
               <label className="block text-md font-medium ">Confirm Password:</label>
               <input 
               type="Password"  
+              name='confirmPassword'
               placeholder="Confirm Password"
               value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData , confirmPassword: e.target.value})}
-              className="border border-[#3131314d] rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full"/>
+              onChange={handleChange}
+              className={`border rounded-sm px-2 py-1 w-full focus:outline-none ${
+                errors.confirmPassword ? 'border-red-500' : 'border-[#3131314d] focus:border-[#00000052]'
+              }`}/>
+              {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
             <button
 							type='submit'
 							className='w-full flex justify-center py-2 px-4 border border-transparent 
