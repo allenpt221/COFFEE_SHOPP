@@ -3,9 +3,9 @@ import Order from "../model/order.model.js";
 
 export const getOrder = async (req, res) => {
   try {
-    const user_Id = req.userId; // should be set in your auth middleware
+    const userId = req.user._id; // should be set in your auth middleware
 
-    const userOrders = await Order.find({ user_Id });
+    const userOrders = await Order.find({ user: userId });
 
     return res.status(200).json({ success: true, data: userOrders });
   } catch (error) {
