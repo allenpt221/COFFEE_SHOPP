@@ -42,13 +42,15 @@ export const signUp = async (req, res) => {
     // Check if user exists
     const existingUser = await Auth.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({message: "User already exists"});
+      return res.status(400).json({message: "Email already exists"});
     }
     // Create and save the user
     const newUser = await Auth.create({
       email,
       name,
-      password
+      password,
+      status: 'online',
+      lastLogin: new Date(),
     });
 
     const { accessToken, refreshToken } = generateTokens(newUser._id);
@@ -56,12 +58,15 @@ export const signUp = async (req, res) => {
 
     setCookies(res, accessToken, refreshToken);
 
+
     // Return success response
     return res.status(201).json({ success: true, 
       _id: newUser._id, 
       email: newUser.email, 
       username: newUser.name,
-      role: newUser.role
+      role: newUser.role,
+      status: 'online',
+      lastLogin: new Date(),
     });
 
   } catch (error) {
@@ -167,12 +172,14 @@ export const getProfile = async (req, res) => {
 
 export const getActiveUsersAndAllUsers = async (req, res) => {
   try {
-    const daysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     const [activeUsers, allUsers] = await Promise.all([
       Auth.find({ status: "online" }),
       Auth.find({})
     ]);
+
+    // make this to not count the admin
+    /* const activeUsers = activeUsersRaw.filter(user => user.role !== "admin"); */
 
     res.status(200).json({
       success: true,

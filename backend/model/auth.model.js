@@ -32,8 +32,8 @@ const AuthSchema = new mongoose.Schema({
   ],
   role: {
     type: String,
-    enum: ["user", "admin"],
-    default: "user",
+    enum: ["costumer", "admin"],
+    default: "costumer",
   },
   status: {
     type: String,
@@ -72,6 +72,7 @@ const AuthSchemaBackupData = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
+  role: String,
   originalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Auth",
@@ -95,6 +96,7 @@ AuthSchema.pre("save", async function (next) {
       lastname: this.lastname,
       email: this.email,
       password: this.password,
+      role: this.role,
       originalId: this._id,
     });
   }
