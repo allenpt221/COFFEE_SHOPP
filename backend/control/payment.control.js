@@ -124,7 +124,6 @@ export const getSuccessCheckOut = async (req, res) => {
     try {
         const checkOutData = await Order.find();
         res.status(200).json(checkOutData);
-        
     } catch (error) {
         console.log("Error in getSuccessCheckOut controller", error.message);
         res.status(500).json({ message: "Server error", error: error.message });
