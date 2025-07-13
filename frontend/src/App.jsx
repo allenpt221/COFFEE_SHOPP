@@ -17,17 +17,17 @@ import { useCartStore } from "./stores/useCartStore";
 import CheckOutPage from "./Pages/CheckOutPage";
 import SuccessCheckOut from "./Pages/SuccessCheckOut";
 import OrderPage from "./Pages/OrderPage";
-import { useProductStore } from "./stores/useProductStore";
+import { useCostumerStore } from "./stores/costumerLocationStore";
 
 function App() {
 
   const { user, checkAuth } = UserStore();
   const { getCartItems } = useCartStore();
-  const { orderProduct } = useProductStore();
+  const { orderProduct, backUpOrderProduct } = useCostumerStore();
 
   useEffect(() => {
 		if (!user) return;
-
+    backUpOrderProduct();
     orderProduct();
 		getCartItems();
 	}, [getCartItems , orderProduct , user]);
@@ -35,6 +35,7 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
 
 
 
