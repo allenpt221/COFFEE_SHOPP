@@ -76,6 +76,67 @@ const orderSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+
+const orderBackupSchema = new mongoose.Schema(
+  {
+    originalOrderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Auth",
+    },
+    products: [
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        name: String,
+        quantity: Number,
+        price: Number,
+        category: String,
+      },
+    ],
+    totalAmount: Number,
+    paymentMethod: String,
+    cardInfo: {
+      cardholder: String,
+      cardnumber: String,
+      expiring: String,
+      cvv: String,
+      cardType: String,
+    },
+    status: String,
+    backedUpAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
+
+// Create model for backup
+export const BackupOrder = mongoose.model("OrderBackup", orderBackupSchema);
+
+// Pre-save middleware to backup data on first creation
+orderSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    try {
+      await BackupOrder.create({
+        originalOrderId: this._id,
+        user: this.user,
+        products: this.products,
+        totalAmount: this.totalAmount,
+        paymentMethod: this.paymentMethod,
+        cardInfo: this.cardInfo,
+        status: this.status,
+      });
+    } catch (err) {
+      console.error("Backup failed:", err);
+    }
+  }
+  next();
+});
+
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

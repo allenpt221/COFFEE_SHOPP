@@ -1,4 +1,4 @@
-import Order from "../model/order.model.js";
+import Order, { BackupOrder } from "../model/order.model.js";
 import User from "../model/auth.model.js";
 import Location from "../model/location.model.js";
 
@@ -140,6 +140,7 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: "Status is required" });
     }
 
+    // Update the original order
     const updatedOrder = await Order.findByIdAndUpdate(
       id,
       { status },
@@ -150,10 +151,19 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
+    // Update the corresponding backup order
+    await BackupOrder.findOneAndUpdate(
+      { originalOrderId: id },
+      { status },
+      { new: true }
+    );
+
     res.status(200).json({ success: true, data: updatedOrder });
   } catch (error) {
+    console.error("Order update failed:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+;
 
 

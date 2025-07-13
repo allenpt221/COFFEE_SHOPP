@@ -154,6 +154,7 @@ export const useCartStore = create((set, get) => ({
     });
 
     useCostumerStore.getState().orderProduct();
+    useCostumerStore.getState().backUpOrderProduct();
 
     toast.success("Order successfully placed!");
   } catch (error) {

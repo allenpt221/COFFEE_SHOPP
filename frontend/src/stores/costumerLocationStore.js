@@ -6,6 +6,7 @@ export const useCostumerStore = create((set, get) => ({
   location: [],
   order: [],
   loading: false,
+  backUpOrders: [],
 
   // Create new location, then refresh data
   createLocation: async (locationData) => {
@@ -46,16 +47,28 @@ export const useCostumerStore = create((set, get) => ({
       set({ loading: false });
     }
   },
+  backUpOrderProduct: async () => {
+    try {
+      const response = await axios.get('orders/backuporders');
+      set({backUpOrders: response.data.backupOrder});
 
+    } catch (error) {
+        console.error("Error fetching backup order product:", error);
+    }
+
+  },
     updateStatus: async ({ id, status }) => {
         try {
             await axios.put(`/orders/${id}`, { status }); // Only send status
             set((state) => ({
-                order: state.order.map((orders) =>
-                    orders._id === id ? { ...orders, status } : orders
-                ),
-                }));
-                
+              order: state.order.map((order) =>
+                order._id === id ? { ...order, status } : order
+              ),
+              backUpOrders: state.backUpOrders.map((order) =>
+                order.originalOrderId === id ? { ...order, status } : order
+              ),
+            }));
+
         } catch (error) {
             console.error("Error updating status:", error);
         }
@@ -73,5 +86,19 @@ export const useCostumerStore = create((set, get) => ({
           
       }
     }, 
+
+    deleteProduct: async ({ id }) => {
+      try {
+        await axios.delete(`orders/${id}`);
+
+        set((prevState) => ({
+          order: prevState.order.filter((orderId) => orderId._id !== id)
+        }));
+
+      } catch (error) {
+          console.error("Error deleting order product:", error);
+        
+      }
+    }
     
 }));
