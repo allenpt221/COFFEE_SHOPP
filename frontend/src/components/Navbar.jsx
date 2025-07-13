@@ -2,12 +2,17 @@ import { Link, useNavigate } from "react-router-dom"
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, User, Menu } from "lucide-react";
 import { UserStore } from "../stores/userStore";
 import { useCartStore } from "@/stores/useCartStore";
+import { useProductStore } from "@/stores/useProductStore";
 
 
 const Navbar = () => {
 
     const { user, logout } = UserStore();
     const { cart } = useCartStore();
+
+    const { productOrder } = useProductStore();
+
+    console.log(productOrder)
 
     const navigate = useNavigate();
 
@@ -23,8 +28,7 @@ const Navbar = () => {
             <div className="flex items-center justify-between">
                 <Link to={"/"} className="text-xl font-medium ">
                     Kapetolyo
-                </Link>
-                
+                </Link>        
                 <nav className="sm:hidden flex gap-2">
                      {user && (
                         <Link to={"/cart"} className="relative hover:text-[#00000088] flex items-center gap-2  ">
@@ -51,7 +55,7 @@ const Navbar = () => {
                         <>
                             <Link to={"/cart"} className="hover:text-[#00000088] flex items-center gap-2">
                             <div className="relative">
-                                <span className="absolute -top-3 -left-2 bg-[#000000] px-2 py-1 rounded-full text-white text-[9px]">
+                                <span className="absolute -top-3 -left-2 bg-black px-2 py-1 rounded-full text-white text-[9px]">
                                     <span>
                                     {cart.length}
                                     </span> 
@@ -59,6 +63,10 @@ const Navbar = () => {
                                 <ShoppingCart size={20}/>
                             </div>
                                 <span className="text-lg">Cart</span>
+                            </Link>
+                            {/* orderProduct path */}
+                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${productOrder.length < 0 ? "hidden" : 'block'}`}>
+                                <span className="text-base">Orders</span>
                             </Link>
                             <button 
                             onClick={handleLogout}

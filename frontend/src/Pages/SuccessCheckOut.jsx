@@ -1,6 +1,6 @@
 import { useCostumerStore } from '@/stores/costumerLocationStore';
 import { useCartStore } from '@/stores/useCartStore';
-import React, { useEffect } from 'react'
+import { UserStore } from '@/stores/userStore';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const SuccessCheckOut = () => {
@@ -14,6 +14,9 @@ const SuccessCheckOut = () => {
 
   const { location } = useCostumerStore();
   const { order, subtotal, tax, shipping } = useCartStore();
+
+
+
 
   const customer = location[location.length - 1];
 
@@ -139,7 +142,10 @@ const categoryTitles = {
               className='w-full h-full object-cover'/>
             )}
           </div>
+          <div className='flex justify-between'>
           <h1 className='text-center sm:text-start font-medium'>Thank you for your purchase!</h1>
+          </div>
+
         </div>
 
         <div className='mt-10 sm:w-[20rem] '>
