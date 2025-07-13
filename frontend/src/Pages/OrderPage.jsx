@@ -14,10 +14,13 @@ const OrderPage = () => {
 
   const { productOrder } = useProductStore();
 
-  
+
   
   return (
-    <div>
+    <div className="max-w-4xl mx-auto space-y-2 py-10">
+      <div>
+        da
+      </div>
       <Table className=''>
       <TableCaption>A list of active users.</TableCaption>
 

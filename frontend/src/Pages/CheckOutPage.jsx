@@ -36,7 +36,6 @@ const CheckOutPage = () => {
 
 
   const [paymentMethod, setIsPaymentMethod] = useState('');
-  const [cardType, setCardType] = useState('');
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -266,7 +265,6 @@ const CheckOutPage = () => {
     }
   }, [errors]);
 
-  console.log(cardType)
 
 
   return (

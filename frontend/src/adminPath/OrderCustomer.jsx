@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/table"
 
 import { useCostumerStore } from "@/stores/costumerLocationStore"
-import { useProductStore } from "@/stores/useProductStore";
-
 const OrderCustomer = () => {
 
     const { location, order, updateStatus } = useCostumerStore();
@@ -67,15 +65,10 @@ const OrderCustomer = () => {
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <button onClick={() => updateStatus({id: currentOrder._id, status: "complete" })}>
-                                        {currentOrder.status === "processing" ? (
-                                            <span className="cursor-pointer border border-red-500 bg-red-500/10 text-red-500 px-3 rounded-md text-sm font-medium transition-colors">
+                                            <span className={`cursor-pointer border py-0.5 ${currentOrder.status === "complete" ? "border-green-500 bg-green-500/10 text-green-500" : currentOrder.status === "cancel" ? 'border-yellow-500 bg-yellow-500/10 text-yellow-500 px-5.5 ' : 'border-red-500 bg-red-500/10 text-red-500'}  
+                                            px-3 rounded-md text-sm font-medium transition-colors`}>
                                                 {currentOrder.status.charAt(0).toUpperCase() + currentOrder.status.slice(1)}
                                             </span>
-                                        ) : (
-                                            <span className="cursor-pointer border border-green-500 bg-green-500/10 text-green-500 px-3 rounded-md text-sm font-medium transition-colors">
-                                                {currentOrder.status.charAt(0).toUpperCase() + currentOrder.status.slice(1)}
-                                            </span>
-                                        )}
                                         </button>
                                     </TableCell>
                                     <TableCell className="text-right font-medium text-gray-900">
