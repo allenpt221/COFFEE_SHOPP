@@ -47,7 +47,7 @@ export const useCostumerStore = create((set, get) => ({
     }
   },
 
-      updateStatus: async ({ id, status }) => {
+    updateStatus: async ({ id, status }) => {
         try {
             await axios.put(`/orders/${id}`, { status }); // Only send status
             set((state) => ({
@@ -60,4 +60,18 @@ export const useCostumerStore = create((set, get) => ({
             console.error("Error updating status:", error);
         }
     },
+
+    // Get all orders and location base on userID
+    orderProduct: async () => {
+      try {
+          const res = await axios.get('orders/getorder');
+
+          set({order: res.data.productUser, location: res.data.locationCustomer});
+
+      } catch (error) {
+          console.error("Error fetching order product:", error);
+          
+      }
+    }, 
+    
 }));

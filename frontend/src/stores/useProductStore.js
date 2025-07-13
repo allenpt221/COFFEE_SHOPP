@@ -6,8 +6,7 @@ import axios from '../lib/axios';
 export const useProductStore = create((set) => ({
     products: [],
     loading: false,
-    productOrder: [],
-    locationCustomer: [],
+
 
     setProducts: (products) => set({ products }),
 
@@ -87,18 +86,6 @@ export const useProductStore = create((set) => ({
             set({ loading: false });
         }
     },
-
-    orderProduct: async () => {
-        try {
-            const res = await axios.get('orders/getorder');
-
-            set({productOrder: res.data.productUser, locationCustomer: res.data.locationCustomer});
-
-        } catch (error) {
-            console.error("Error fetching order product:", error);
-            
-        }
-    }
 
 
 }));
