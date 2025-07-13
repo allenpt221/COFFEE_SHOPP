@@ -17,15 +17,24 @@ import {
 } from "@/components/ui/table"
 
 
+export const formatDate = (isoDate) => {
+if (!isoDate) return 'N/A'; 
+
+  const date = new Date(isoDate);
+  const day = date.getDate();
+  const month = date.toLocaleDateString("en-US", { month: "short"});
+  const year = date.getFullYear();
+
+  return `${day} ${month}, ${year}`
+
+};
+
+
 const Analysis = ({ setPath }) => {
     const { dataUser } = UserStore();
 
-    const formatDate = (isoDate) => {
-    if (!isoDate) return 'N/A'; 
-    return new Date(isoDate).toISOString().split('T')[0]; // returns "YYYY-MM-DD"
-  };
 
-const formatTime = (dateString) => {
+  const formatTime = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',

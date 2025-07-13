@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 const TotalSales = ({ setPath }) => {
   const { order } = useCostumerStore();
 
-  const totalSales = order.reduce((total, item) => total + item.totalAmount, 0);
+  const totalSales = order.filter(orderItem => orderItem.status === 'complete')
+                      .reduce((total, item) => total + item.totalAmount, 0);
+
   const totalPercentage = totalSales / 100;
 
   return (

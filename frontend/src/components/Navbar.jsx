@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, User, Menu } from "lucide-react";
 import { UserStore } from "../stores/userStore";
 import { useCartStore } from "@/stores/useCartStore";
-import { useProductStore } from "@/stores/useProductStore";
+import { useCostumerStore } from "@/stores/costumerLocationStore";
 
 
 const Navbar = () => {
@@ -10,7 +10,11 @@ const Navbar = () => {
     const { user, logout } = UserStore();
     const { cart } = useCartStore();
 
-    const { productOrder } = useProductStore();
+    const { order } = useCostumerStore();
+
+    const completedOrders = order.filter(orderItem => orderItem.status === 'processing');
+
+
 
     const navigate = useNavigate();
 
@@ -63,11 +67,13 @@ const Navbar = () => {
                                 <span className="text-lg">Cart</span>
                             </Link>
                             {/* orderProduct path */}
-                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${productOrder.length <= 0 ? "hidden" : 'block'}`}>
-                                <div className="relative">
+                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${order.length <= 0 ? "hidden" : 'block'}`}>
+                            <div className="relative">
+                                {completedOrders.length > 0 && (
                                     <div className="absolute top-0.1 -left-1 w-3 h-3 rounded-full bg-white flex items-center justify-center shadow" aria-hidden="true">
                                         <div className="w-2 h-2 rounded-full bg-red-500" />
                                     </div>
+                                )}
                                     <span>Orders</span>
                             </div>
                             </Link>

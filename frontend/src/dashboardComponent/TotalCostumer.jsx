@@ -3,7 +3,7 @@ import { UserStore } from '@/stores/userStore';
 
 const TotalCostumer = () => {
 
-    const { activeUser, activeUserCount, totalCostumer, newUserCount } = UserStore();
+    const { totalCostumer, newUserCount } = UserStore();
 
     const totalCostumerPercentage = totalCostumer / 100;
 

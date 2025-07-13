@@ -1,5 +1,6 @@
 import { useCostumerStore } from '@/stores/costumerLocationStore';
 import { useCartStore } from '@/stores/useCartStore';
+import { useProductStore } from '@/stores/useProductStore';
 import { UserStore } from '@/stores/userStore';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 
@@ -14,6 +15,9 @@ const SuccessCheckOut = () => {
 
   const { location } = useCostumerStore();
   const { order, subtotal, tax, shipping } = useCartStore();
+  const { products } = useProductStore();
+
+
 
 
 
@@ -69,7 +73,6 @@ const categoryTitles = {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  
 
   return (
     <div className='max-w-5xl mx-auto space-y-10 mt-4'>
