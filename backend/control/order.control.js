@@ -7,7 +7,7 @@ export const getOrder = async (req, res) => {
 
     const userOrders = await Order.find({ user: userId });
 
-    return res.status(200).json({ success: true, data: userOrders });
+    return res.status(200).json({ success: true, productUser: userOrders });
   } catch (error) {
     console.error("Error in getOrder controller", error.message);
     res.status(500).json({ message: "Server error", error: error.message });

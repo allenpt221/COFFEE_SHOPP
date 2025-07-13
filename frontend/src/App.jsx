@@ -16,17 +16,21 @@ import Cart from "./components/Cart";
 import { useCartStore } from "./stores/useCartStore";
 import CheckOutPage from "./Pages/CheckOutPage";
 import SuccessCheckOut from "./Pages/SuccessCheckOut";
+import OrderPage from "./Pages/OrderPage";
+import { useProductStore } from "./stores/useProductStore";
 
 function App() {
 
   const { user, checkAuth } = UserStore();
   const { getCartItems } = useCartStore();
+  const { orderProduct } = useProductStore();
 
   useEffect(() => {
 		if (!user) return;
 
+    orderProduct();
 		getCartItems();
-	}, [getCartItems, user]);
+	}, [getCartItems , orderProduct , user]);
 
   useEffect(() => {
     checkAuth();
@@ -45,6 +49,8 @@ function App() {
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to='/' />} />
           <Route path="/Menu" element={<Menu />} />
           <Route path="/cart" element={user ? <Cart /> : <Navigate to='/' /> } />
+          <Route path="/orders" element={user ? <OrderPage /> : <Navigate to='/' /> } />
+
 
           <Route path='/drink/:category' element={<CategoryPage />} />
           <Route path='/cart/checkout' element={user ? <CheckOutPage />: <Navigate to='/' /> } />
