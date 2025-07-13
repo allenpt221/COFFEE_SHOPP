@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios from '../lib/axios';
 import toast from 'react-hot-toast';
+import { useCostumerStore } from './costumerLocationStore';
 import { useProductStore } from './useProductStore';
 
 
@@ -111,47 +112,56 @@ export const useCartStore = create((set, get) => ({
     },
 
     submitOrder: async (paymentMethod, formCard) => {
-    try {
-        set({ loading: true, error: '' });
+  try {
+    set({ loading: true, error: '' });
 
-        const cart = get().cart;
+    const cart = get().cart;
 
-        const products = cart.map(item => ({
+    const checkproduct = useProductStore.getState().products;
+
+    const products = cart.map(item => {
+      const matched = checkproduct.find(p => p._id === item._id);
+      const isDiscounted = matched?.discounted === "Discounted";
+
+      return {
         id: item._id,
         name: item.name,
         quantity: item.quantity,
-        price: item.price,
-        category: item.category
-        }));
+        price: isDiscounted ? item.price * 0.75 : item.price,
+        category: item.category,
+      };
+    });
 
-        const subtotal = products.reduce((sum, item) => sum + item.quantity * item.price, 0);
-        const shipping = 25.57;
-        const taxRate = 0.012;
-        const tax = subtotal * taxRate;
-        const totalAmount = subtotal + tax + shipping;
+    const subtotal = products.reduce((sum, item) => sum + item.quantity * item.price, 0);
+    const shipping = 25.57;
+    const taxRate = 0.012;
+    const tax = subtotal * taxRate;
+    const totalAmount = subtotal + tax + shipping;
 
-        const res = await axios.post('/orders', {
-        products,
-        totalAmount,
-        paymentMethod,
-        cardInfo: formCard,
-        });
+    console.log("Submitting order with:", { products, totalAmount });
 
-        set({
-        order: res.data.order,
-        cart: [],
-        loading: false,
-        });
+    const res = await axios.post('/orders', {
+      products,
+      totalAmount,
+      paymentMethod,
+      cardInfo: formCard,
+    });
 
-        // ✅ Real-time update orders
-        useProductStore.getState().orderProduct();
+    set({
+      order: res.data.order,
+      cart: [],
+      loading: false,
+    });
 
-        toast.success("Order successfully placed!");
-    } catch (error) {
-        console.error("Submit order failed:", error);
-        toast.error("Order submission failed");
-        set({ loading: false });
-    }
-    },
+    useCostumerStore.getState().orderProduct();
+
+    toast.success("Order successfully placed!");
+  } catch (error) {
+    console.error("Submit order failed:", error?.response?.data || error.message);
+    toast.error(error?.response?.data?.message || "Order submission failed");
+    set({ loading: false });
+  }
+}
+
 
 }));
