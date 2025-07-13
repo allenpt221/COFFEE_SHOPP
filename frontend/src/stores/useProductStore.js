@@ -7,6 +7,7 @@ export const useProductStore = create((set) => ({
     products: [],
     loading: false,
     productOrder: [],
+    locationCustomer: [],
 
     setProducts: (products) => set({ products }),
 
@@ -91,7 +92,7 @@ export const useProductStore = create((set) => ({
         try {
             const res = await axios.get('orders/getorder');
 
-            set({productOrder: res.data.productUser});
+            set({productOrder: res.data.productUser, locationCustomer: res.data.locationCustomer});
 
         } catch (error) {
             console.error("Error fetching order product:", error);

@@ -7,14 +7,6 @@ export const useCostumerStore = create((set, get) => ({
   order: [],
   loading: false,
 
-  // Update local status for a specific row
-  setStatus: (index, newStatus) => {
-    const updated = [...get().statuses];
-    updated[index] = newStatus;
-    localStorage.setItem("order-statuses", JSON.stringify(updated));
-    set({ statuses: updated });
-  },
-
   // Create new location, then refresh data
   createLocation: async (locationData) => {
     set({ loading: true });

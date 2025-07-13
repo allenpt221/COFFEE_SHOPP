@@ -12,8 +12,6 @@ const Navbar = () => {
 
     const { productOrder } = useProductStore();
 
-    console.log(productOrder)
-
     const navigate = useNavigate();
 
 
@@ -65,8 +63,13 @@ const Navbar = () => {
                                 <span className="text-lg">Cart</span>
                             </Link>
                             {/* orderProduct path */}
-                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${productOrder.length < 0 ? "hidden" : 'block'}`}>
-                                <span className="text-base">Orders</span>
+                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${productOrder.length <= 0 ? "hidden" : 'block'}`}>
+                                <div className="relative">
+                                    <div className="absolute top-0.1 -left-1 w-3 h-3 rounded-full bg-white flex items-center justify-center shadow" aria-hidden="true">
+                                        <div className="w-2 h-2 rounded-full bg-red-500" />
+                                    </div>
+                                    <span>Orders</span>
+                            </div>
                             </Link>
                             <button 
                             onClick={handleLogout}
