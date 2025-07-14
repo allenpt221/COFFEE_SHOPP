@@ -31,7 +31,11 @@ const orderSchema = new mongoose.Schema(
 				category: {
 					type: String,
 					required: true
-				}
+				},
+				image: {
+					type: String,
+					required: true
+				},
 			},
 		],
 		totalAmount: {
@@ -68,7 +72,7 @@ const orderSchema = new mongoose.Schema(
 		},
 		status: {
 			type: String,
-			enum: ["processing", "complete", "cancel"],
+			enum: ["processing", "complete", "cancelled"],
 			default: "processing"
 		}
 		
