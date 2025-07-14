@@ -3,9 +3,10 @@ import { MoveRight, TrendingDown, TrendingUp, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TotalSales = ({ setPath }) => {
-  const { order } = useCostumerStore();
+  const { backUpOrders } = useCostumerStore();
 
-  const totalSales = order.filter(orderItem => orderItem.status === 'complete')
+  console.log('order backup:', backUpOrders)
+  const totalSales = backUpOrders.filter(orderItem => orderItem.status === 'complete')
                       .reduce((total, item) => total + item.totalAmount, 0);
 
   const totalPercentage = totalSales / 100;
@@ -34,7 +35,7 @@ const TotalSales = ({ setPath }) => {
       </span>
 
       <span className='text-xs text-muted-foreground mt-1'>
-        {order.length} total orders · Updated
+        {backUpOrders.length} total orders · Updated
       </span>
 
       <button 

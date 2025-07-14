@@ -2,7 +2,7 @@ import { useCostumerStore } from '@/stores/costumerLocationStore';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
 const Revenue = () => {
-  const { order } = useCostumerStore();
+  const { backUpOrders } = useCostumerStore();
 
   const now = new Date();
   const thisMonth = now.getMonth();
@@ -22,12 +22,12 @@ const Revenue = () => {
       }, 0);
   };
 
-  const thisMonthOrders = order.filter(item => {
+  const thisMonthOrders = backUpOrders.filter(item => {
     const date = new Date(item.createdAt);
     return date.getMonth() === thisMonth && date.getFullYear() === thisYear;
   });
 
-  const lastMonthOrders = order.filter(item => {
+  const lastMonthOrders = backUpOrders.filter(item => {
     const date = new Date(item.createdAt);
     return date.getMonth() === lastMonth && date.getFullYear() === lastMonthYear;
   });
