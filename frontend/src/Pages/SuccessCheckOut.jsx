@@ -15,8 +15,6 @@ const SuccessCheckOut = () => {
 
   const { location } = useCostumerStore();
   const { order, subtotal, tax, shipping } = useCartStore();
-  const { products } = useProductStore();
-
 
 
 
@@ -125,7 +123,7 @@ const categoryTitles = {
           {order?.products.map((item, index) => (
           <tbody className='border-b border-t' key={index}>
             <tr>
-              <td className='text-center py-2 px-2'>{item.product}</td>
+              <td className='text-center py-2 px-2'>#{item.product.replace(/\D/g, "").slice(-5)}</td>
               <td className='text-center py-2 px-2'>{item.name}</td>
               <td className='text-center py-2 '>{item.quantity}</td>
               <td className='text-center py-2 '>{categoryTitles[item.category]}</td>

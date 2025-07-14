@@ -10,7 +10,7 @@ const CartItem = ({ cart }) => {
     <div className='rounded-lg border p-4 shadow-sm'>
 			<div className='space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-1'>
 				<div className='shrink-0 md:order-1'>
-					<img className='h-20 md:h-32 rounded-sm object-cover' src={cart.image} />
+					<img className='sm:h-55 md:h-32 h-30 rounded-sm object-cover w-full' src={cart.image} />
 				</div>
 				<label className='sr-only'>Choose quantity:</label>
 
