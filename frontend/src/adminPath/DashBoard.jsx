@@ -3,6 +3,12 @@ import Revenue from '@/dashboardComponent/Revenue';
 import TotalCostumer from '@/dashboardComponent/TotalCostumer';
 import TotalSales from '@/dashboardComponent/TotalSales';
 
+
+// js library convert the time into e.g 7:00AM into '5 minutes ago'
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale";
+
 import { UserStore } from '@/stores/userStore';
 
 
@@ -15,6 +21,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s ago',
+    s: '1 second',
+    m: '1 minute',
+    mm: '%d minutes',
+    h: '1 hour',
+    hh: '%d hours',
+    d: '1 day',
+    dd: '%d days',
+    M: '1 month',
+    MM: '%d months',
+    y: '1 year',
+    yy: '%d years'
+  }
+});
 
 
 export const formatDate = (isoDate) => {
@@ -36,11 +64,7 @@ const Analysis = ({ setPath }) => {
 
   const formatTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
+    return dayjs(date).fromNow();
   };
 
   const sortedUsers = [...dataUser].sort((a, b) => {

@@ -36,7 +36,7 @@ const OrderCustomer = () => {
             <TableHead className="w-[150px] font-medium text-gray-600">Product</TableHead>
             <TableHead className="w-[80px] font-medium text-gray-600 text-center">Quantity</TableHead>
             <TableHead className="w-[200px] font-medium text-gray-600 text-center">Serving</TableHead>
-            <TableHead className="w-[200px] font-medium text-gray-600">Address</TableHead>
+            <TableHead className="w-[200px] text-center font-medium text-gray-600">Address</TableHead>
             <TableHead className="w-[120px] font-medium text-gray-600 text-center">Method</TableHead>
             <TableHead className="w-[150px] font-medium text-gray-600 text-center">Status</TableHead>
             <TableHead className="w-[100px] font-medium text-gray-600 text-right">Amount</TableHead>
@@ -71,11 +71,12 @@ const OrderCustomer = () => {
                     {currentOrder?.paymentMethod || "N/A"}
                   </TableCell>
                   <TableCell className="text-center">
-                    <button onClick={() => updateStatus({ id: currentOrder.originalOrderId, status: "complete" })}>
-                      <span className={`cursor-pointer border py-0.5 ${
+                    <button onClick={() => updateStatus({ id: currentOrder.originalOrderId, status: "complete" })}
+                      disabled={currentOrder.status === "cancelled"}>
+                      <span className={`cursor-pointer border py-0.5 w-[10rem] ${
                         currentOrder.status === "complete"
                           ? "border-green-500 bg-green-500/10 text-green-500"
-                          : currentOrder.status === "cancel"
+                          : currentOrder.status === "cancelled"
                           ? "border-yellow-500 bg-yellow-500/10 text-yellow-500"
                           : "border-red-500 bg-red-500/10 text-red-500"
                       } px-3 rounded-md text-sm font-medium transition-colors`}>
