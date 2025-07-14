@@ -33,13 +33,25 @@ const Navbar = () => {
                 </Link>        
                 <nav className="sm:hidden flex gap-2">
                      {user && (
+                        <>
                         <Link to={"/cart"} className="relative hover:text-[#00000088] flex items-center gap-2  ">
-                                <ShoppingCart size={20}/>
+                                <ShoppingCart size={18}/>
                                 <span className="hidden sm:inline">{cart.length}</span>
                                 <span className="absolute -top-2 -left-2 bg-[#000000]  text-white text-[9px] font-semibold rounded-full py-[1px] px-[5px]">
                                     {cart.length}
                                 </span>
                             </Link>
+                            <Link to={"/orders"} className={`hover:text-[#00000088] flex items-center gap-2 ${order.length <= 0 ? "hidden" : 'block'}`}>
+                            <div className="relative">
+                                {completedOrders.length > 0 && (
+                                    <div className="absolute top-0.1 -left-1 w-3 h-3 rounded-full bg-white flex items-center justify-center shadow" aria-hidden="true">
+                                        <div className="w-2 h-2 rounded-full bg-red-500" />
+                                    </div>
+                                )}
+                                    <span>Orders</span>
+                            </div>
+                            </Link>
+                        </>
                     )} 
                     <Menu />
                 </nav>
