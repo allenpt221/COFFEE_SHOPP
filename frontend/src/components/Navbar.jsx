@@ -28,8 +28,11 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm print:hidden">
         <div className="container mx-auto sm:py-3 py-4 px-2">
             <div className="flex items-center justify-between">
-                <Link to={"/"} className="text-xl font-medium ">
-                    Kapetolyo
+                <Link to={"/"} className="text-xl font-medium flex items-center gap-2">
+                <img src="/image/KPT.webp" alt="" className="w-13 h-10 object-cover"/>
+                    <p>
+                        Kapetayo
+                    </p>
                 </Link>        
                 <nav className="sm:hidden flex gap-2">
                      {user && (
