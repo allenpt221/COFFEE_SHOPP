@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 
 const TotalSales = ({ setPath }) => {
   const { backUpOrders } = useCostumerStore();
-
-  console.log('order backup:', backUpOrders)
   const totalSales = backUpOrders.filter(orderItem => orderItem.status === 'complete')
                       .reduce((total, item) => total + item.totalAmount, 0);
+  
 
   const totalPercentage = totalSales / 100;
+
+  const completeCount = backUpOrders.filter(order => order.status === 'complete').length;
+
+
 
   return (
     <div className='flex flex-col border px-5 py-3 shadow rounded-md hover:shadow-lg transition-shadow duration-300 h-[7.5rem]'>
@@ -35,7 +38,7 @@ const TotalSales = ({ setPath }) => {
       </span>
 
       <span className='text-xs text-muted-foreground mt-1'>
-        {backUpOrders.length} total orders · Updated
+        {completeCount} total orders · Updated
       </span>
 
       <button 
