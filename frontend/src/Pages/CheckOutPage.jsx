@@ -290,7 +290,7 @@ const CheckOutPage = () => {
                         onChange={handleChange}
                         readOnly={isSubmitted}
                         placeholder={field.placeholder}
-                        maxLength={isPhone ? 16 : undefined}
+                        maxLength={isPhone ? 11 : undefined}
                         className={`border ${errors[field.name] ? "border-red-500" : "border-[#3131314d]"} 
                         rounded-sm focus:border-[#00000052] focus:outline-none px-2 py-1 w-full read-only:bg-[#f8f8f8]`}
                       />

@@ -43,7 +43,7 @@ const AdminDashboard = () => {
 
 
   return (
-    <div className="max-w-[1120px] m-auto p-4 ">
+    <div className="max-w-7xl m-auto p-4 ">
       <div className='flex flex-col justify-center items-center gap-2 '>
         <h1 className='text-2xl font-medium'>Admin Dashboard</h1>
 
