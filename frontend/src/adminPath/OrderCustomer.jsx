@@ -14,7 +14,7 @@ import { ChevronDown, ChevronUp, SquarePen, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const OrderCustomer = () => {
-  const { location, updateStatus, backUpOrders } = useCostumerStore();
+  const { locationBackup, updateStatus, backUpOrders } = useCostumerStore();
 
     const [sortedData, setSortedData] = useState([]);
     const [isAsc, setIsAsc] = useState(true);
@@ -29,10 +29,10 @@ const OrderCustomer = () => {
 
 
    useEffect(() => {
-    if (location.length && backUpOrders.length) {
+    if (locationBackup.length && backUpOrders.length) {
       const combined = backUpOrders.map((order, index) => ({
         order,
-        place: location[index],
+        place: locationBackup[index],
       }));
       setSortedData(combined);
     }

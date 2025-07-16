@@ -29,21 +29,21 @@ const AdminDashboard = () => {
 
   const { fetchProducts } = useProductStore();
 
-  const { getLocation } = useCostumerStore();
+  const { backUpOrderProduct, backUpLocation } = useCostumerStore();
 
   const { getActiveUsers, getNewUsers } = UserStore();
 
   
     useEffect(() => {
       fetchProducts();
-      getLocation();
       getActiveUsers();
+      backUpOrderProduct();
       getNewUsers();
+      backUpLocation();
     }, []);
 
-
   return (
-    <div className="max-w-7xl m-auto p-4 ">
+    <div className="max-w-[1480px] m-auto p-4 ">
       <div className='flex flex-col justify-center items-center gap-2 '>
         <h1 className='text-2xl font-medium'>Admin Dashboard</h1>
 

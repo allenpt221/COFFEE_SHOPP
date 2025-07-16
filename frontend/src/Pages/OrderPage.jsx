@@ -22,6 +22,7 @@ const OrderPage = () => {
   const [orderIdModal, setOrderIdModal] = useState(null);
   const [orderStatusPath, setOrderStatusPath] = useState("all");
 
+  
   useEffect(() => {
     setSortedOrders(order);
   }, [order]);
@@ -30,8 +31,8 @@ const OrderPage = () => {
     ? sortedOrders
     : sortedOrders.filter(o => o.status === orderStatusPath);
 
-  const sortOrdersByDate = () => {
-    const sorted = [...filteredOrders].sort((a, b) => {
+    const sortOrdersByDate = () => {
+    const sorted = [...order].sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
       return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
@@ -39,6 +40,8 @@ const OrderPage = () => {
     setSortedOrders(sorted);
     setSortDirection(prev => (prev === "asc" ? "desc" : "asc"));
   };
+
+
 
   const handleModal = (id) => {
     setOrderModal(true);
@@ -134,8 +137,8 @@ const OrderPage = () => {
                       {orderItem.status.charAt(0).toUpperCase() + orderItem.status.slice(1)}
                     </span>
                   </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex gap-2 justify-center ">
+                  <TableCell className="flex justify-center items-center">
+                    <div className="flex justify-between w-[4rem]">
                       <button onClick={() => handleModal(orderItem._id)}
                          className="cursor-pointer">
                         <SquarePen size={16} />
