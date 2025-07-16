@@ -9,6 +9,7 @@ import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
 import cartRoutes  from './router/cart.route.js';
 import orderRoutes  from './router/order.route.js';
+import Product from './model/product.model.js';
 
 
 
@@ -20,12 +21,18 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json({ limit: "10mb" })); 
 app.use(cookieParser());
 
-app.use(cors({origin: "*"}));
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  credentials: true,
+}));
 
 
-app.get('/', (req, res) => {
-    res.send('server is running');
+app.get('/', async (req, res) => {
+    const products = await Product.find({});
+
+    res.json({products})
 })
+
 
 app.use('/api/auth', authRouter );
 app.use('/api/product', productRoutes);
