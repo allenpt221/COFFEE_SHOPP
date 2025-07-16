@@ -134,8 +134,8 @@ const Analysis = ({ setPath }) => {
               {formatDate(user.lastLogin)}
             </TableCell>
 
-            <TableCell className="text-right">
-              {formatTime(user.lastLogin)}
+            <TableCell className="text-right font-medium">
+              {user.status === "online" ?  'Active' : formatTime(user.lastLogin)}
             </TableCell>
           </TableRow>
         ))}

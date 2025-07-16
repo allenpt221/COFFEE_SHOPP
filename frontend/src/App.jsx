@@ -23,11 +23,10 @@ function App() {
 
   const { user, checkAuth } = UserStore();
   const { getCartItems } = useCartStore();
-  const { orderProduct, backUpOrderProduct } = useCostumerStore();
+  const { orderProduct } = useCostumerStore();
 
   useEffect(() => {
 		if (!user) return;
-    backUpOrderProduct();
     orderProduct();
 		getCartItems();
 	}, [getCartItems , orderProduct , user]);
