@@ -1,4 +1,4 @@
-import Location from "../model/location.model.js";
+import Location, { locationBackUp } from "../model/location.model.js";
 import Order, { BackupOrder } from "../model/order.model.js";
 
 
@@ -16,7 +16,7 @@ export const getOrder = async (req, res) => {
   }
 };
 
-export const getbackupOrder = async (req, res) => {
+export const getBackUpOrder = async (req, res) => {
   try {
     const backupOrders = await BackupOrder.find({});
     
@@ -27,6 +27,20 @@ export const getbackupOrder = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const getLocationBackup = async (req, res) => {
+  try {
+    const backupLocation = await locationBackUp.find({});
+    
+    return res.status(200).json({ success: true, backupLocation: backupLocation});
+
+  } catch (error) {
+    console.error("Error in getOrder controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
 
 export const deleteOrder = async (req, res) => {
   try {

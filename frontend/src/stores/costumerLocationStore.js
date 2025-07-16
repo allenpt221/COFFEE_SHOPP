@@ -7,6 +7,7 @@ export const useCostumerStore = create((set, get) => ({
   order: [],
   loading: false,
   backUpOrders: [],
+  locationBackup: [],
 
   // Create new location, then refresh data
   createLocation: async (locationData) => {
@@ -47,10 +48,22 @@ export const useCostumerStore = create((set, get) => ({
       set({ loading: false });
     }
   },
+
   backUpOrderProduct: async () => {
     try {
       const response = await axios.get('orders/backuporders');
       set({backUpOrders: response.data.backupOrder});
+
+    } catch (error) {
+        console.error("Error fetching backup order product:", error);
+    }
+
+  },
+
+  backUpLocation: async () => {
+    try {
+      const response = await axios.get('orders/backuplocation');
+      set({locationBackup: response.data.backupLocation});
 
     } catch (error) {
         console.error("Error fetching backup order product:", error);

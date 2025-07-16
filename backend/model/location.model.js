@@ -40,6 +40,53 @@ const locationSchema = new mongoose.Schema(
 );
 
 
+const locationBackupSchema = new mongoose.Schema(
+  {
+    originalLocationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Location",
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Auth",
+    },
+    emailAddress: { type: String },
+    firstname: { type: String },
+    lastname: { type: String },
+    phoneNumber: { type: String },
+    houseNumber: { type: String },
+    town: { type: String },
+    barangay: { type: String },
+    backedUpAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
+
+export const locationBackUp = mongoose.model("locationBackUp", locationBackupSchema);
+
+locationSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    try {
+      await locationBackUp.create({
+        originalLocationId: this._id,
+        user: this.user,
+        emailAddress: this.emailAddress,
+        firstname: this.firstname,
+        phoneNumber: this.phoneNumber,
+        houseNumber: this.houseNumber,
+        town: this.town,
+        barangay: this.barangay,
+      });
+    } catch (err) {
+      console.error("Location Backup failed:", err);
+    }
+  }
+  next();
+});
+
 const Location = mongoose.model("location", locationSchema);
 
 export default Location;
