@@ -115,7 +115,7 @@ const Home = () => {
           <BestSelling />
         </div>
         {/* Delivery service section*/}
-        <div className='max-w-4xl mx-auto space-y-5 mb-50'>
+        <div className='max-w-4xl mx-auto space-y-5 mb-10'>
 
           <h1 className='text-center md:text-5xl sm:text-3xl text-xl font-bold'>How to Order with Delivery</h1>
           
