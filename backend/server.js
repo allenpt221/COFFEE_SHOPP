@@ -22,14 +22,13 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "*"
+  origin: ["http://localhost:5173", "https://coffee-shopp-1.onrender.com"],
+  credentials: true
 }));
 
 
 app.get('/', async (req, res) => {
-    const products = await Product.find({});
-
-    res.json({products})
+    res.send('server is running...')
 })
 
 
