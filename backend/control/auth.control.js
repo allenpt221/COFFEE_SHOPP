@@ -21,20 +21,25 @@ const storeRefreshToken = async (userId, refreshToken) => {
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: true,              //  always secure
-    sameSite: "None",          // required for cross-origin
-    maxAge: 15 * 60 * 1000,    
-  });
+	const isProduction = process.env.NODE_ENV === "production";
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: true,              //  always secure
-    sameSite: "None",          //  required for cross-origin
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+	res.cookie("accessToken", accessToken, {
+		httpOnly: true,
+		secure: isProduction,           // HTTPS only in production
+		sameSite: "None",               // Required for cross-site
+		domain: isProduction ? ".onrender.com" : undefined, // Share cookie across subdomains
+		maxAge: 15 * 60 * 1000,         // 15 minutes
+	});
+
+	res.cookie("refreshToken", refreshToken, {
+		httpOnly: true,
+		secure: isProduction,           // Keep consistent with accessToken
+		sameSite: "None",
+		domain: isProduction ? ".onrender.com" : undefined,
+		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+	});
 };
+
 
 
 export const signUp = async (req, res) => {
@@ -92,7 +97,6 @@ export const logIn = async (req, res) => {
         status: 'online',
         lastLogin: new Date(),
       });
-
       
 
       const { accessToken, refreshToken } = generateTokens(user._id);
