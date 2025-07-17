@@ -25,17 +25,15 @@ const setCookies = (res, accessToken, refreshToken) => {
 
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true,
-		secure: isProduction,           // HTTPS only in production
+		secure: "None",           // HTTPS only in production
 		sameSite: "None",               // Required for cross-site
-		domain: isProduction ? ".onrender.com" : undefined, // Share cookie across subdomains
 		maxAge: 15 * 60 * 1000,         // 15 minutes
 	});
 
 	res.cookie("refreshToken", refreshToken, {
 		httpOnly: true,
-		secure: isProduction,           // Keep consistent with accessToken
+		secure: "None",           // Keep consistent with accessToken
 		sameSite: "None",
-		domain: isProduction ? ".onrender.com" : undefined,
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 	});
 };
