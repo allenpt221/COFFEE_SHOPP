@@ -4,7 +4,7 @@ import { UserStore } from "../stores/userStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useCostumerStore } from "@/stores/costumerLocationStore";
 
-import NavbarImage from '/image/KPT.webp';
+import NavbarImage from '/Image/KPT.webp';
 
 const Navbar = () => {
 
