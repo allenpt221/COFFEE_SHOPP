@@ -1,4 +1,4 @@
-import { UserStore } from '@/stores/userStore';
+import { UserStore } from '../stores/userStore';
 import { TrendingDown, TrendingUp, Users } from 'lucide-react';
 
 const CurrentActiveUser = () => {

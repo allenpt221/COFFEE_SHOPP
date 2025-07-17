@@ -1,5 +1,5 @@
 import { TrendingDown, TrendingUp } from 'lucide-react';
-import { UserStore } from '@/stores/userStore';
+import { UserStore } from '../stores/userStore';
 
 const TotalCostumer = () => {
 

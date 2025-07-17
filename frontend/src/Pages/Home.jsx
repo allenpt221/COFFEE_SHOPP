@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 
 import Slider from '../components/Slider';
-import BestSelling from '@/components/BestSelling';
+import BestSelling from '../components/BestSelling';
 
 import cafeChoose from '/Image/chooseCafe.png';
 import cafeOrder from '/Image/orderCafe.png';

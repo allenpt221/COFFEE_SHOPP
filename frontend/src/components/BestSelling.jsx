@@ -1,6 +1,6 @@
-import { useCartStore } from '@/stores/useCartStore';
-import { useProductStore } from '@/stores/useProductStore';
-import { UserStore } from '@/stores/userStore';
+import { useCartStore } from '../stores/useCartStore';
+import { useProductStore } from '../stores/useProductStore';
+import { UserStore } from '../stores/userStore';
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';

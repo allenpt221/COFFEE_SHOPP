@@ -3,9 +3,9 @@ import CreateMenu from '../adminPath/CreateMenu'
 import ProductAll from '../adminPath/ProductAll'
 import DashBoard from '../adminPath/DashBoard'
 import { useProductStore } from '../stores/useProductStore'
-import OrderCustomer from '@/adminPath/OrderCustomer'
-import { useCostumerStore } from '@/stores/costumerLocationStore'
-import { UserStore } from '@/stores/userStore'
+import OrderCustomer from '../adminPath/OrderCustomer'
+import { useCostumerStore } from '../stores/costumerLocationStore'
+import { UserStore } from '../stores/userStore'
 
 
 const AdminDashboard = () => {

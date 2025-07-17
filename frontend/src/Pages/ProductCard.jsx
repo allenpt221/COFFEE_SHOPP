@@ -1,5 +1,5 @@
-import { useCartStore } from "@/stores/useCartStore";
-import { UserStore } from "@/stores/userStore";
+import { useCartStore } from "../stores/useCartStore";
+import { UserStore } from "../stores/userStore";
 import toast from "react-hot-toast";
 import {  useNavigate } from "react-router-dom";
 

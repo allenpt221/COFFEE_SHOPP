@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import valid from 'card-validator';
 
-import { UserStore } from '@/stores/userStore';
-import { useCartStore } from '@/stores/useCartStore';
-import { useCostumerStore } from '@/stores/costumerLocationStore';
+import { UserStore } from '../stores/userStore';
+import { useCartStore } from '../stores/useCartStore';
+import { useCostumerStore } from '../stores/costumerLocationStore';
 
 import { QRCodeCanvas } from 'qrcode.react';
-import axios from '@/lib/axios';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Card from '/Image/Card.webp';

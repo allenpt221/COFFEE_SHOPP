@@ -1,4 +1,4 @@
-import { useCostumerStore } from '@/stores/costumerLocationStore';
+import { useCostumerStore } from '../stores/costumerLocationStore';
 import { MoveRight, TrendingDown, TrendingUp, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

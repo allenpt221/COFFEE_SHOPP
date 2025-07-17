@@ -1,4 +1,4 @@
-import { useProductStore } from '@/stores/useProductStore';
+import { useProductStore } from '../stores/useProductStore';
 import { motion } from 'framer-motion';
 import { CirclePercent } from 'lucide-react';
 import { useEffect } from 'react';

@@ -1,4 +1,4 @@
-import { useCartStore } from '@/stores/useCartStore'
+import { useCartStore } from '../stores/useCartStore'
 import React from 'react'
 import CartItem from './CartItem';
 import { Link } from 'react-router-dom';

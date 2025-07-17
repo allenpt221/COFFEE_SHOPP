@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useCostumerStore } from "@/stores/costumerLocationStore";
+} from "../components/ui/table";
+import { useCostumerStore } from "../stores/costumerLocationStore";
 import { motion , AnimatePresence } from "framer-motion";
 import { ChevronsUpDown, SquarePen, Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";

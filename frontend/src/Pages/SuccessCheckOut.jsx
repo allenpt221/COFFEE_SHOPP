@@ -1,7 +1,5 @@
-import { useCostumerStore } from '@/stores/costumerLocationStore';
-import { useCartStore } from '@/stores/useCartStore';
-import { useProductStore } from '@/stores/useProductStore';
-import { UserStore } from '@/stores/userStore';
+import { useCostumerStore } from '../stores/costumerLocationStore';
+import { useCartStore } from '../stores/useCartStore';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const SuccessCheckOut = () => {

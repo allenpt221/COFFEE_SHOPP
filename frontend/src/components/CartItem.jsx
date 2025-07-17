@@ -1,4 +1,4 @@
-import { useCartStore } from '@/stores/useCartStore'
+import { useCartStore } from '../stores/useCartStore'
 import { Minus, Plus, Trash } from 'lucide-react'
 import React from 'react'
 

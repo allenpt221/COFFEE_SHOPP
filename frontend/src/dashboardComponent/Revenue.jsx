@@ -1,4 +1,4 @@
-import { useCostumerStore } from '@/stores/costumerLocationStore';
+import { useCostumerStore } from '../stores/costumerLocationStore';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
 const Revenue = () => {
