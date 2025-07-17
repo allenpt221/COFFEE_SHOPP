@@ -1,92 +1,100 @@
 import Auth from "../model/auth.model.js";
 import jwt from 'jsonwebtoken';
+
 import { redis } from '../lib/redis.js';
 
-const generateTokens = (userId) => {
-	const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
-		expiresIn: "15m",
-	});
 
-	const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
-		expiresIn: "7d",
-	});
+const generateTokens = (userId) => {
+    const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+      expiresIn: "7d",
+    });
 
 	return { accessToken, refreshToken };
 };
 
 const storeRefreshToken = async (userId, refreshToken) => {
-	await redis.set(`refresh_token:${userId}`, refreshToken, "EX", 7 * 24 * 60 * 60); // 7 days
+	await redis.set(`refresh_token:${userId}`, refreshToken, "EX", 7 * 24 * 60 * 60); // 7days
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
-	const isProduction = process.env.NODE_ENV === "production";
+  	const isProduction = process.env.NODE_ENV === "production";
+
 
 	res.cookie("accessToken", accessToken, {
-		httpOnly: true,
+		httpOnly: true, // prevent XSS attacks, cross site scripting attack
 		secure: isProduction,
-		sameSite: isProduction ? "None" : "Lax",
+    sameSite: isProduction ? "None" : "Lax", // prevents CSRF attack, cross-site request forgery attack
 		maxAge: 15 * 60 * 1000, // 15 minutes
 	});
-
 	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true,
+		httpOnly: true, // prevent XSS attacks, cross site scripting attack
 		secure: isProduction,
-		sameSite: isProduction ? "None" : "Lax",
+		sameSite: isProduction ? "None" : "Lax", // prevents CSRF attack, cross-site request forgery attack
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 	});
 };
 
 export const signUp = async (req, res) => {
-	try {
-		const { email, name, password } = req.body;
+  try {
+    const { email, name, password } = req.body;
+    
+    // Check if user exists
+    const existingUser = await Auth.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({message: "Email already exists"});
+    }
+    // Create and save the user
+    const newUser = await Auth.create({
+      email,
+      name,
+      password,
+      status: 'online',
+      lastLogin: new Date(),
+    });
 
-		const existingUser = await Auth.findOne({ email });
-		if (existingUser) {
-			return res.status(400).json({ message: "Email already exists" });
-		}
+    const { accessToken, refreshToken } = generateTokens(newUser._id);
+    await storeRefreshToken(newUser._id, refreshToken);
 
-		const newUser = await Auth.create({
-			email,
-			name,
-			password,
-			status: 'online',
-			lastLogin: new Date(),
-		});
+    setCookies(res, accessToken, refreshToken);
 
-		const { accessToken, refreshToken } = generateTokens(newUser._id);
-		await storeRefreshToken(newUser._id, refreshToken);
-		setCookies(res, accessToken, refreshToken);
 
-		res.status(201).json({
-			success: true,
-			_id: newUser._id,
-			email: newUser.email,
-			username: newUser.name,
-			role: newUser.role,
-			status: 'online',
-			lastLogin: new Date(),
-		});
-	} catch (error) {
-		console.error("Signup error:", error.message);
-		res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
-	}
+    // Return success response
+    return res.status(201).json({ success: true, 
+      _id: newUser._id, 
+      email: newUser.email, 
+      username: newUser.name,
+      role: newUser.role,
+      status: 'online',
+      lastLogin: new Date(),
+    });
+
+  } catch (error) {
+    // Handle unexpected errors
+    return res.status(500).json({success: false, message: "Internal Server Error", error: error.message });
+  }
 };
 
 export const logIn = async (req, res) => {
-	try {
-		const { email, password } = req.body;
-		const user = await Auth.findOne({ email });
+  try {
+    const { email , password} = req.body;
 
-		if (user && (await user.comparePassword(password))) {
-			user.lastLogin = new Date();
-			await user.save();
+    const user = await Auth.findOne({ email});
 
-			await Auth.findByIdAndUpdate(user._id, {
-				status: 'online',
-				lastLogin: new Date(),
-			});
+    if(user && (await user.comparePassword(password))) {
 
-			const { accessToken, refreshToken } = generateTokens(user._id);
+		user.lastLogin = new Date();
+    await user.save();
+
+      await Auth.findByIdAndUpdate(user._id, {
+        status: 'online',
+        lastLogin: new Date(),
+      });
+
+      const { accessToken, refreshToken } = generateTokens(user._id);
 			await storeRefreshToken(user._id, refreshToken);
 			setCookies(res, accessToken, refreshToken);
 
@@ -98,11 +106,11 @@ export const logIn = async (req, res) => {
 			});
 		} else {
 			res.status(400).json({ message: "Invalid email or password" });
-		}
-	} catch (error) {
-		console.error("Login error:", error.message);
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+		}  
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+		res.status(500).json({ message: error.message });
+  }
 };
 
 export const logout = async (req, res) => {
@@ -111,15 +119,14 @@ export const logout = async (req, res) => {
 		if (refreshToken) {
 			const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 			await redis.del(`refresh_token:${decoded.userId}`);
-			await Auth.findByIdAndUpdate(decoded.userId, { status: 'offline' });
+		
+			await Auth.findByIdAndUpdate(decoded.userId, { status: 'offline'});
 		}
-
 		res.clearCookie("accessToken");
 		res.clearCookie("refreshToken");
-
 		res.json({ message: "Logged out successfully" });
 	} catch (error) {
-		console.error("Logout error:", error.message);
+		console.log("Error in logout controller", error.message);
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 };
@@ -139,24 +146,20 @@ export const refreshToken = async (req, res) => {
 			return res.status(401).json({ message: "Invalid refresh token" });
 		}
 
-		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, {
-			expiresIn: "15m",
-		});
+		const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 
 		await Auth.findByIdAndUpdate(decoded.userId, { lastLogin: new Date() });
 
-		const isProduction = process.env.NODE_ENV === "production";
-
 		res.cookie("accessToken", accessToken, {
 			httpOnly: true,
-			secure: isProduction,
-			sameSite: isProduction ? "None" : "Lax",
+			secure: process.env.NODE_ENV === "production",
+			sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
 			maxAge: 15 * 60 * 1000,
 		});
 
 		res.json({ message: "Token refreshed successfully" });
 	} catch (error) {
-		console.error("Refresh token error:", error.message);
+		console.log("Error in refreshToken controller", error.message);
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 };
@@ -169,40 +172,47 @@ export const getProfile = async (req, res) => {
 	}
 };
 
-export const getActiveUsersAndAllUsers = async (req, res) => {
-	try {
-		const [activeUsers, allUsers] = await Promise.all([
-			Auth.find({ status: "online" }),
-			Auth.find({}),
-		]);
 
-		res.status(200).json({
-			success: true,
-			totalUsers: allUsers.length,
-			activeUserCount: activeUsers.length,
-			activeUsers,
-			allUsers,
-		});
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+export const getActiveUsersAndAllUsers = async (req, res) => {
+  try {
+
+    const [activeUsers, allUsers] = await Promise.all([
+      Auth.find({ status: "online" }),
+      Auth.find({})
+    ]);
+
+    // make this to not count the admin
+    /* const activeUsers = activeUsersRaw.filter(user => user.role !== "admin"); */
+
+    res.status(200).json({
+      success: true,
+      totalUsers: allUsers.length,
+      activeUserCount: activeUsers.length,
+      activeUsers,
+      allUsers,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
 
 export const getNewUsers = async (req, res) => {
-	try {
-		const now = new Date();
-		const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  try {
+    const now = new Date();
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-		const newUsers = await Auth.find({
-			createdAt: { $gte: startOfThisMonth }
-		});
+    const newUsers = await Auth.find({
+      createdAt: { $gte: startOfThisMonth }
+    });
 
-		res.status(200).json({
-			success: true,
-			newUserCount: newUsers.length,
-			users: newUsers
-		});
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
+    res.status(200).json({
+      success: true,
+      newUserCount: newUsers.length,
+      users: newUsers
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
+
+
