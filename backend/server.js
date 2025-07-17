@@ -17,14 +17,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json({ limit: "10mb" })); 
-app.use(cookieParser());
 
 app.use(cors({
   origin: ["http://localhost:5173", "https://coffee-shopp-1.onrender.com"],
   credentials: true
 }));
 
+app.use(express.json({ limit: "10mb" })); 
+app.use(cookieParser());
 
 app.get('/', async (req, res) => {
     res.send('server is running...')
