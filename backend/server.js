@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors"
 import path from "path";
-import { fileURLToPath } from "url";
+
 import { connectDB } from './lib/db.js';
 
 import cookieParser from 'cookie-parser';
@@ -26,8 +26,7 @@ app.use(cors({
 }));
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve();
 
 
 
@@ -52,6 +51,7 @@ if (process.env.NODE_ENV === "production") {
 		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 	});
 }
+
 
 
 app.listen(PORT, () => {
