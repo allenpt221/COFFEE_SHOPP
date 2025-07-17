@@ -13,10 +13,10 @@ import { motion } from 'framer-motion';
 import Footer from './Footer';
 
 
-import homeImage from '/image/cafeHomeImage.png';
-import homeImage1 from "/image/coffeeHome.png";
-import homeBgImage from "/image/BackGround.png";
-import homeGrabImage from "/image/GrabDrink.png";
+import homeImage from '/Image/cafeHomeImage.png';
+import homeImage1 from "/Image/coffeeHome.png";
+import homeBgImage from "/Image/BackGround.png";
+import homeGrabImage from "/Image/GrabDrink.png";
 
 
 
