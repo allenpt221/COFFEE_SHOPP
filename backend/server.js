@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors"
 import path from "path";
+
 import { connectDB } from './lib/db.js';
 
 import cookieParser from 'cookie-parser';
@@ -25,6 +26,8 @@ app.use(cors({
   credentials: true,
 }));
 
+
+const __dirname = path.resolve();
 
 
 app.use(express.json({ limit: "10mb" })); 
