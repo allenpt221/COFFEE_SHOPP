@@ -21,22 +21,21 @@ const storeRefreshToken = async (userId, refreshToken) => {
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
-  	const isProduction = process.env.NODE_ENV === "production";
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: true,              //  always secure
+    sameSite: "None",          // required for cross-origin
+    maxAge: 15 * 60 * 1000,    
+  });
 
-
-	res.cookie("accessToken", accessToken, {
-		httpOnly: true, // prevent XSS attacks, cross site scripting attack
-		secure: isProduction,
-    sameSite: isProduction ? "None" : "Lax", // prevents CSRF attack, cross-site request forgery attack
-		maxAge: 15 * 60 * 1000, // 15 minutes
-	});
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true, // prevent XSS attacks, cross site scripting attack
-		secure: isProduction,
-		sameSite: isProduction ? "None" : "Lax", // prevents CSRF attack, cross-site request forgery attack
-		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-	});
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,              //  always secure
+    sameSite: "None",          //  required for cross-origin
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
 };
+
 
 export const signUp = async (req, res) => {
   try {
@@ -93,6 +92,8 @@ export const logIn = async (req, res) => {
         status: 'online',
         lastLogin: new Date(),
       });
+
+      
 
       const { accessToken, refreshToken } = generateTokens(user._id);
 			await storeRefreshToken(user._id, refreshToken);
