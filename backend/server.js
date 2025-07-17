@@ -9,7 +9,6 @@ import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
 import cartRoutes  from './router/cart.route.js';
 import orderRoutes  from './router/order.route.js';
-import Product from './model/product.model.js';
 
 
 
