@@ -9,6 +9,7 @@ import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
 import cartRoutes  from './router/cart.route.js';
 import orderRoutes  from './router/order.route.js';
+import Product from './model/product.model.js';
 
 
 
@@ -19,14 +20,21 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://coffee-shopp-1.onrender.com"],
-  credentials: true
+  origin: [process.env.CLIENT_URL, "http://localhost:5173"],
+  credentials: true,
 }));
+
+
 
 app.use(express.json({ limit: "10mb" })); 
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
+
+  const product = await Product.find({});
+
+  res.json({product});
+
     res.send('server is running...')
 })
 
