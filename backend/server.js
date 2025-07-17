@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors"
 import path from "path";
-
+import { fileURLToPath } from "url";
 import { connectDB } from './lib/db.js';
 
 import cookieParser from 'cookie-parser';
@@ -11,7 +11,6 @@ import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
 import cartRoutes  from './router/cart.route.js';
 import orderRoutes  from './router/order.route.js';
-import Product from './model/product.model.js';
 
 
 
@@ -27,7 +26,9 @@ app.use(cors({
 }));
 
 
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 
 app.use(express.json({ limit: "10mb" })); 
