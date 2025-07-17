@@ -7,7 +7,7 @@ import instagram from '/Image/instagram.webp';
 import linkedIn from '/Image/linkedin.png';
 
 
-import NavbarImage from '/image/KPT.webp';
+import NavbarImage from '/Image/KPT.webp';
 
 
 
