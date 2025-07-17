@@ -34,12 +34,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
-
-  const product = await Product.find({});
-
-  res.json({product});
-
-    res.send('server is running...')
+  res.send('server is running...')
 })
 
 
