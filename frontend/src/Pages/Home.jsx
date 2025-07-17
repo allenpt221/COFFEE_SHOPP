@@ -13,6 +13,12 @@ import { motion } from 'framer-motion';
 import Footer from './Footer';
 
 
+import homeImage from '/image/cafeHomeImage.png';
+import homeImage1 from "/image/coffeeHome.png";
+import homeBgImage from "/image/BackGround.png";
+import homeGrabImage from "/image/GrabDrink.png";
+
+
 
 const orderDelivery = [
   {
@@ -47,9 +53,9 @@ const Home = () => {
           initial={{opacity: 0, y: 0}}
           animate={{opacity: 1, y: 0}}
           transition={{ duration: 0.8}}
-          src="/image/GrabDrink.png" alt="" className='absolute sm:left-10 md:top-5 left-2 lg:w-[50rem] md:w-[40rem] sm:w-[30rem] w-[19rem] sm:h-[5rem] h-[5rem]' />
+          src={homeGrabImage} alt="" className='absolute sm:left-10 md:top-5 left-2 lg:w-[50rem] md:w-[40rem] sm:w-[30rem] w-[19rem] sm:h-[5rem] h-[5rem]' />
         </div>
-        <img src="/image/BackGround.png" alt="" className='h-[25rem] w-full object-cover' />
+        <img src={homeBgImage} alt="" className='h-[25rem] w-full object-cover' />
         <motion.div 
         initial={{opacity: 0, y: 0}}
         animate={{opacity: 1, y: 0}}
@@ -74,12 +80,12 @@ const Home = () => {
         initial={{opacity: 0, y: -25}}
         animate={{opacity: 1, y: 0}}
         transition={{ duration: 0.5}}
-        src="/image/cafeHomeImage.png" alt="" className='absolute top-0 right-0 sm:h-[37rem] md:block hidden' />
+        src={homeImage} alt="" className='absolute top-0 right-0 sm:h-[37rem] md:block hidden' />
         <motion.img 
         initial={{opacity: 0, y: -25}}
         animate={{opacity: 1, y: 0}}
         transition={{ duration: 0.5}}
-        src="/image/coffeeHome.png" alt="" className='absolute md:top-44 top-20 sm:left-0 -left-35 md:h-[30rem]' />
+        src={homeImage1} alt="" className='absolute md:top-44 top-20 sm:left-0 -left-35 md:h-[30rem]' />
       </div>
 
       {/* Title */}

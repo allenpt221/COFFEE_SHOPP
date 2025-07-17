@@ -7,6 +7,10 @@ import instagram from '/Image/instagram.webp';
 import linkedIn from '/Image/linkedin.png';
 
 
+import NavbarImage from '/image/KPT.webp';
+
+
+
 
 
 const socialMedia = [{
@@ -53,7 +57,7 @@ const Footer = () => {
         <div className='max-w-7xl mx-auto mt-5 flex md:flex-row flex-col justify-between'>
           <div>
             <div className='flex items-center justify-center md:justify-normal'>
-                <img src='/Image/KPT.webp' alt="" className='w-25 h-25 object-cover'/>
+                <img src={NavbarImage} alt="" className='w-25 h-25 object-cover'/>
                 <h1 className='text-xl font-medium'>Kape Tayo</h1>
             </div>
             <div>

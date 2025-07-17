@@ -4,6 +4,7 @@ import { UserStore } from "../stores/userStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useCostumerStore } from "@/stores/costumerLocationStore";
 
+import NavbarImage from '/image/KPT.webp';
 
 const Navbar = () => {
 
@@ -29,7 +30,7 @@ const Navbar = () => {
         <div className="container mx-auto sm:py-3 py-4 px-2">
             <div className="flex items-center justify-between">
                 <Link to={"/"} className="text-xl font-medium flex items-center gap-2">
-                <img src="/image/KPT.webp" alt="" className="w-13 h-10 object-cover"/>
+                <img src={NavbarImage} alt="" className="w-13 h-10 object-cover"/>
                     <p>
                         Kapetayo
                     </p>
