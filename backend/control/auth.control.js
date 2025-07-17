@@ -25,7 +25,6 @@ const setCookies = (res, accessToken, refreshToken) => {
     httpOnly: true,
     secure: true,              //  always secure
     sameSite: "None",          // required for cross-origin
-    domain: ".onrender.com",
     maxAge: 15 * 60 * 1000,    
   });
 

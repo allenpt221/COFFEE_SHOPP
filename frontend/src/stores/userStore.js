@@ -70,8 +70,6 @@ export const UserStore = create((set, get) => ({
             activeUserCount: newActiveUserCount,
         });
     },
-
-
         logout: async () => {
         try {
             const { user, updateUserStatus } = get(); 
