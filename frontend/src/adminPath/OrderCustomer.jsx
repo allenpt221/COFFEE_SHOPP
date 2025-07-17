@@ -6,9 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../components/ui/table";
 
-import { useCostumerStore } from "@/stores/costumerLocationStore";
+import { useCostumerStore } from "../stores/costumerLocationStore";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ChevronUp, SquarePen, X } from "lucide-react";
 import { useEffect, useState } from "react";

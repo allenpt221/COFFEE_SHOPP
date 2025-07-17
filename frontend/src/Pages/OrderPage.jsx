@@ -1,4 +1,4 @@
-import { formatDate } from "@/adminPath/DashBoard";
+import { formatDate } from "../adminPath/DashBoard";
 import {
   Table,
   TableBody,

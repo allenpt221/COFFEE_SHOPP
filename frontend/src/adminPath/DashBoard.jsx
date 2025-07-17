@@ -1,7 +1,7 @@
-import CurrentActiveUser from '@/dashboardComponent/CurrentActiveUser';
-import Revenue from '@/dashboardComponent/Revenue';
-import TotalCostumer from '@/dashboardComponent/TotalCostumer';
-import TotalSales from '@/dashboardComponent/TotalSales';
+import CurrentActiveUser from '../dashboardComponent/CurrentActiveUser';
+import Revenue from '../dashboardComponent/Revenue';
+import TotalCostumer from '../dashboardComponent/TotalCostumer';
+import TotalSales from '../dashboardComponent/TotalSales';
 
 
 // js library convert the time into e.g 7:00AM into '5 minutes ago'
@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 
-import { UserStore } from '@/stores/userStore';
+import { UserStore } from '../stores/userStore';
 
 
 import {
@@ -20,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "../components/ui/table"
 
 
 dayjs.extend(relativeTime);

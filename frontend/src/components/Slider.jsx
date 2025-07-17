@@ -1,6 +1,6 @@
 import  { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, animate } from 'framer-motion';
-import axios from '../lib/axios';
+import axios from './lib/axios';
 
 const Slider = () => {
 
