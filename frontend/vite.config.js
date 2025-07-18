@@ -1,21 +1,19 @@
-import { createRequire } from 'node:module'
-const require = createRequire(import.meta.url)
-const reactPlugin = require('@vitejs/plugin-react')
-const tailwindPlugin = require('@tailwindcss/vite')
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
-export default {
+export default defineConfig({
   plugins: [
-    reactPlugin({
-      jsxRuntime: 'automatic'
-    }),
-    tailwindPlugin()
+    react(),    
+    tailwindcss();
   ],
   server: {
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
-  }
-}
+  },
+})
