@@ -4,27 +4,22 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [
-    react(),
-    tailwindcss({
-      // All configuration now happens here
-      config: {
-        content: [
-          './index.html',
-          './src/**/*.{js,ts,jsx,tsx}'
-        ],
-        // Optional theme customization
-        theme: {
-          extend: {}
-        }
-      }
-    })
+    react({
+      jsxRuntime: 'automatic' // Required for React 19
+    }),
+    tailwindcss()
   ],
   server: {
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
+  },
+  build: {
+    outDir: '../backend/public', // Adjust if needed
+    emptyOutDir: true
   }
 })
