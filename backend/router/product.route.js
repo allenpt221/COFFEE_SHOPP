@@ -9,8 +9,8 @@ router.get('/', getAllProduct);
 router.get('/random', getRandomProduct);
 
 router.post('/', protectRoute, adminRoute , createProduct);
-// router.delete('/:id', protectRoute, adminRoute, deleteProduct);
-// router.put('/:id', protectRoute, adminRoute, updateProduct);
+router.delete('/:id', protectRoute, adminRoute, deleteProduct);
+router.put('/:id', protectRoute, adminRoute, updateProduct);
 
 
 
