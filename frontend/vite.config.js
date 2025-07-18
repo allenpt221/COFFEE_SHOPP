@@ -5,14 +5,25 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss() // Official Tailwind Vite plugin for v4.1
+    tailwindcss({
+      // All configuration now happens here
+      config: {
+        content: [
+          './index.html',
+          './src/**/*.{js,ts,jsx,tsx}'
+        ],
+        // Optional theme customization
+        theme: {
+          extend: {}
+        }
+      }
+    })
   ],
   server: {
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
-        changeOrigin: true,
-        secure: false
+        changeOrigin: true
       }
     }
   }
