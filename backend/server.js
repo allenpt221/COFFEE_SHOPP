@@ -3,11 +3,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
 import path from "path";
-import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 
 import { connectDB } from './lib/db.js';
-
 import authRouter  from './router/auth.route.js';
 import productRoutes  from './router/product.route.js';
 import cartRoutes  from './router/cart.route.js';
@@ -15,11 +13,9 @@ import orderRoutes  from './router/order.route.js';
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve();
 
 
-console.log(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,29 +32,10 @@ app.get('/', (req, res) => {
   res.send('server is running...')
 });
 
-try {
-  app.use('/api/auth', authRouter);
-} catch (err) {
-  console.error('Error mounting authRouter:', err.message);
-}
-
-try {
-  app.use('/api/product', productRoutes);
-} catch (err) {
-  console.error('Error mounting productRoutes:', err.message);
-}
-
-try {
-  app.use('/api/cartproduct', cartRoutes);
-} catch (err) {
-  console.error('Error mounting cartRoutes:', err.message);
-}
-
-try {
-  app.use('/api/orders', orderRoutes);
-} catch (err) {
-  console.error('Error mounting orderRoutes:', err.message);
-}
+app.use('/api/auth', authRouter );
+app.use('/api/product', productRoutes);
+app.use('/api/cartproduct', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 
 // Static file serving
@@ -68,6 +45,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
