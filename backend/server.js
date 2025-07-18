@@ -32,20 +32,13 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Production Configuration
-// Change this in your production block:
 if (process.env.NODE_ENV === "production") {
     const staticPath = path.join(__dirname, "frontend", "dist");
-    console.log(`Serving static files from: ${staticPath}`);  // Debug logging
-    
     app.use(express.static(staticPath));
     
-    app.get("*", (req, res) => {
-        const indexPath = path.join(staticPath, "index.html");
-        if (!fs.existsSync(indexPath)) {
-            console.error("Missing index.html at:", indexPath);
-            return res.status(500).send("Frontend build not found");
-        }
-        res.sendFile(indexPath);
+    // Serve index.html for all non-API routes
+    app.get(/^\/(?!api).*/, (req, res) => {  // Exclude /api routes
+        res.sendFile(path.join(staticPath, "index.html"));
     });
 }
 
