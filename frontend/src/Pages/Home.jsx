@@ -97,7 +97,7 @@ const Home = () => {
         <p className=' sm:mx-30 mx-0 lg:text-start text-center font-bold md:text-4xl text-2xl'>Our Best Offers for You</p>
         {/* Draggable Offer Slider */}
         <div className='max-w-7xl mx-auto'>
-          <div className='flex justify-between flex-col-reverse xl:flex-row gap-5 mx-2'>
+          <div className='flex justify-between flex-col xl:flex-row gap-5 mx-2'>
             {/* left middle section */}
             <div className='w-[15rem] xl:mx-0 sm:mx-20 mx-2 mt-5'>
               <h1 className='font-medium text-lg'>Your Exclusive Menu</h1>

@@ -32,27 +32,13 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Production Configuration
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files
-  const staticPath = path.join(__dirname, 'frontend', 'dist');
-  app.use(express.static(staticPath));
-  
-  // SPA Fallback - Modified to avoid path-to-regexp issues
-  app.use((req, res, next) => {
-    if (req.path.startsWith('/api/') || path.extname(req.path)) {
-      return next();
-    }
-    res.sendFile(path.join(staticPath, 'index.html'), (err) => {
-      if (err) next(err);
-    });
-  });
-}
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-// Error Handling
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 // Start Server
 app.listen(PORT, () => {
