@@ -1,3 +1,9 @@
+# Basic .dockerignore
 node_modules
-npm-debug.log
-.env
+frontend/node_modules
+.git
+.env.local
+.dockerignore
+Dockerfile
+*/dist
+*.log
