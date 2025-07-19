@@ -14,7 +14,4 @@ router.get("/active-users", protectRoute, adminRoute, getActiveUsersAndAllUsers)
 router.get("/new-users", protectRoute, adminRoute, getNewUsers);
 
 
-
-
-
 export default router;

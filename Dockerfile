@@ -1,38 +1,44 @@
-# Stage 1: Build frontend
+# Stage 1: Build the frontend
 FROM node:18 AS builder
 
-WORKDIR /app
+WORKDIR /app/frontend
 
-# Copy package.json files and install all dependencies
-COPY package.json package-lock.json ./
+# Copy frontend files and install dependencies
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
 
-# Build frontend
-COPY frontend ./frontend
-RUN cd frontend && npm install && npm run build
+# Copy the rest of the frontend code and build
+COPY frontend ./
+RUN npm run build
 
-# Stage 2: Setup backend with frontend build
+# Stage 2: Set up backend and serve frontend
 FROM node:18
 
 WORKDIR /app
 
+# Copy backend's package.json and install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
 
 # Copy backend code
 COPY backend ./backend
 
-# Copy built frontend into backend/static folder
+# Copy built frontend into backend or public directory
 COPY --from=builder /app/frontend/dist ./frontend/dist
 
-# Copy any other shared files (e.g., .env, lib, routes)
-COPY lib ./lib
-COPY router ./router
+# Copy other backend folders
+COPY backend/lib ./backend/lib
+COPY backend/routers ./backend/routers
 
-# Set environment variables (optional)
+# Copy environment file
+
+# Set environment variables
 ENV NODE_ENV=production
 ENV PORT=5000
 
-EXPOSE 5000
+# Set working directory for server
+WORKDIR /app/backend
 
-CMD ["node", "backend/server.js"]
+# Expose and run
+EXPOSE 5000
+CMD ["node", "server.js"]

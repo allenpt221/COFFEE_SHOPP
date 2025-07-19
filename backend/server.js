@@ -2,12 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { connectDB } from './lib/db.js';
 import authRouter from './routers/auth.route.js';
 import productRoutes from './routers/product.route.js';
 import cartRoutes from './routers/cart.route.js';
 import orderRoutes from './routers/order.route.js';
 import path from 'path';
+
+import { connectDB } from './lib/db.js'
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -47,5 +48,5 @@ app.get('*', (req, res) => {
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  connectDB().catch((err) => console.error('Database connection failed:', err));
+  connectDB();
 });
