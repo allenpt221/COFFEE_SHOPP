@@ -2,10 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import authRouter from './router/auth.route.js';
-import productRoutes from './router/product.route.js';
-import cartRoutes from './router/cart.route.js';
-import orderRoutes from './router/order.route.js';
+import authRouter from './routes/auth.route.js';
+import productRoutes from './routes/product.route.js';
+import cartRoutes from './routes/cart.route.js';
+import orderRoutes from './routes/order.route.js';
 import path from 'path';
 
 import { connectDB } from './lib/db.js'
