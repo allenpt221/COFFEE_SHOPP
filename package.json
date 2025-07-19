@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "backend/server.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon backend/server.js",
     "start": "node backend/server.js",
@@ -11,6 +10,7 @@
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
