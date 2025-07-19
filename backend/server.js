@@ -9,7 +9,6 @@ import orderRoutes from './routes/order.route.js';
 import path from 'path';
 
 import { connectDB } from './lib/db.js'
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -35,14 +34,12 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // ✅ Corrected Static File Serving
-if(process.env.NODE_ENV === 'production') {
-app.use(express.static(path.join(__dirname,  'frontend', 'dist')));
 
-// ✅ Corrected SPA Fallback
+app.use(express.static(path.resolve(__dirname, '../frontend/dist')));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
 });
-}
 
 // Start Server
 app.listen(PORT, () => {
