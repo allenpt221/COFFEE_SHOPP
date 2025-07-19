@@ -3,11 +3,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './lib/db.js';
-import authRouter from './router/auth.route.js';
-import productRoutes from './router/product.route.js';
-import cartRoutes from './router/cart.route.js';
-import orderRoutes from './router/order.route.js';
-
+import authRouter from './routers/auth.route.js';
+import productRoutes from './routers/product.route.js';
+import cartRoutes from './routers/cart.route.js';
+import orderRoutes from './routers/order.route.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
