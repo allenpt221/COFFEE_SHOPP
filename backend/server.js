@@ -37,11 +37,11 @@ app.use('/api/orders', orderRoutes);
 
 // ✅ Corrected Static File Serving
 if(process.env.NODE_ENV === 'production') {
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+app.use(express.static(path.join(__dirname,  'frontend', 'dist')));
 
 // ✅ Corrected SPA Fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
 });
 }
 
