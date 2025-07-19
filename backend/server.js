@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './lib/db.js';
 import authRouter from './router/auth.route.js';
@@ -9,11 +8,17 @@ import productRoutes from './router/product.route.js';
 import cartRoutes from './router/cart.route.js';
 import orderRoutes from './router/order.route.js';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const __dirname = path.resolve();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(cors({
@@ -32,15 +37,13 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Production Configuration
-if (process.env.NODE_ENV === "production") {
-    const staticPath = path.join(__dirname, "frontend", "dist");
-    app.use(express.static(staticPath));
-    
-    // Serve index.html for all non-API routes
-    app.get(/^\/(?!api).*/, (req, res) => {  // Exclude /api routes
-        res.sendFile(path.join(staticPath, "index.html"));
-    });
-}
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+
+// For SPA fallback
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
+
 
 // Start Server
 app.listen(PORT, () => {
