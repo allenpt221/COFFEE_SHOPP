@@ -16,14 +16,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(cors({
-  origin: [process.env.CLIENT_URL, "http://localhost:5173", 'http://localhost:3000'],
-  credentials: true
+  origin: [process.env.CLIENT_URL, 'http://localhost:5173', 'http://localhost:3000'],
+  credentials: true,
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -36,17 +35,18 @@ app.use('/api/product', productRoutes);
 app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Production Configuration
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+// ✅ Corrected Static File Serving
+if(process.env.NODE_ENV === 'production') {
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
-// For SPA fallback
+// ✅ Corrected SPA Fallback
 app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
 });
-
+}
 
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  connectDB().catch(err => console.error('Database connection failed:', err));
+  connectDB().catch((err) => console.error('Database connection failed:', err));
 });
