@@ -30,7 +30,8 @@ COPY --from=builder /app/frontend/dist ./frontend/dist
 COPY backend/lib ./backend/lib
 COPY backend/routers ./backend/routers
 
-# Copy environment file
+# Copy environment file (add this line)
+COPY .env ./
 
 # Set environment variables
 ENV NODE_ENV=production
