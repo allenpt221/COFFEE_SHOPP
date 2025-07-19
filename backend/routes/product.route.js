@@ -1,6 +1,7 @@
 import express from 'express';
 import { createProduct, deleteProduct, getAllProduct, getProductsByCategory, getRandomProduct, updateProduct } from '../control/product.control.js';
 import { adminRoute, protectRoute } from '../middleware/auth.middleware.js';
+
 const router = express.Router();
 
 
