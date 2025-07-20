@@ -38,7 +38,7 @@ const Navbar = () => {
                         Kapetayo
                     </p>
                 </Link>        
-                <nav className="sm:hidden flex gap-2">
+                <nav className="sm:hidden flex gap-2 ">
                      {user && (
                         <>
                         <Link to={"/cart"} className="relative hover:text-[#00000088] flex items-center gap-2  ">
@@ -55,7 +55,7 @@ const Navbar = () => {
                                         <div className="w-2 h-2 rounded-full bg-red-500" />
                                     </div>
                                 )}
-                                    <span>Orders</span>
+                                    <p className="font-medium text-md">Orders</p>
                             </div>
                             </Link>
                         </>
@@ -154,7 +154,7 @@ const Navbar = () => {
                                         <div className="w-2 h-2 rounded-full bg-red-500" />
                                     </div>
                                 )}
-                                    <span>Orders</span>
+                                    <p className="text-lg">Orders</p>
                             </div>
                             </Link>
                             <button 
