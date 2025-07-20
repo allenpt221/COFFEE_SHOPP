@@ -42,9 +42,9 @@ const Navbar = () => {
                      {user && (
                         <>
                         <Link to={"/cart"} className="relative hover:text-[#00000088] flex items-center gap-2  ">
-                                <ShoppingCart size={18}/>
+                                <ShoppingCart size={19}/>
                                 <span className="hidden sm:inline">{cart.length}</span>
-                                <span className="absolute -top-2 -left-2 bg-[#000000]  text-white text-[9px] font-semibold rounded-full py-[1px] px-[5px]">
+                                <span className="absolute top-1 -left-2 bg-[#000000]  text-white text-[9px] font-semibold rounded-full py-[1px] px-[5px]">
                                     {cart.length}
                                 </span>
                             </Link>
