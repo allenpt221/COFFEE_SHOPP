@@ -22,8 +22,7 @@ const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log(__filename);
-console.log(__dirname);
+
 
 // Middleware
 app.use(cors({
@@ -44,14 +43,15 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Serve frontend in production
-if (process.env.NODE_ENV === "production") {
+
   const frontendPath = path.resolve(__dirname, '../frontend/dist');
   app.use(express.static(frontendPath));
 
   app.get('*', (req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
+
   });
-}
+
 
 // Start server
 connectDB().then(() => {
