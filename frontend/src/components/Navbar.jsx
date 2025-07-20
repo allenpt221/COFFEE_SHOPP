@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, User, Menu } from "lucide-react";
+import { ShoppingCart, LogOut,  Menu } from "lucide-react";
 import { UserStore } from "../stores/userStore";
 import { useCartStore } from "../stores/useCartStore";
 import { useCostumerStore } from "../stores/costumerLocationStore";
