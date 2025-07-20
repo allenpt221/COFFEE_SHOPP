@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 import authRouter from './routes/auth.route.js';
 import productRoutes from './routes/product.route.js';
@@ -18,16 +17,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Support for __dirname in ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve();
 
 // Middleware
 app.use(cors({
   origin: [
     process.env.CLIENT_URL,
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
+    'http://localhost:5173'],
   credentials: true
 }));
 
@@ -42,11 +38,13 @@ app.use('/api/cartproduct', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Serve frontend in production
-  app.use(express.static(path.resolve(__dirname, '../frontend/dist')));
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
-  });
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 
 // Start server
