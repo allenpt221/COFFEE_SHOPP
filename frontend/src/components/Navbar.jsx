@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom"
-import { ShoppingCart, LogOut,  Menu } from "lucide-react";
+import { ShoppingCart, LogOut,  Menu, X } from "lucide-react";
 import { UserStore } from "../stores/userStore";
 import { useCartStore } from "../stores/useCartStore";
 import { useCostumerStore } from "../stores/costumerLocationStore";
 
 import NavbarImage from '/Image/KPT.webp';
+import { useState } from "react";
 
 const Navbar = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
 
     const { user, logout } = UserStore();
     const { cart } = useCartStore();
@@ -57,7 +60,29 @@ const Navbar = () => {
                             </Link>
                         </>
                     )} 
-                    <Menu />
+                    <button onClick={() => setIsOpen(!isOpen)} className="">
+                        {!isOpen ? <Menu /> : <X />}
+                    </button>
+
+                    {isOpen && (
+                        <div className="absolute top-12 right-3 bg-white shadow-lg rounded-lg p-4 w-40">
+                            <Link onClick={() => setIsOpen(false)} to={"/Menu"} className="block hover:text-[#0000008e] text-lg mb-2">
+                                Menu
+                            </Link>
+                             <Link onClick={() => setIsOpen(false)} to={"/login"} className="block hover:text-[#0000008e] text-lg mb-2">
+                                Log In
+                            </Link>
+                             <Link onClick={() => setIsOpen(false)} to={"/signup"} className="block hover:text-[#0000008e] text-lg mb-2">
+                                Sign Up
+                            </Link>
+                            {user && user.role === "admin" && (
+                                <Link to={"/admin"} className="block hover:text-[#0000008e] text-lg mb-2">
+                                    Dashboard
+                                </Link>
+                            )}
+                        </div>       
+                    )}
+                    
                 </nav>
 
                 <nav className="items-center space-x-5 font-medium sm:flex hidden">
