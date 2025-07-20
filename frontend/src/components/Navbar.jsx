@@ -60,28 +60,67 @@ const Navbar = () => {
                             </Link>
                         </>
                     )} 
-                    <button onClick={() => setIsOpen(!isOpen)} className="">
-                        {!isOpen ? <Menu /> : <X />}
-                    </button>
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)} 
+                        className="p-2 rounded-md transition-colors duration-200 hover:bg-gray-100"
+                        >
+                        {!isOpen ? (
+                            <Menu className="w-6 h-6 text-gray-700" />
+                        ) : (
+                            <X className="w-6 h-6 text-gray-700" />
+                        )}
+                        </button>
 
-                    {isOpen && (
-                        <div className="absolute top-12 right-3 bg-white shadow-lg rounded-lg p-4 w-40">
-                            <Link onClick={() => setIsOpen(false)} to={"/Menu"} className="block hover:text-[#0000008e] text-lg mb-2">
-                                Menu
+                        {isOpen && (
+                        <div className="absolute top-14 right-3 bg-white shadow-lg rounded-lg p-3 w-48 border border-gray-100 z-50 animate-fade-in">
+                            <Link 
+                            onClick={() => setIsOpen(false)} 
+                            to={"/Menu"} 
+                            className="block px-3 py-2 hover:bg-gray-50 rounded text-gray-700 transition-colors duration-200 text-base font-medium"
+                            >
+                            Menu
                             </Link>
-                             <Link onClick={() => setIsOpen(false)} to={"/login"} className="block hover:text-[#0000008e] text-lg mb-2">
+                            {user ? (
+                                <>
+                                {user && user.role === "admin" && (
+                                    <Link 
+                                        onClick={() => setIsOpen(false)}
+                                        to={"/admin"} 
+                                        className="block px-3 py-2 hover:bg-gray-50 rounded text-gray-700 transition-colors duration-200 text-base font-medium"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                )}
+                                <button 
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    handleLogout();
+                                }}
+                                className="block px-3 py-2 hover:bg-gray-50 rounded text-gray-700 transition-colors duration-200 text-base font-medium"
+                                >
+                                    Log Out
+                                </button>
+                                </>
+                            ) : (
+                                <>
+                                <Link 
+                                onClick={() => setIsOpen(false)} 
+                                to={"/login"} 
+                                className="block px-3 py-2 hover:bg-gray-50 rounded text-gray-700 transition-colors duration-200 text-base font-medium"
+                                >
                                 Log In
-                            </Link>
-                             <Link onClick={() => setIsOpen(false)} to={"/signup"} className="block hover:text-[#0000008e] text-lg mb-2">
-                                Sign Up
-                            </Link>
-                            {user && user.role === "admin" && (
-                                <Link to={"/admin"} className="block hover:text-[#0000008e] text-lg mb-2">
-                                    Dashboard
                                 </Link>
+                                <Link 
+                                onClick={() => setIsOpen(false)} 
+                                to={"/signup"} 
+                                className="block px-3 py-2 hover:bg-gray-50 rounded text-gray-700 transition-colors duration-200 text-base font-medium"
+                                >
+                                Sign Up
+                                </Link>
+                                </>
                             )}
                         </div>       
-                    )}
+                        )}
                     
                 </nav>
 
