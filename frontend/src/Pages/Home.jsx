@@ -48,12 +48,12 @@ const Home = () => {
     className="space-y-10 min-h-screen">
       {/* Top Hero Section */}
       <div className='relative overflow-hidden'>
-        <div className='bg-[#66510b1e] md:h-[7rem] h-[5rem]'>
+        <div className='bg-[#66510b1e] md:h-[7rem] h-[6rem]'>
           <motion.img 
           initial={{opacity: 0, y: 0}}
           animate={{opacity: 1, y: 0}}
           transition={{ duration: 0.8}}
-          src={homeGrabImage} alt="" className='absolute sm:left-10 md:top-5 left-2 lg:w-[50rem] md:w-[40rem] sm:w-[30rem] w-[19rem] sm:h-[5rem] h-[5rem]' />
+          src={homeGrabImage} alt="" className='absolute sm:left-10 md:top-6 top-2 left-2 lg:w-[50rem] md:w-[40rem] sm:w-[30rem] w-[19rem] sm:h-[5rem] h-[5.5rem]' />
         </div>
         <img src={homeBgImage} alt="" className='h-[25rem] w-full object-cover' />
         <motion.div 

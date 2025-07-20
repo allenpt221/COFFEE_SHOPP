@@ -37,8 +37,8 @@ const sortProductsByCategory = (products) => {
 
 
   return (
-    <div className="shadow-lg rounded-lg overflow-x-auto max-w-4xl mx-auto relative">
-      <table className="min-w-full font-sans divide-y overflow-x-scroll divide-gray-200 rounded-md table-auto ">
+    <div className="shadow-lg rounded-lg overflow-x-auto max-w-4xl mx-auto relative sm:h-[50rem] h-[30rem]">
+      <table className="sm:min-w-full overflow-hidden font-sans divide-y overflow-x-scroll divide-gray-200 rounded-md table-auto ">
         <thead>
           <tr className="border-b border-[rgba(70,70,70,0.19)] sticky top-0 z-10 bg-white ">
             <th className="text-left p-4">Product Image</th>
