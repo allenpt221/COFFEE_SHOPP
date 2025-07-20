@@ -46,7 +46,6 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-
 // Start server
 connectDB().then(() => {
   app.listen(PORT, () => {
