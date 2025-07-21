@@ -165,7 +165,8 @@ const Navbar = () => {
               className="fixed top-0 right-0 h-screen w-54 bg-white shadow-lg z-50 sm:hidden flex flex-col"
             >
               <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-lg font-semibold">Menu</h2>
+                <img src={NavbarImage} alt=""  className="w-12 h-12"/>
+
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-2xl text-gray-700"
@@ -177,7 +178,7 @@ const Navbar = () => {
                 <Link
                   onClick={() => setIsOpen(false)}
                   to="/Menu"
-                  className="hover:bg-gray-100 rounded px-3 py-2 text-gray-700 font-medium"
+                  className="hover:bg-gray-100 px-3 py-2  font-medium tex-lg border-b"
                 >
                   Menu
                 </Link>
@@ -205,14 +206,14 @@ const Navbar = () => {
                     <Link
                       onClick={() => setIsOpen(false)}
                       to="/login"
-                      className="hover:bg-gray-100 rounded px-3 py-2 text-gray-700 font-medium"
+                      className="hover:bg-gray-100 rounded-full px-3 py-2 font-medium border w-[8rem] text-center" 
                     >
                       Log In
                     </Link>
                     <Link
                       onClick={() => setIsOpen(false)}
                       to="/signup"
-                      className="hover:bg-gray-100 rounded px-3 py-2 text-gray-700 font-medium"
+                      className="hover:bg-gray-100 rounded-full px-3 py-2  font-medium w-[8rem] bg-[#27fc4a] border border-[#27fc4a] text-center"
                     >
                       Sign Up
                     </Link>
