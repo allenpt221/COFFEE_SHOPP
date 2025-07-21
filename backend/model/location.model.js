@@ -75,6 +75,7 @@ locationSchema.pre("save", async function (next) {
         user: this.user,
         emailAddress: this.emailAddress,
         firstname: this.firstname,
+        lastname: this.lastname,
         phoneNumber: this.phoneNumber,
         houseNumber: this.houseNumber,
         town: this.town,

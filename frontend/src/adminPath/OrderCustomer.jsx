@@ -26,6 +26,7 @@ const OrderCustomer = () => {
     setOrderIdModal(id);
   };
 
+  console.log("Location Backup:", locationBackup);
 
 
    useEffect(() => {

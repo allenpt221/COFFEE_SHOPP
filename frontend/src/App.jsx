@@ -43,23 +43,25 @@ function App() {
       
       <div className="relative z-50 pt-14 print:pt-0">
       <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to='/' />} />
-          <Route path="/signup" element={!user ? <Signup /> : <Navigate to='/' />} />
-          <Route path="/Menu" element={<Menu />} />
-          <Route path="/cart" element={user ? <Cart /> : <Navigate to='/' /> } />
-          <Route path="/orders" element={user ? <OrderPage /> : <Navigate to='/' /> } />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={!user ? <Login /> : <Navigate to='/' />} />
+            <Route path="/signup" element={!user ? <Signup /> : <Navigate to='/' />} />
+            <Route path="/Menu" element={<Menu />} />
+            <Route path="/cart" element={user ? <Cart /> : <Navigate to='/' /> } />
+            <Route path="/orders" element={user ? <OrderPage /> : <Navigate to='/' /> } />
 
 
-          <Route path='/drink/:category' element={<CategoryPage />} />
-          <Route path='/cart/checkout' element={user ? <CheckOutPage />: <Navigate to='/' /> } />
-          <Route path='/success-checkout' element={user ? <SuccessCheckOut /> : <Navigate to='/' /> } />
+            <Route path='/drink/:category' element={<CategoryPage />} />
+            <Route path='/cart/checkout' element={user ? <CheckOutPage />: <Navigate to='/' /> } />
+            <Route path='/success-checkout' element={user ? <SuccessCheckOut /> : <Navigate to='/' /> } />
 
 
-          <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to='/login'/>} />
+            <Route path="/admin" element={user?.role === "admin" ? <AdminDashboard /> : <Navigate to='/login'/>} />
 
-        </Routes>
+          </Routes>
+
       </div>
 
       <Toaster 
